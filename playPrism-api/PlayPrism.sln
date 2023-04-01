@@ -5,6 +5,16 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayPrism.API", "PlayPrism.API\PlayPrism.API.csproj", "{79E69803-A5F5-46FD-9C2C-31C4B6823FFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayPrism.Core", "PlayPrism.Core\PlayPrism.Core.csproj", "{426CA1FB-A118-4E6B-B37A-366F6ECFC6E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayPrism.DAL.Abstractions", "PlayPrism.DAL.Abstractions\PlayPrism.DAL.Abstractions.csproj", "{86284D10-3732-44E3-8928-043AF4EE6317}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayPrism.DAL", "PlayPrism.DAL\PlayPrism.DAL.csproj", "{B41D366E-19C9-4B0E-B575-36CFC7FC74EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayPrism.BLL.Abstractions", "PlayPrism.BLL.Abstractions\PlayPrism.BLL.Abstractions.csproj", "{7B57C6F7-A8A0-4480-AA3D-17717F43320F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayPrism.BLL", "PlayPrism.BLL\PlayPrism.BLL.csproj", "{0452CF94-A273-4508-8570-561654AE928C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +25,26 @@ Global
 		{79E69803-A5F5-46FD-9C2C-31C4B6823FFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79E69803-A5F5-46FD-9C2C-31C4B6823FFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79E69803-A5F5-46FD-9C2C-31C4B6823FFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{426CA1FB-A118-4E6B-B37A-366F6ECFC6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426CA1FB-A118-4E6B-B37A-366F6ECFC6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426CA1FB-A118-4E6B-B37A-366F6ECFC6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426CA1FB-A118-4E6B-B37A-366F6ECFC6E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86284D10-3732-44E3-8928-043AF4EE6317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86284D10-3732-44E3-8928-043AF4EE6317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86284D10-3732-44E3-8928-043AF4EE6317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86284D10-3732-44E3-8928-043AF4EE6317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B41D366E-19C9-4B0E-B575-36CFC7FC74EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B41D366E-19C9-4B0E-B575-36CFC7FC74EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B41D366E-19C9-4B0E-B575-36CFC7FC74EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B41D366E-19C9-4B0E-B575-36CFC7FC74EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B57C6F7-A8A0-4480-AA3D-17717F43320F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B57C6F7-A8A0-4480-AA3D-17717F43320F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B57C6F7-A8A0-4480-AA3D-17717F43320F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B57C6F7-A8A0-4480-AA3D-17717F43320F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0452CF94-A273-4508-8570-561654AE928C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0452CF94-A273-4508-8570-561654AE928C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0452CF94-A273-4508-8570-561654AE928C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0452CF94-A273-4508-8570-561654AE928C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
