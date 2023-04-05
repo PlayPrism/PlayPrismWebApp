@@ -3,12 +3,12 @@ version: "3.9"
 services:
   playPrism-db:
     image: postgres
-    container_name: "playPrism-db"
     restart: always
+    container_name: "playPrism-db"
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
+      POSTGRES_USER: playPrism
+      POSTGRES_PASSWORD: sldfjlsdjflsjdfljsd
+      POSTGRES_DB: playPrism-db
     ports:
       - "5432:5432"
     volumes:
