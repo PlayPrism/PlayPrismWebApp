@@ -351,3 +351,4 @@ MigrationBackup/
 
 #jet brains
 .idea
+/playPrism-api/PlayPrism.Api/appsettings.Development.json
