@@ -4,6 +4,7 @@
 
 namespace PlayPrism.DAL.Abstractions.Interfaces;
 
+using Core.Models;
 using System.Linq.Expressions;
 using Core.Domain;
 
@@ -25,24 +26,53 @@ public interface IGenericRepository<TEntity>
     /// Asynchronously returns IEnumerable of entities that pass the predicate condition.
     /// </summary>
     /// <param name="predicate">Predicate that accepts equation an return bool value that indicates if the expression is true.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel task.</param>
     /// <param name="selector">Selector value that accepts the expression that defines what tables should be joined ot the requested object.</param>
-    /// <typeparam name="TResult">Represents the object with loaded dependencies from other tables.</typeparam>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task<IEnumerable<TResult>> GetByConditionAsync<TResult>(
+    Task<IList<TEntity>> GetByConditionAsync(
         Expression<Func<TEntity, bool>> predicate,
-        Expression<Func<TEntity, TResult>> selector = null);
+        Expression<Func<TEntity, TEntity>> selector = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Asynchronously iterates through predicates and than returns page according to pageInfo.
+    /// </summary>
+    /// <param name="predicates">List of predicates.</param>
+    /// <param name="pageInfo">Pagination properties.</param>
+    /// <param name="selector">Selector to load corresponding data from database.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel task.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task<IList<TEntity>> GetPageWithMultiplePredicatesAsync(
+        IEnumerable<Expression<Func<TEntity, bool>>> predicates,
+        PageInfo pageInfo,
+        Expression<Func<TEntity, TEntity>> selector,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Asynchronously checks if enitity with predicate value exists in database.
+    /// </summary>
+    /// <param name="predicate">Predicate that accepts equation an return bool value that indicates if the expression is true.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel task.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Asynchronously adds object of TEntity to database.
     /// </summary>
     /// <param name="obj">TEntity obj param.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel task.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task AddAsync(TEntity obj);
+    Task AddAsync(TEntity obj, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Asynchronously removes entity from database.
+    /// Updates TEntity, passed as parameter.
+    /// </summary>
+    /// <param name="obj">TEntity object to be updated.</param>
+    void Update(TEntity obj);
+
+    /// <summary>
+    /// Removes entity from database.
     /// </summary>
     /// <param name="obj">TEntity obj param.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task<bool> DeleteAsync(TEntity obj);
+    void Delete(TEntity obj);
 }
