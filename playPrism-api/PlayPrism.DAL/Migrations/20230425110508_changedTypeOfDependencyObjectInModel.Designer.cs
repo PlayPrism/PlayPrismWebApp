@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlayPrism.DAL;
@@ -11,9 +12,11 @@ using PlayPrism.DAL;
 namespace PlayPrism.DAL.Migrations
 {
     [DbContext(typeof(PlayPrismContext))]
-    partial class PlayPrismContextModelSnapshot : ModelSnapshot
+    [Migration("20230425110508_changedTypeOfDependencyObjectInModel")]
+    partial class changedTypeOfDependencyObjectInModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,16 +37,13 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<decimal>("OrderTotal")
-                        .HasColumnType("numeric");
-
-                    b.Property<Guid>("PaymentMethodId")
+                    b.Property<Guid?>("PaymentMethodId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ProductItemId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserProfileId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -52,7 +52,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("ProductItemId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserProfileId");
 
                     b.ToTable("Orders");
                 });
@@ -69,10 +69,7 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProductItemId")
+                    b.Property<Guid?>("OrderId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
@@ -129,7 +126,7 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("ProductCategoryId")
+                    b.Property<Guid?>("ProductCategoryId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -174,10 +171,10 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid?>("ProductId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("VariationOptionId")
+                    b.Property<Guid?>("VariationOptionId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -192,6 +189,7 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductItem", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateCreated")
@@ -200,13 +198,18 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid?>("OrderItemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ProductId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderItemId");
 
                     b.HasIndex("ProductId");
 
@@ -263,13 +266,13 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid?>("ProductId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("RatingValue")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -305,9 +308,7 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.PaymentMethod", "PaymentMethod")
                         .WithMany("Orders")
-                        .HasForeignKey("PaymentMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PaymentMethodId");
 
                     b.HasOne("PlayPrism.Core.Domain.ProductItem", "ProductItem")
                         .WithMany()
@@ -315,9 +316,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasOne("PlayPrism.Core.Domain.UserProfile", "UserProfile")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserProfileId");
 
                     b.Navigation("PaymentMethod");
 
@@ -330,9 +329,7 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("Order");
                 });
@@ -341,9 +338,7 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.ProductCategory", "ProductCategory")
                         .WithMany()
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductCategoryId");
 
                     b.Navigation("ProductCategory");
                 });
@@ -352,15 +347,11 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.Product", "Product")
                         .WithMany("ProductConfigurations")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("PlayPrism.Core.Domain.VariationOption", "VariationOption")
                         .WithMany("ProductConfigurations")
-                        .HasForeignKey("VariationOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VariationOptionId");
 
                     b.Navigation("Product");
 
@@ -370,16 +361,12 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductItem", b =>
                 {
                     b.HasOne("PlayPrism.Core.Domain.OrderItem", "OrderItem")
-                        .WithOne("ProductItem")
-                        .HasForeignKey("PlayPrism.Core.Domain.ProductItem", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("ProductItems")
+                        .HasForeignKey("OrderItemId");
 
                     b.HasOne("PlayPrism.Core.Domain.Product", "Product")
                         .WithMany("ProductItems")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("OrderItem");
 
@@ -390,15 +377,11 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.Product", "Product")
                         .WithMany("UserReviews")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Product");
 
@@ -412,7 +395,7 @@ namespace PlayPrism.DAL.Migrations
 
             modelBuilder.Entity("PlayPrism.Core.Domain.OrderItem", b =>
                 {
-                    b.Navigation("ProductItem");
+                    b.Navigation("ProductItems");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.PaymentMethod", b =>

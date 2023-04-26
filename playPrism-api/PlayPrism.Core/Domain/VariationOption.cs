@@ -1,12 +1,17 @@
 ﻿namespace PlayPrism.Core.Domain;
 
+/// <summary>
+/// Entity that represents table VariationOption in database.
+/// </summary>
 public class VariationOption : BaseEntity
 {
-    public string Type { get; set; }
-    
+    /// <summary>
+    /// Gets or sets variation Values.
+    /// </summary>
     public string[] Values { get; set; }
-    
-    public Guid ProductConfigurationId { get; set; }
-    
-    public IEnumerable<ProductConfiguration> ProductConfigurations { get; set; }
+
+    /// <summary>
+    /// Gets or sets references to ProductConfigurations entities.
+    /// </summary>
+    public IList<ProductConfiguration> ProductConfigurations { get; set; }
 }
