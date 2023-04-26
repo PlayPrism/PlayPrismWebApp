@@ -1,15 +1,12 @@
 ﻿namespace PlayPrism.Core.Domain;
 
-
+/// <summary>
+/// Entity that represents table ProductCategory in database.
+/// </summary>
 public class ProductCategory : BaseEntity
 {
-    public Guid ParentCategoryId { get; set; }
-    
-    public ProductCategory ParentCategory { get; set; }
-    
-    public string Key { get; set; }
-
-    public Guid ProductId { get; set; }
-
-    public Product Product { get; set; }
+    /// <summary>
+    /// Gets or sets name of Product Category.
+    /// </summary>
+    public string CategoryName { get; set; }
 }

@@ -17,7 +17,7 @@ namespace PlayPrism.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-preview.2.23128.3")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -82,7 +82,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("EmOrderItems");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.PaymentMethod", b =>
@@ -129,7 +129,12 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<Guid>("ProductCategoryId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductCategoryId");
 
                     b.ToTable("Products");
                 });
@@ -140,26 +145,16 @@ namespace PlayPrism.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Key")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ParentCategoryId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentCategoryId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductCategories");
                 });
@@ -169,6 +164,9 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("ConfigurationName")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
@@ -295,12 +293,6 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("ProductConfigurationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("text");
-
                     b.Property<string[]>("Values")
                         .HasColumnType("text[]");
 
@@ -345,23 +337,15 @@ namespace PlayPrism.DAL.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("PlayPrism.Core.Domain.ProductCategory", b =>
+            modelBuilder.Entity("PlayPrism.Core.Domain.Product", b =>
                 {
-                    b.HasOne("PlayPrism.Core.Domain.ProductCategory", "ParentCategory")
+                    b.HasOne("PlayPrism.Core.Domain.ProductCategory", "ProductCategory")
                         .WithMany()
-                        .HasForeignKey("ParentCategoryId")
+                        .HasForeignKey("ProductCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlayPrism.Core.Domain.Product", "Product")
-                        .WithMany("ProductCategories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParentCategory");
-
-                    b.Navigation("Product");
+                    b.Navigation("ProductCategory");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductConfiguration", b =>
@@ -438,8 +422,6 @@ namespace PlayPrism.DAL.Migrations
 
             modelBuilder.Entity("PlayPrism.Core.Domain.Product", b =>
                 {
-                    b.Navigation("ProductCategories");
-
                     b.Navigation("ProductConfigurations");
 
                     b.Navigation("ProductItems");
