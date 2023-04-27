@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Mappings\" />
+    <Folder Include="V1\Requests\ProductCatalogueRequests\" />
     <Folder Include="V1\Requests\UserProfileRequests\" />
     <Folder Include="V1\Responses\UserProfileResponses\" />
   </ItemGroup>

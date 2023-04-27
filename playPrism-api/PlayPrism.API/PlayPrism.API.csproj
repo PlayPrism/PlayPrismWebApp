@@ -27,7 +27,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Controllers" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PlayPrism.BLL.Abstractions\PlayPrism.BLL.Abstractions.csproj" />
       <ProjectReference Include="..\PlayPrism.BLL\PlayPrism.BLL.csproj" />
+      <ProjectReference Include="..\PlayPrism.DAL\PlayPrism.DAL.csproj" />
     </ItemGroup>
 
 </Project>

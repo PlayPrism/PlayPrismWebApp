@@ -21,4 +21,12 @@
       <ProjectReference Include="..\PlayPrism.Core\PlayPrism.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Interfaces\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PlayPrism.Core\PlayPrism.Core.csproj" />
+    </ItemGroup>
+
 </Project>
