@@ -5,6 +5,12 @@
 @import 'fonts';
 @import 'components';
 
+* {
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+
 html,
 body {
   //font-family: HelveticaNeueCyr, serif;
@@ -12,5 +18,11 @@ body {
 
 div {
   @apply cursor-default;
+}
+
+.temp{
+  font-family: 'Proxima Nova Regular', serif;
+  font-size: 32px;
+  color: #FFFFFF
 }
 
