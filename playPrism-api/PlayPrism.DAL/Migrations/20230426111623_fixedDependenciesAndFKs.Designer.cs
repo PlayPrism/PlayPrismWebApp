@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlayPrism.DAL;
@@ -11,9 +12,11 @@ using PlayPrism.DAL;
 namespace PlayPrism.DAL.Migrations
 {
     [DbContext(typeof(PlayPrismContext))]
-    partial class PlayPrismContextModelSnapshot : ModelSnapshot
+    [Migration("20230426111623_fixedDependenciesAndFKs")]
+    partial class fixedDependenciesAndFKs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
