@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Proxima Nova Regular";
+  src: url(/assets/fonts/ProximaNova-Regular.ttf) format("opentype");
+}
+@font-face {
+  font-family: "Proxima Nova Semibold";
+  src: url(/assets/fonts/ProximaNova-Semibold.ttf) format("opentype");
+}
+@font-face {
+  font-family: "Proxima Nova Light";
+  src: url(/assets/fonts/ProximaNova-Light.ttf) format("opentype");
+}
+/* This is where all the scss associated with the components are located */
+* {
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+
+div {
+  @apply cursor-default;
+}
+
+.temp {
+  font-family: "Proxima Nova Regular", serif;
+  font-size: 32px;
+  color: #FFFFFF;
+}
+
+/*# sourceMappingURL=styles.css.map */
