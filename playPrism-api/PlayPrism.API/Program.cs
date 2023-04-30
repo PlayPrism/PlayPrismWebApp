@@ -1,9 +1,16 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using PlayPrism.API;
 using Microsoft.EntityFrameworkCore;
 using PlayPrism.DAL;
 using Serilog;
 using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(
+    containerBuilder => containerBuilder.RegisterModule(new ApiDiModule(builder.Configuration)));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -12,8 +19,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<PlayPrismContext>(x =>
-    x.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
 
 builder.Host.UseSerilog();
 
@@ -34,7 +39,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseRouting();
+
+app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.UseSerilogRequestLogging();
 

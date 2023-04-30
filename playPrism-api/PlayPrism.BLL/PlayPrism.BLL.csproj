@@ -11,10 +11,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Autofac" Version="7.0.1" />
       <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PlayPrism.BLL.Abstractions\PlayPrism.BLL.Abstractions.csproj" />
+      <ProjectReference Include="..\PlayPrism.Core\PlayPrism.Core.csproj" />
+      <ProjectReference Include="..\PlayPrism.DAL\PlayPrism.DAL.csproj" />
     </ItemGroup>
 
 </Project>
