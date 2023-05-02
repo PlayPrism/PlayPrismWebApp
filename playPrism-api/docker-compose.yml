@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  playprism.api:
+    image: ${DOCKER_REGISTRY-}playprismapi
+    build:
+      context: .
+      dockerfile: PlayPrism.API/Dockerfile
+  
+  playprismdb:
+    image: postgres
+  
+  playprism.portainer:
+    image: portainer/portainer-ce
+
+  playprism.pgadmin:
+    image: dpage/pgadmin4
