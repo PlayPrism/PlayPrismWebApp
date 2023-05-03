@@ -1,10 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PlayPrism.API;
-using Microsoft.EntityFrameworkCore;
-using PlayPrism.DAL;
 using Serilog;
-using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +15,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 builder.Host.UseSerilog();
 
@@ -48,3 +44,5 @@ app.UseSerilogRequestLogging();
 app.MapControllers();
 
 app.Run();
+
+Log.CloseAndFlush();

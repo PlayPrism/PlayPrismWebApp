@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  playprismdb:
+    container_name: "playprism-db"
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - playprism_data:/var/lib/postgresql/data/
+
+  playprism.api:
+    container_name: "playprism-api"
+    depends_on:
+      - "playprismdb"
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ENVIRONMENT}
+      ConnectionStrings__DBConnection: ${DB_CONNECTION}
+    ports:
+      - "8000:80"
+
+  playprism.portainer:
+    container_name: playprism-portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data 
+  
+  playprism.pgadmin:
+    container_name: playprism-pgadmin
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+
+volumes:
+  playprism_data:
+  portainer_data:  
+  pgadmin_data:  
