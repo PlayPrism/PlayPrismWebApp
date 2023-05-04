@@ -1,5 +1,42 @@
 <div
-  class="w-[880px] flex flex-col h-[1174px] rounded-[35px] px-20 pt-11 pb-[70px]"
+  class="w-[880px] temp h-[1174px] bg-gradient-gray rounded-[35px] text-white px-20 pt-11 pb-[70px]"
 >
-  <h1>Налаштування облікового запису</h1>
+  <h2 class="text-3xl mb-6">Налаштування облікового запису</h2>
+  <div>
+    <h3 class="text-gray-500 text-2xl mb-6">Інформація про обліковий запис</h3>
+    <div class="flex flex-col gap-5">
+      <app-input [editConfirmation]="true" title="Логін"></app-input>
+      <app-input [editConfirmation]="true" title="Email"></app-input>
+    </div>
+  </div>
+  <div class="h-60">
+    <!-- TODO: Add image picker -->
+  </div>
+  <div class="mb-11">
+    <h3 class="text-gray-500 text-2xl mb-6">Персональні дані</h3>
+    <div class="flex gap-7">
+      <app-input
+        class="w-full"
+        [editConfirmation]="true"
+        title="Ім'я"
+      ></app-input>
+      <app-input
+        class="w-full"
+        [editConfirmation]="true"
+        title="Прізвище"
+      ></app-input>
+    </div>
+  </div>
+  <div class="flex gap-7">
+    <button
+      class="bg-blue-500 px-20 py-3 shadow-md rounded-lg font-semibold text-lg"
+    >
+      Зберегти зміни
+    </button>
+    <button
+      class="border-2 px-20 py-3 border-gray-700 shadow-md text-lg font-semibold rounded-lg"
+    >
+      Скинути зміни
+    </button>
+  </div>
 </div>
