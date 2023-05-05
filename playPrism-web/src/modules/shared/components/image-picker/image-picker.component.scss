@@ -1,0 +1,13 @@
+.img-preview {
+  @apply rounded-xl;
+}
+
+.img-preview-sm {
+  @extend .img-preview;
+  @apply w-[95px] h-[102px];
+}
+
+.img-preview-base {
+  @extend .img-preview;
+  @apply w-[136px] rounded-xl h-[146px];
+}

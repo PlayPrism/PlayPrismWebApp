@@ -8,6 +8,6 @@ import { ImagePickerComponent } from './components/image-picker/image-picker.com
 @NgModule({
   declarations: [InputComponent, ImagePickerComponent],
   imports: [CommonModule, HttpClientModule, FormsModule],
-  exports: [InputComponent, ImagePickerComponent],
+  exports: [InputComponent, ImagePickerComponent, CommonModule],
 })
 export class SharedModule {}

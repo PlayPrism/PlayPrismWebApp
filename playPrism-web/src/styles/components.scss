@@ -1,12 +1,3 @@
 /* This is where all the scss associated with the components are located */
 @layer components {
-  .bg-gradient-gray {
-    background-image: linear-gradient(
-      81.2deg,
-      #212735 0.39%,
-      #2b313d 100%,
-      #262c3c 100%
-    );
-    @apply shadow-md;
-  }
 }

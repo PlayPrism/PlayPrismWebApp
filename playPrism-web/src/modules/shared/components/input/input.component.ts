@@ -16,11 +16,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputComponent implements ControlValueAccessor {
   @Input() title: string = '';
   @Input() editConfirmation: boolean = false;
+  @Input() public value: string = '';
 
   @ViewChild('input') input!: ElementRef;
 
   public editable: boolean = this.editConfirmation ? false : true;
-  public value: string = '';
 
   public allowEdit() {
     this.editable = !this.editable;

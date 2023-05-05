@@ -28,11 +28,13 @@ export class UserService extends BaseService<UserProfile> {
       lastName: 'Dzabakhidze',
       email: 'test@gmail.com',
       phone: '+380238402384',
-      image: 'https://img.freepik.com/free-icon/user_318-159711.jpg',
+      image:
+        'https://ih1.redbubble.net/image.4267646666.3242/mo,small,flatlay,product_square,600x600.jpg',
       role: Role.User,
       country: 'Ukraine',
       city: 'Kiev',
     };
+    this.userSubject$.next(user);
     return of(user);
     //TODO: Create get user profile from BE
     return this.http.get<UserProfile>(this.baseUrl).pipe(
