@@ -2,27 +2,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'fonts';
-@import 'components';
+@import "fonts";
+@import "components";
+@import "utils";
 
 * {
-  margin: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-family: "Proxima Nova Regular", serif;
   padding: 0;
-  background: #000;
+  margin: 0;
 }
-
-html,
-body {
-  //font-family: HelveticaNeueCyr, serif;
-}
-
-div {
-  @apply cursor-default;
-}
-
-.temp{
-  font-family: 'Proxima Nova Regular', serif;
-  font-size: 32px;
-  color: #FFFFFF
-}
-

@@ -1,0 +1,19 @@
+<div class="text-white w-full">
+  <label class="font-semibold text-base">{{ title }}</label>
+  <div class="flex gap-5">
+    <input
+      type="text"
+      [readOnly]="editable"
+      class="bg-gradient-input w-full"
+      [(ngModel)]="value"
+      #input
+    />
+    <button
+      *ngIf="editConfirmation"
+      class="bg-blue-500 flex-shrink-0 w-12 h-12 text-center shadow-md rounded-xl"
+      (click)="allowEdit()"
+    >
+      <img class="inline-block" src="assets/icons/edit-icon.svg" alt="edit" />
+    </button>
+  </div>
+</div>

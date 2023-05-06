@@ -1,0 +1,55 @@
+<div
+  *ngIf="user$ | async as user"
+  class="w-[880px] temp h-[1174px] bg-gradient-gray rounded-[35px] text-white px-20 pt-11 pb-[70px]"
+>
+  <h2 class="text-3xl mb-6">Налаштування облікового запису</h2>
+  <div>
+    <h3 class="text-gray-500 text-2xl mb-6">Інформація про обліковий запис</h3>
+    <div class="flex flex-col gap-5 mb-11">
+      <app-input
+        [editConfirmation]="true"
+        [value]="user.nickname"
+        title="Логін"
+      ></app-input>
+      <app-input
+        [editConfirmation]="true"
+        [value]="user.email"
+        title="Email"
+      ></app-input>
+    </div>
+    <app-image-picker [imageUrl]="user.image"></app-image-picker>
+  </div>
+  <div class="mb-11 mt-14">
+    <h3 class="text-gray-500 text-2xl mb-6">Персональні дані</h3>
+    <div class="flex gap-7">
+      <app-input
+        class="w-full"
+        [editConfirmation]="true"
+        [value]="user.firstName"
+        title="Ім'я"
+      ></app-input>
+      <app-input
+        class="w-full"
+        [value]="user.lastName"
+        [editConfirmation]="true"
+        title="Прізвище"
+      ></app-input>
+    </div>
+  </div>
+  <div class="flex gap-7 mb-14">
+    <button class="btn-primary-blue">Зберегти зміни</button>
+    <button class="btn-ghost">Скинути зміни</button>
+  </div>
+  <div class="grid grid-cols-2 gap-8">
+    <h3 class="text-2xl font-semibold text-gray-400">
+      Видалення облікового запису
+    </h3>
+    <p class="row-span-2 text-sm font-semibold leading-6 text-gray-500">
+      Якщо ви запитаєте видалення облікового запису, його буде видалено через 14
+      днів. Протягом цього часу ви можете увійти до свого облікового запису, щоб
+      знову активувати його та скасувати видалення. Через 14 днів видалення
+      стане незворотнім.
+    </p>
+    <button class="btn-primary-red">Запит на видалення</button>
+  </div>
+</div>

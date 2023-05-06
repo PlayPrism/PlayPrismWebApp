@@ -1,0 +1,25 @@
+<div class="flex gap-20">
+  <div class="flex-1 self-center text-center">
+    <button
+      class="bg-blue-500 px-20 py-3 shadow-md rounded-lg font-semibold text-lg mb-3"
+      (click)="chooseFile.click()"
+    >
+      Переглянути
+    </button>
+    <p class="text-xs inline-block">
+      Виберіть зображення з комп’ютера &#40;JPEG, PNG або GIF&#41;
+    </p>
+  </div>
+  <div class="flex justify-end gap-8">
+    <input
+      type="file"
+      class="hidden"
+      #chooseFile
+      accept="image/png, image/gif, image/jpeg"
+      (change)="onFileSelected($event)"
+      multiple
+    />
+    <img [src]="imageUrl" class="img-preview-sm" alt="User Profile image" />
+    <img [src]="imageUrl" class="img-preview-base" alt="User Profile image" />
+  </div>
+</div>
