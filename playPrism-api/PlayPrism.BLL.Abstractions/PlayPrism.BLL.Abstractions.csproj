@@ -13,7 +13,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PlayPrism.Core\PlayPrism.Core.csproj" />
+      <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PlayPrism.Contracts\PlayPrism.Contracts.csproj" />
+      <ProjectReference Include="..\PlayPrism.Core\PlayPrism.Core.csproj" />
+    </ItemGroup>
 </Project>

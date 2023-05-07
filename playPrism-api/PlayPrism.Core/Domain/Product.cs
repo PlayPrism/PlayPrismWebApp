@@ -48,5 +48,5 @@ public class Product : BaseEntity
     /// <summary>
     /// Gets or sets references to ProductConfigurations entities.
     /// </summary>
-    public IList<ProductConfiguration> ProductConfigurations { get; set; }
+    public IList<VariationOption> VariationOptions { get; set; }
 }
