@@ -42,8 +42,11 @@ public class CatalogueController : ControllerBase
         {
             var res = await _catalogueService
                 .GetProductsByFiltersWithPaginationAsync(
-                    new List<Filter>(),
-                    new PageInfo {Number = 1, Size = 20},
+                    new GetProductsRequest
+                    {
+                        PageInfo = new PageInfo(20, 1),
+                        Category = category,
+                    },
                     cancellationToken);
 
             var response = _mapper
@@ -81,8 +84,7 @@ public class CatalogueController : ControllerBase
         {
             var res = await _catalogueService
                 .GetProductsByFiltersWithPaginationAsync(
-                    productsRequest.Filters,
-                    productsRequest.PageInfo,
+                    productsRequest,
                     cancellationToken);
 
             var response = _mapper.Map<List<GetProductsResponse>>(res);

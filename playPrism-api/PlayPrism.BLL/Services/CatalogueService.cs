@@ -1,7 +1,7 @@
 ﻿using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.Contracts.V1.Requests.ProductCatalogueRequests;
 using PlayPrism.Contracts.V1.Responses.ProductCatalogueResponses;
 using PlayPrism.Core.Domain;
-using PlayPrism.Core.Models;
 using PlayPrism.DAL.Abstractions.Interfaces;
 
 namespace PlayPrism.BLL.Services;
@@ -24,21 +24,25 @@ public class CatalogueService : ICatalogueService
 
     /// <inheritdoc />
     public async Task<IList<Product>> GetProductsByFiltersWithPaginationAsync(
-        IEnumerable<Filter> filters,
-        PageInfo pageInfo,
+        GetProductsRequest request,
         CancellationToken cancellationToken)
     {
         try
         {
             var predicates = new List<Expression<Func<Product, bool>>>();
 
-            foreach (var filter in filters)
+            if (request?.Filters != null)
             {
-                predicates.Add(
-                    product => product.VariationOptions.Any(option =>
-                        option.Value == filter.Value &&
-                        option.ProductConfiguration.ConfigurationName == filter.Name));
+                foreach (var filter in request.Filters)
+                {
+                    predicates.Add(
+                        product => product.VariationOptions.Any(option =>
+                            option.Value == filter.Value &&
+                            option.ProductConfiguration.ConfigurationName == filter.Name));
+                }
             }
+
+            predicates.Add(product => product.ProductCategory.CategoryName == request.Category);
 
             Expression<Func<Product, Product>> selector = q => new Product
             {
@@ -53,10 +57,12 @@ public class CatalogueService : ICatalogueService
                 Id = q.Id,
                 ProductCategory = q.ProductCategory,
                 ProductCategoryId = q.ProductCategoryId,
+                Image = q.Image,
+                Price = q.Price,
             };
 
             var res = await this._unitOfWork.Products
-                .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, selector, cancellationToken);
+                .GetPageWithMultiplePredicatesAsync(predicates, request.PageInfo, selector, cancellationToken);
 
             return res;
         }
@@ -71,22 +77,6 @@ public class CatalogueService : ICatalogueService
     public async Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(string category,
         CancellationToken cancellationToken)
     {
-        // var categoryConfigurations = await this._unitOfWork.ProductConfigurations
-        //     .GetByConditionAsync(
-        //         pc => pc.Product.ProductCategory.CategoryName == category,
-        //         configuration => new ProductConfiguration
-        //         {
-        //             Id = configuration.Id,
-        //             VariationOption = configuration.VariationOption,
-        //             ConfigurationName = configuration.ConfigurationName,
-        //         }, cancellationToken);
-        //
-        // var filters = categoryConfigurations.Select(configuration => new CategoryFiltersResponse()
-        // {
-        //     Title = configuration.ConfigurationName,
-        //     //FilterOptions = configuration.VariationOption.Values,
-        // });
-
         var categoryConfigurations = await this._unitOfWork.ProductConfigurations
             .GetByConditionAsync(
                 configuration => configuration.Category.CategoryName == category,

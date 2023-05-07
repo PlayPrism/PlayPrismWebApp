@@ -7,4 +7,5 @@ public class GetProductsRequest
     public string Category { get; set; }
     public PageInfo PageInfo { get; set; }
     public Filter[] Filters { get; set; }
+
 }
