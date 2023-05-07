@@ -18,11 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PlayPrism.Contracts\PlayPrism.Contracts.csproj" />
       <ProjectReference Include="..\PlayPrism.Core\PlayPrism.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Interfaces\" />
     </ItemGroup>
 
     <ItemGroup>

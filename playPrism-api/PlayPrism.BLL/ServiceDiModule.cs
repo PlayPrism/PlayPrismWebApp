@@ -23,6 +23,7 @@ public class ServiceDiModule : Module
     /// <inheritdoc />
     protected override void Load(ContainerBuilder builder)
     {
+        builder.RegisterType<CatalogueService>().As<ICatalogueService>().InstancePerLifetimeScope();
         builder.RegisterModule(new RepositoryDiModule(this._configuration));
     }
 }

@@ -24,11 +24,12 @@ public class RepositoryDiModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterType<PlayPrismContext>().WithParameter(
-            (info, context) => info.ParameterType == typeof(DbContextOptions<PlayPrismContext>),
-            (info, context) => new DbContextOptionsBuilder<PlayPrismContext>()
-                .UseNpgsql(this._configuration.GetConnectionString("DbConnection"))
-                .Options);
-        builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>));
+                (info, context) => info.ParameterType == typeof(DbContextOptions<PlayPrismContext>),
+                (info, context) => new DbContextOptionsBuilder<PlayPrismContext>()
+                    .UseNpgsql(this._configuration.GetConnectionString("DbConnection"))
+                    .Options)
+            .InstancePerLifetimeScope();
+        builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerLifetimeScope();
         builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
     }
 }

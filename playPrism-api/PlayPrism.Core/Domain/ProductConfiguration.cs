@@ -11,22 +11,14 @@ public class ProductConfiguration : BaseEntity
     public string ConfigurationName { get; set; }
 
     /// <summary>
-    /// Gets or sets FK id to Product entity.
+    /// Gets or sets reference to Category entity.
     /// </summary>
-    public Guid ProductId { get; set; }
+    public ProductCategory Category { get; set; }
+
+    //public Guid VariationOptionId { get; set; }
 
     /// <summary>
     /// Gets or sets reference to Product entity.
     /// </summary>
-    public Product Product { get; set; }
-
-    /// <summary>
-    /// Gets or sets FK id to VariationOption entity.
-    /// </summary>
-    public Guid VariationOptionId { get; set; }
-
-    /// <summary>
-    /// Gets or sets reference to Product entity.
-    /// </summary>
-    public VariationOption VariationOption { get; set; }
+    public List<VariationOption> VariationOptions { get; set; }
 }

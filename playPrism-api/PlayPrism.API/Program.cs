@@ -11,6 +11,8 @@ builder.Host.ConfigureContainer<ContainerBuilder>(
 // Add services to the container.
 builder.Services.AddControllers();
 
+builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.CatalogueProfile));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,7 +30,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
-app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200/"));
 
 app.MapControllers();
 
