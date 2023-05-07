@@ -1,0 +1,28 @@
+.bg-gradient-gray {
+  background-image: linear-gradient(
+    81.2deg,
+    #212735 0.39%,
+    #2b313d 100%,
+    #262c3c 100%
+  );
+  @apply shadow-md;
+}
+
+.btn-primary {
+  @apply w-[277px] text-center py-3 shadow-md text-lg font-semibold rounded-lg;
+}
+
+.btn-primary-blue {
+  @extend .btn-primary;
+  @apply bg-blue-500;
+}
+
+.btn-ghost {
+  @extend .btn-primary;
+  @apply border-2 border-gray-700;
+}
+
+.btn-primary-red {
+  @extend .btn-primary;
+  @apply bg-red-500;
+}

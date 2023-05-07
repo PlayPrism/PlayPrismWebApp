@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PlayPrism.API;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,14 @@ builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.CatalogueProf
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Host.UseSerilog();
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +41,10 @@ app.UseRouting();
 
 app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200/"));
 
+app.UseSerilogRequestLogging();
+
 app.MapControllers();
 
 app.Run();
+
+Log.CloseAndFlush();
