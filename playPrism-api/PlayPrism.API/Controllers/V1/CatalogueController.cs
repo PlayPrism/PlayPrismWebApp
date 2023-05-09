@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.ProductCatalogueRequests;
 using PlayPrism.Contracts.V1.Responses.ProductCatalogueResponses;
 using PlayPrism.Core.Domain;
@@ -52,7 +53,7 @@ public class CatalogueController : ControllerBase
             var response = _mapper
                 .Map<IList<Product>, List<GetProductsResponse>>(res);
 
-            return Ok(response);
+            return Ok(response.ToApiListResponse());
         }
         catch (Exception e)
         {
@@ -89,7 +90,7 @@ public class CatalogueController : ControllerBase
 
             var response = _mapper.Map<List<GetProductsResponse>>(res);
 
-            return Ok(response);
+            return Ok(response.ToApiListResponse());
         }
         catch (Exception e)
         {
@@ -112,7 +113,7 @@ public class CatalogueController : ControllerBase
         {
             var res = await _catalogueService
                 .GetFilterForCategoryAsync(category, cancellationToken: cancellationToken);
-            return Ok(res);
+            return Ok(res.ToApiListResponse());
         }
         catch (Exception ex)
         {
