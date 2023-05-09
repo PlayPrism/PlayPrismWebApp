@@ -1,10 +1,15 @@
 export interface Product {
   id: string;
-  name: string;
-  description: string;
-  image: string;
+  title: string;
+  rating: number;
   price: number;
-  // productCategories: ProductCategory[];
-  // userReviews: UserReview[];
-  // productConfigurations: ProductConfiguration[];
+  description: string;
+  genres: string[];
+  image: string;
+  platforms: string[];
+
+  developers: string[];
+  publishers: string[];
+  screenshots: string[];
+  pcRequirements: string;
 }
