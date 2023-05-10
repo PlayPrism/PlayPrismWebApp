@@ -2,6 +2,7 @@
 
 public class CategoryFiltersResponse
 {
-    public string Title { get; set; }
+    public Guid Id { get; set; }
+    public string ConfigurationName { get; set; }
     public string[] FilterOptions { get; set; }
 }

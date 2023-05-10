@@ -46,7 +46,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{category}")]
     public async Task<IActionResult> GetFilteredProductsAsync(
         [FromRoute] string category,
-        [FromBody] GetProductsRequest request,
+        [FromQuery] GetProductsRequest request,
         CancellationToken cancellationToken)
     {
         var res = await _productsService
@@ -73,6 +73,8 @@ public class ProductsController : ControllerBase
         var res = await _productsService
                 .GetFilterForCategoryAsync(category, cancellationToken: cancellationToken);
 
-        return Ok(res.ToApiListResponse());
+        var response = _mapper.Map<IEnumerable<CategoryFiltersResponse>>(res);
+
+        return Ok(response.ToApiListResponse());
     }
 }

@@ -13,7 +13,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.CatalogueProfile));
+builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.ProductProfile));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

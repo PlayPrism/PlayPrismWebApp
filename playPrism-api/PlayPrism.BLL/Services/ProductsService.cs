@@ -78,7 +78,7 @@ public class ProductsService : IProductsService
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(string category,
+    public async Task<IEnumerable<ProductConfiguration>> GetFilterForCategoryAsync(string category,
         CancellationToken cancellationToken)
     {
         var categoryConfigurations = await this._unitOfWork.ProductConfigurations
@@ -92,13 +92,6 @@ public class ProductsService : IProductsService
                     ConfigurationName = configuration.ConfigurationName,
                 }, cancellationToken);
 
-        var filters = categoryConfigurations
-            .Select(configuration => new CategoryFiltersResponse
-            {
-                Title = configuration.ConfigurationName,
-                FilterOptions = configuration.VariationOptions.Select(option => option.Value).Distinct().ToArray(),
-            });
-
-        return filters;
+        return categoryConfigurations;
     }
 }

@@ -54,7 +54,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.OrderItem", b =>
@@ -82,7 +82,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.PaymentMethod", b =>
@@ -102,7 +102,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethods");
+                    b.ToTable("PaymentMethods", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.Product", b =>
@@ -142,7 +142,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("ProductCategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductCategory", b =>
@@ -162,7 +162,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductConfiguration", b =>
@@ -187,7 +187,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ProductConfigurations");
+                    b.ToTable("ProductConfigurations", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductItem", b =>
@@ -211,7 +211,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductItems");
+                    b.ToTable("ProductItems", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
@@ -246,7 +246,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProfiles");
+                    b.ToTable("UserProfiles", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserReview", b =>
@@ -279,7 +279,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserReviews");
+                    b.ToTable("UserReviews", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.VariationOption", b =>
@@ -309,7 +309,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("VariationOptions");
+                    b.ToTable("VariationOptions", (string)null);
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.Order", b =>

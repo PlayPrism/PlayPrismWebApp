@@ -35,7 +35,7 @@ public interface IProductsService
     /// <param name="category">The product category.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to cancel task completion.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(
+    Task<IEnumerable<ProductConfiguration>> GetFilterForCategoryAsync(
         string category,
         CancellationToken cancellationToken);
 }
