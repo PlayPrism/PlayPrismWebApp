@@ -4,9 +4,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { InputComponent } from './components/input/input.component';
 import { FormsModule } from '@angular/forms';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-  declarations: [InputComponent, ImagePickerComponent],
+  declarations: [InputComponent, ImagePickerComponent, HeaderComponent],
   imports: [CommonModule, HttpClientModule, FormsModule],
   exports: [InputComponent, ImagePickerComponent, CommonModule],
 })
