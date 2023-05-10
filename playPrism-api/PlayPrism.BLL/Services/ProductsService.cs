@@ -32,7 +32,7 @@ public class ProductsService : IProductsService
         {
             var predicates = new List<Expression<Func<Product, bool>>>();
 
-            if (filters.Any())
+            if (filters != null)
             {
                 foreach (var filter in filters)
                 {
