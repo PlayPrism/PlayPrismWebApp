@@ -13,17 +13,27 @@ public class Product : BaseEntity
     /// <summary>
     /// Gets or sets Description of Product.
     /// </summary>
-    public string Description { get; set; }
+    public string ShortDescription { get; set; }
+    
+    /// <summary>
+    /// Gets or sets Description of Product.
+    /// </summary>
+    public string DetailedDescription { get; set; }
 
     /// <summary>
-    /// Gets or sets Image url of Product.
+    /// Gets or sets header Image url.
     /// </summary>
-    public string Image { get; set; }
+    public string HeaderImage { get; set; }
 
     /// <summary>
     /// Gets or sets Price of Product.
     /// </summary>
     public decimal Price { get; set; }
+    
+    /// <summary>
+    /// Gets or sets release date.
+    /// </summary>
+    public DateTime ReleaseDate { get; set; }
 
     /// <summary>
     /// Gets or sets FK id to ProductCategory entity.

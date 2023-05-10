@@ -1,5 +1,4 @@
 ﻿using PlayPrism.BLL.Abstractions.Interface;
-using PlayPrism.Contracts.V1.Requests.Products;
 using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Models;
@@ -20,7 +19,7 @@ public class ProductsService : IProductsService
     /// <param name="unitOfWork">Unit of work di.</param>
     public ProductsService(IUnitOfWork unitOfWork)
     {
-        this._unitOfWork = unitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     /// <inheritdoc />
@@ -56,15 +55,17 @@ public class ProductsService : IProductsService
                     ProductConfiguration = option.ProductConfiguration,
                     Value = option.Value,
                 }).ToList(),
-                Description = q.Description,
+                ShortDescription = q.ShortDescription,
+                DetailedDescription = q.DetailedDescription,
                 Id = q.Id,
                 ProductCategory = q.ProductCategory,
                 ProductCategoryId = q.ProductCategoryId,
-                Image = q.Image,
+                HeaderImage = q.HeaderImage,
+                ReleaseDate = q.ReleaseDate,
                 Price = q.Price,
             };
 
-            var res = await this._unitOfWork.Products
+            var res = await _unitOfWork.Products
                 .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, selector, cancellationToken);
 
             return res;

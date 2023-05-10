@@ -24,7 +24,7 @@ public class CatalogueProfile : Profile
         //     .ForMember(dest => dest.Title,
         //         opt => opt.MapFrom(product => product.Name));
 
-        CreateMap<Product, GetProductsResponse>()
+        CreateMap<Product, ProductResponse>()
             .ForMember(response => response.Genres,
                 opt => opt
                     .MapFrom(product =>
@@ -37,8 +37,6 @@ public class CatalogueProfile : Profile
                         product => product.VariationOptions.Where(option =>
                                 option.ProductConfiguration.ConfigurationName == "Platform")
                             .Select(option => option.Value)
-                    ))
-            .ForMember(dest => dest.Title,
-                opt => opt.MapFrom(product => product.Name));
+                    ));
     }
 }

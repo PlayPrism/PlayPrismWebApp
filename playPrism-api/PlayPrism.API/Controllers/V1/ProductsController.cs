@@ -41,7 +41,7 @@ public class ProductsController : ControllerBase
     /// </returns>
     /// <response code="200">Products</response>
     /// <response code="400">Bad request</response>
-    [ProducesResponseType(typeof(IList<GetProductsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IList<ProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{category}")]
     public async Task<IActionResult> GetFilteredProductsAsync(
@@ -56,7 +56,7 @@ public class ProductsController : ControllerBase
                     request.Filters,
                     cancellationToken);
 
-        var response = _mapper.Map<List<GetProductsResponse>>(res);
+        var response = _mapper.Map<List<ProductResponse>>(res);
 
         return Ok(response.ToApiListResponse());
     }
