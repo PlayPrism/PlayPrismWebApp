@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PlayPrism.API;
+using PlayPrism.API.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +12,9 @@ builder.Host.ConfigureContainer<ContainerBuilder>(
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 
-builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.CatalogueProfile));
+builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.ProductProfile));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,7 +26,12 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+// Configure Serilog
+builder.Services.AddLogging(loggingBuilder =>
+{
+    Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+    loggingBuilder.AddSerilog(dispose: true);
+});
 
 var app = builder.Build();
 
@@ -35,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseRouting();
 

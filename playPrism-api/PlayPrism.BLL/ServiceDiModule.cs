@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
+using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.BLL.Services;
 using PlayPrism.DAL;
 
 namespace PlayPrism.BLL;
@@ -15,13 +17,13 @@ public class ServiceDiModule : Module
     /// <param name="configuration">IConfiguration that reads config from appsettings.json.</param>
     public ServiceDiModule(IConfiguration configuration)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
     }
 
     /// <inheritdoc />
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<CatalogueService>().As<ICatalogueService>().InstancePerLifetimeScope();
-        builder.RegisterModule(new RepositoryDiModule(this._configuration));
+        builder.RegisterType<ProductsService>().As<IProductsService>().InstancePerLifetimeScope();
+        builder.RegisterModule(new RepositoryDiModule(_configuration));
     }
 }
