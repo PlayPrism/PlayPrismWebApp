@@ -22,7 +22,6 @@ public class ExceptionMiddleware
         _next = next;
     }
 
-
     /// <summary>
     /// Define whether any errors in <see cref="HttpContext"/>. If errors exist call <see cref="HandleExceptionAsync"/>
     /// </summary>

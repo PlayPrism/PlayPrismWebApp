@@ -28,7 +28,6 @@ public interface IProductsService
         Filter[] filters,
         CancellationToken cancellationToken);
 
-
     /// <summary>
     /// Asynchronously returns the list of filters that can be appliend to specific category.
     /// </summary>

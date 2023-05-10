@@ -1,5 +1,4 @@
 ﻿using PlayPrism.BLL.Abstractions.Interface;
-using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Models;
 using PlayPrism.DAL.Abstractions.Interfaces;

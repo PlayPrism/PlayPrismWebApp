@@ -12,6 +12,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 
 builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.ProductProfile));
 

@@ -17,13 +17,13 @@ public class ServiceDiModule : Module
     /// <param name="configuration">IConfiguration that reads config from appsettings.json.</param>
     public ServiceDiModule(IConfiguration configuration)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
     }
 
     /// <inheritdoc />
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterType<ProductsService>().As<IProductsService>().InstancePerLifetimeScope();
-        builder.RegisterModule(new RepositoryDiModule(this._configuration));
+        builder.RegisterModule(new RepositoryDiModule(_configuration));
     }
 }
