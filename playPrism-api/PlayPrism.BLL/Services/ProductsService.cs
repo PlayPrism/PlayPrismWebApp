@@ -2,6 +2,7 @@
 using PlayPrism.Contracts.V1.Requests.Products;
 using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
+using PlayPrism.Core.Models;
 using PlayPrism.DAL.Abstractions.Interfaces;
 
 namespace PlayPrism.BLL.Services;
@@ -9,31 +10,33 @@ namespace PlayPrism.BLL.Services;
 using System.Linq.Expressions;
 
 /// <inheritdoc />
-public class CatalogueService : ICatalogueService
+public class ProductsService : IProductsService
 {
     private readonly IUnitOfWork _unitOfWork;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CatalogueService"/> class.
+    /// Initializes a new instance of the <see cref="ProductsService"/> class.
     /// </summary>
     /// <param name="unitOfWork">Unit of work di.</param>
-    public CatalogueService(IUnitOfWork unitOfWork)
+    public ProductsService(IUnitOfWork unitOfWork)
     {
         this._unitOfWork = unitOfWork;
     }
 
     /// <inheritdoc />
     public async Task<IList<Product>> GetProductsByFiltersWithPaginationAsync(
-        GetProductsRequest request,
+        string category,
+        PageInfo pageInfo,
+        Filter[] filters,
         CancellationToken cancellationToken)
     {
         try
         {
             var predicates = new List<Expression<Func<Product, bool>>>();
 
-            if (request?.Filters != null)
+            if (filters.Any())
             {
-                foreach (var filter in request.Filters)
+                foreach (var filter in filters)
                 {
                     predicates.Add(
                         product => product.VariationOptions.Any(option =>
@@ -42,7 +45,7 @@ public class CatalogueService : ICatalogueService
                 }
             }
 
-            predicates.Add(product => product.ProductCategory.CategoryName == request.Category);
+            predicates.Add(product => product.ProductCategory.CategoryName == category);
 
             Expression<Func<Product, Product>> selector = q => new Product
             {
@@ -62,7 +65,7 @@ public class CatalogueService : ICatalogueService
             };
 
             var res = await this._unitOfWork.Products
-                .GetPageWithMultiplePredicatesAsync(predicates, request.PageInfo, selector, cancellationToken);
+                .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, selector, cancellationToken);
 
             return res;
         }

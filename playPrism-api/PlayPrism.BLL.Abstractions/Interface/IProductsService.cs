@@ -1,18 +1,21 @@
 ﻿using PlayPrism.Contracts.V1.Requests.Products;
 using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
+using PlayPrism.Core.Models;
 
 namespace PlayPrism.BLL.Abstractions.Interface;
 
 /// <summary>
 /// Product service that works with products filtering and pagination.
 /// </summary>
-public interface ICatalogueService
+public interface IProductsService
 {
     /// <summary>
     /// Asynchronously get product by filter with pagination.
     /// </summary>
-    /// <param name="request">The product request object.</param>
+    /// <param name="category">The product category.</param>
+    /// <param name="pageInfo">The pagination parameters.</param>
+    /// <param name="filters">The filters parameters.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A <see cref="Task" /> representing the asynchronous operation. The task result contains the list of products.</returns>
     // Task GetProductsByFiltersWithPaginationAsync(
@@ -20,7 +23,9 @@ public interface ICatalogueService
     //     PageInfo pageInfo,
     //     CancellationToken cancellationToken);
     Task<IList<Product>> GetProductsByFiltersWithPaginationAsync(
-        GetProductsRequest request,
+        string category,
+        PageInfo pageInfo,
+        Filter[] filters,
         CancellationToken cancellationToken);
 
 

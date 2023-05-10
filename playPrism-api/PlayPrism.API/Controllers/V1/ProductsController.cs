@@ -11,53 +11,29 @@ namespace PlayPrism.API.Controllers.V1;
 
 /// <inheritdoc />
 [Route("api/[controller]")]
-public class CatalogueController : ControllerBase
+public class ProductsController : ControllerBase
 {
-    private readonly ICatalogueService _catalogueService;
+    private readonly IProductsService _productsService;
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CatalogueController"/> class.
+    /// Initializes a new instance of the <see cref="ProductsController"/> class.
     /// </summary>
-    /// <param name="catalogueService">The product service.</param>
+    /// <param name="productsService">The product service.</param>
     /// <param name="mapper">The automapper service.</param>
-    public CatalogueController(
-        ICatalogueService catalogueService,
+    public ProductsController(
+        IProductsService productsService,
         IMapper mapper)
     {
-        _catalogueService = catalogueService;
+        _productsService = productsService;
         _mapper = mapper;
     }
 
     /// <summary>
-    /// Loads product for catalogue.
+    /// Get products by filters.
     /// </summary>
     /// <param name="category">The category name.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-    [HttpGet]
-    [Route("loadProducts")]
-    public async Task<IActionResult> LoadProducts(string category, CancellationToken cancellationToken)
-    {
-        var res = await _catalogueService
-                .GetProductsByFiltersWithPaginationAsync(
-                    new GetProductsRequest
-                    {
-                        PageInfo = new PageInfo(20, 1),
-                        Category = category,
-                    },
-                    cancellationToken);
-
-        var response = _mapper
-                .Map<IList<Product>, List<GetProductsResponse>>(res);
-
-        return Ok(response.ToApiListResponse());
-    }
-
-    /// <summary>
-    /// The index action.
-    /// </summary>
-    /// <param name="productsRequest">The product request.</param>
+    /// <param name="request">The product request.</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.
@@ -67,15 +43,17 @@ public class CatalogueController : ControllerBase
     /// <response code="400">Bad request</response>
     [ProducesResponseType(typeof(IList<GetProductsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet]
-    [Route("productsFilterPage")]
-    public async Task<IActionResult> GetProductsByFiltersWithPaginationAsync(
-        [FromQuery] GetProductsRequest productsRequest,
+    [HttpGet("{category}")]
+    public async Task<IActionResult> GetFilteredProductsAsync(
+        [FromRoute] string category,
+        [FromBody] GetProductsRequest request,
         CancellationToken cancellationToken)
     {
-        var res = await _catalogueService
+        var res = await _productsService
                 .GetProductsByFiltersWithPaginationAsync(
-                    productsRequest,
+                    category,
+                    request.PageInfo,
+                    request.Filters,
                     cancellationToken);
 
         var response = _mapper.Map<List<GetProductsResponse>>(res);
@@ -89,11 +67,10 @@ public class CatalogueController : ControllerBase
     /// <param name="category">The category name string.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-    [HttpGet]
-    [Route("getFilters")]
-    public async Task<IActionResult> GetFilterForCategory(string category, CancellationToken cancellationToken)
+    [HttpGet("{category}/filters")]
+    public async Task<IActionResult> GetCategoryFiltersAsync([FromRoute] string category, CancellationToken cancellationToken)
     {
-        var res = await _catalogueService
+        var res = await _productsService
                 .GetFilterForCategoryAsync(category, cancellationToken: cancellationToken);
 
         return Ok(res.ToApiListResponse());
