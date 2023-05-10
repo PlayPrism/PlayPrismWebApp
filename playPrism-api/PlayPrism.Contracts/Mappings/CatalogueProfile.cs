@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PlayPrism.Contracts.V1.Responses.ProductCatalogueResponses;
+using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 
 namespace PlayPrism.Contracts.Mappings;

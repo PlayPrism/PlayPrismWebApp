@@ -1,6 +1,6 @@
 ﻿using PlayPrism.Core.Models;
 
-namespace PlayPrism.Contracts.V1.Requests.ProductCatalogueRequests;
+namespace PlayPrism.Contracts.V1.Requests.Products;
 
 public class GetProductsRequest
 {

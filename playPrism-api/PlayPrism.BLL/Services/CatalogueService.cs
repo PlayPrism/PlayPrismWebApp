@@ -1,6 +1,6 @@
 ﻿using PlayPrism.BLL.Abstractions.Interface;
-using PlayPrism.Contracts.V1.Requests.ProductCatalogueRequests;
-using PlayPrism.Contracts.V1.Responses.ProductCatalogueResponses;
+using PlayPrism.Contracts.V1.Requests.Products;
+using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.DAL.Abstractions.Interfaces;
 

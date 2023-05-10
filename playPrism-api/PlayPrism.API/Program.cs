@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PlayPrism.API;
+using PlayPrism.API.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,12 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+// Configure Serilog
+builder.Services.AddLogging(loggingBuilder =>
+{
+    Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+    loggingBuilder.AddSerilog(dispose: true);
+});
 
 var app = builder.Build();
 
@@ -34,6 +40,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseRouting();
 

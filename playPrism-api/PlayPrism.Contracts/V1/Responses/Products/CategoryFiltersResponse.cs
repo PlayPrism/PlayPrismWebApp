@@ -1,4 +1,4 @@
-﻿namespace PlayPrism.Contracts.V1.Responses.ProductCatalogueResponses;
+﻿namespace PlayPrism.Contracts.V1.Responses.Products;
 
 public class CategoryFiltersResponse
 {

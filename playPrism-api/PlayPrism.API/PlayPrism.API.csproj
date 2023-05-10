@@ -45,4 +45,8 @@
       <ProjectReference Include="..\PlayPrism.DAL\PlayPrism.DAL.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Exceptions" />
+    </ItemGroup>
+
 </Project>

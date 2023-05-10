@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="V1\Requests\Users\" />
-    <Folder Include="V1\Responses\UserProfileResponses\" />
   </ItemGroup>
 
   <ItemGroup>

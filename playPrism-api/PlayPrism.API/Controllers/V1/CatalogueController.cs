@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
-using PlayPrism.Contracts.V1.Requests.ProductCatalogueRequests;
-using PlayPrism.Contracts.V1.Responses.ProductCatalogueResponses;
+using PlayPrism.Contracts.V1.Requests.Products;
+using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Models;
 
@@ -39,9 +39,7 @@ public class CatalogueController : ControllerBase
     [Route("loadProducts")]
     public async Task<IActionResult> LoadProducts(string category, CancellationToken cancellationToken)
     {
-        try
-        {
-            var res = await _catalogueService
+        var res = await _catalogueService
                 .GetProductsByFiltersWithPaginationAsync(
                     new GetProductsRequest
                     {
@@ -50,16 +48,10 @@ public class CatalogueController : ControllerBase
                     },
                     cancellationToken);
 
-            var response = _mapper
+        var response = _mapper
                 .Map<IList<Product>, List<GetProductsResponse>>(res);
 
-            return Ok(response.ToApiListResponse());
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return NotFound();
-        }
+        return Ok(response.ToApiListResponse());
     }
 
     /// <summary>
@@ -81,22 +73,14 @@ public class CatalogueController : ControllerBase
         [FromQuery] GetProductsRequest productsRequest,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var res = await _catalogueService
+        var res = await _catalogueService
                 .GetProductsByFiltersWithPaginationAsync(
                     productsRequest,
                     cancellationToken);
 
-            var response = _mapper.Map<List<GetProductsResponse>>(res);
+        var response = _mapper.Map<List<GetProductsResponse>>(res);
 
-            return Ok(response.ToApiListResponse());
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return NotFound();
-        }
+        return Ok(response.ToApiListResponse());
     }
 
     /// <summary>
@@ -109,15 +93,9 @@ public class CatalogueController : ControllerBase
     [Route("getFilters")]
     public async Task<IActionResult> GetFilterForCategory(string category, CancellationToken cancellationToken)
     {
-        try
-        {
-            var res = await _catalogueService
+        var res = await _catalogueService
                 .GetFilterForCategoryAsync(category, cancellationToken: cancellationToken);
-            return Ok(res.ToApiListResponse());
-        }
-        catch (Exception ex)
-        {
-            return BadRequest();
-        }
+
+        return Ok(res.ToApiListResponse());
     }
 }
