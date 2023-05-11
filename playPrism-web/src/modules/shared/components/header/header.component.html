@@ -1,1 +1,91 @@
-<p>header works!</p>
+<header>
+  <nav class="navbar_prism">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div class="w-full md:block md:w-auto">
+        <ul class="flex flex-col md:p-0 md:flex-row md:space-x-8 md:mt-0 ">
+          <li>
+            <a href="#" class="flex items-center">
+              <img src="assets/images/logo.svg" class="mr-3" alt="Logo" style="width: 280px; height: 48px"/>
+            </a>
+          </li>
+          <li class="header-links">
+            <a href="#">
+              Каталог
+            </a>
+          </li>
+          <li class="header-links">
+            <a href="#">
+              Про нас
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="w-full md:block md:w-auto" id="navbar-dropdown">
+        <ul class="flex flex-col p-4 md:p-0 mt-4 md:flex-row md:space-x-8 md:mt-0 ">
+          <li>
+            <form>
+              <div class="flex">
+                <div class="relative w-full">
+                  <input type="search" class="search-dropdown block p-2.5 z-20 text-sm" required>
+                  <button type="submit" class="search-dropdown-submit absolute top-0 right-0 p-2.5 text-sm">
+                    <svg aria-hidden="true" class="search-img w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <span class="sr-only">Search</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </li>
+          <li>
+            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="dropdown-button">Вхід / Реєстрація</button>
+            <!-- Dropdown menu -->
+            <div id="dropdownNavbar" class="dropdownNavbar w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 z-10 hidden divide-y divide-gray-100 rounded-lg">
+              <form class="" action="#">
+                <h5 class="dropdown-label text-xl font-medium">З поверненням!</h5>
+                <div>
+                  <label for="email" class="block text-sm font-medium">Email / Логін</label>
+                  <input type="email" name="email" id="email" class="text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                </div>
+                <div>
+                  <label for="password" class="block text-sm font-medium">Пароль</label>
+                  <input type="password" name="password" id="password" class="text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                </div>
+                <button type="submit" class="sign-in w-full px-5 py-2.5 text-center justify-center">Увійти</button>
+                <div class="forgot-pass">
+                  <a href="#" class="hover:underline">Забули пароль?</a>
+                </div>
+                <div class="flex items-center">
+                  <ul>
+                    <li>
+                      <div>
+                        <a href="#" class="dropdown-steam-sign-in inline-flex w-full py-2.5 sign-in-link">
+                          <img src="assets/images/steam_logo.svg" alt="steam_logo">
+                          Увійти за допомогою Steam</a>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <a href="#" class="dropdown-google-sign-in inline-flex w-full py-2.5 sign-in-link">
+                          <img src="assets/images/google_logo.svg" alt="google_logo">
+                          Увійти за допомогою Google</a>
+                      </div>
+                    </li>
+                    <li>
+                      <p class="question-label block text-center">
+                        Ще немає акаунту PLAYPRISM?
+                      </p>
+                    </li>
+                    <li>
+                      <a href="#" class="w-full py-2.5 dropdown-register">Зареєструватися</a>
+                    </li>
+                  </ul>
+                </div>
+              </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

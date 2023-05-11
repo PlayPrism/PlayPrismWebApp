@@ -9,6 +9,6 @@ import { HeaderComponent } from './components/header/header.component';
 @NgModule({
   declarations: [InputComponent, ImagePickerComponent, HeaderComponent],
   imports: [CommonModule, HttpClientModule, FormsModule],
-  exports: [InputComponent, ImagePickerComponent, CommonModule],
+  exports: [InputComponent, ImagePickerComponent, CommonModule, HeaderComponent],
 })
 export class SharedModule {}
