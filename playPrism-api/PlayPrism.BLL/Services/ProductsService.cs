@@ -1,7 +1,6 @@
 ﻿using PlayPrism.BLL.Abstractions.Interface;
-using PlayPrism.Contracts.V1.Requests.ProductCatalogueRequests;
-using PlayPrism.Contracts.V1.Responses.ProductCatalogueResponses;
 using PlayPrism.Core.Domain;
+using PlayPrism.Core.Models;
 using PlayPrism.DAL.Abstractions.Interfaces;
 
 namespace PlayPrism.BLL.Services;
@@ -9,31 +8,33 @@ namespace PlayPrism.BLL.Services;
 using System.Linq.Expressions;
 
 /// <inheritdoc />
-public class CatalogueService : ICatalogueService
+public class ProductsService : IProductsService
 {
     private readonly IUnitOfWork _unitOfWork;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CatalogueService"/> class.
+    /// Initializes a new instance of the <see cref="ProductsService"/> class.
     /// </summary>
     /// <param name="unitOfWork">Unit of work di.</param>
-    public CatalogueService(IUnitOfWork unitOfWork)
+    public ProductsService(IUnitOfWork unitOfWork)
     {
-        this._unitOfWork = unitOfWork;
+        _unitOfWork = unitOfWork;
     }
 
     /// <inheritdoc />
     public async Task<IList<Product>> GetProductsByFiltersWithPaginationAsync(
-        GetProductsRequest request,
+        string category,
+        PageInfo pageInfo,
+        Filter[] filters,
         CancellationToken cancellationToken)
     {
         try
         {
             var predicates = new List<Expression<Func<Product, bool>>>();
 
-            if (request?.Filters != null)
+            if (filters != null)
             {
-                foreach (var filter in request.Filters)
+                foreach (var filter in filters)
                 {
                     predicates.Add(
                         product => product.VariationOptions.Any(option =>
@@ -42,7 +43,7 @@ public class CatalogueService : ICatalogueService
                 }
             }
 
-            predicates.Add(product => product.ProductCategory.CategoryName == request.Category);
+            predicates.Add(product => product.ProductCategory.CategoryName == category);
 
             Expression<Func<Product, Product>> selector = q => new Product
             {
@@ -53,16 +54,18 @@ public class CatalogueService : ICatalogueService
                     ProductConfiguration = option.ProductConfiguration,
                     Value = option.Value,
                 }).ToList(),
-                Description = q.Description,
+                ShortDescription = q.ShortDescription,
+                DetailedDescription = q.DetailedDescription,
                 Id = q.Id,
                 ProductCategory = q.ProductCategory,
                 ProductCategoryId = q.ProductCategoryId,
-                Image = q.Image,
+                HeaderImage = q.HeaderImage,
+                ReleaseDate = q.ReleaseDate,
                 Price = q.Price,
             };
 
-            var res = await this._unitOfWork.Products
-                .GetPageWithMultiplePredicatesAsync(predicates, request.PageInfo, selector, cancellationToken);
+            var res = await _unitOfWork.Products
+                .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, selector, cancellationToken);
 
             return res;
         }
@@ -74,7 +77,7 @@ public class CatalogueService : ICatalogueService
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(string category,
+    public async Task<IEnumerable<ProductConfiguration>> GetFilterForCategoryAsync(string category,
         CancellationToken cancellationToken)
     {
         var categoryConfigurations = await this._unitOfWork.ProductConfigurations
@@ -88,13 +91,6 @@ public class CatalogueService : ICatalogueService
                     ConfigurationName = configuration.ConfigurationName,
                 }, cancellationToken);
 
-        var filters = categoryConfigurations
-            .Select(configuration => new CategoryFiltersResponse
-            {
-                Title = configuration.ConfigurationName,
-                FilterOptions = configuration.VariationOptions.Select(option => option.Value).Distinct().ToArray(),
-            });
-
-        return filters;
+        return categoryConfigurations;
     }
 }

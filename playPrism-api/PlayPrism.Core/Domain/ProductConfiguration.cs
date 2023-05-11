@@ -14,9 +14,7 @@ public class ProductConfiguration : BaseEntity
     /// Gets or sets reference to Category entity.
     /// </summary>
     public ProductCategory Category { get; set; }
-
-    //public Guid VariationOptionId { get; set; }
-
+    
     /// <summary>
     /// Gets or sets reference to Product entity.
     /// </summary>
