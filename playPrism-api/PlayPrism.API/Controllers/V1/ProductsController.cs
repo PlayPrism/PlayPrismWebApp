@@ -77,4 +77,39 @@ public class ProductsController : ControllerBase
 
         return Ok(response.ToApiListResponse());
     }
+
+    /// <summary>
+    /// Retrieves product by id.
+    /// </summary>
+    /// <param name="category">The category's name string</param>
+    /// <param name="id">The product's id</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.
+    /// The task result contains the <see cref="IActionResult"/>.
+    /// </returns>
+    /// <response code="200">Product</response>
+    /// <response code="404">Not found</response>
+    [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet("{category}/{id}")]
+    public async Task<IActionResult> GetProductByIdAsync(
+        [FromRoute] string category,
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var res = await _productsService
+                .GetProductByIdAsync(category, id, cancellationToken);
+
+            var response = _mapper.Map<ProductResponse>(res);
+
+            return Ok(response.ToApiResponse());
+        }
+        catch (Exception)
+        {
+            return NotFound();
+        }
+    }
 }

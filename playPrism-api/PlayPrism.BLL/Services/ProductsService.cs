@@ -93,4 +93,15 @@ public class ProductsService : IProductsService
 
         return categoryConfigurations;
     }
+
+    /// <inheritdoc />
+    public async Task<Product> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
+    {
+        var product = await this._unitOfWork.Products
+            .GetByIdAndCategoryAsync(
+                product => product.ProductCategory.CategoryName == category && product.Id == id,
+                cancellationToken);
+
+        return product;
+    }
 }
