@@ -43,7 +43,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         query = query
             .Where(predicate);
 
-        return await query.FirstAsync(cancellationToken: cancellationToken);
+        return await query.FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
     /// <inheritdoc />

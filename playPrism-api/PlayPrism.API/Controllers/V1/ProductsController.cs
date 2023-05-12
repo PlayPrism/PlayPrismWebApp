@@ -98,18 +98,16 @@ public class ProductsController : ControllerBase
         [FromRoute] Guid id,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var res = await _productsService
-                .GetProductByIdAsync(category, id, cancellationToken);
+        var product = await _productsService
+            .GetProductByIdAsync(category, id, cancellationToken);
 
-            var response = _mapper.Map<ProductResponse>(res);
-
-            return Ok(response.ToApiResponse());
-        }
-        catch (Exception)
+        if (product == null)
         {
             return NotFound();
         }
+
+        var response = _mapper.Map<ProductResponse>(product);
+
+        return Ok(response.ToApiResponse());
     }
 }
