@@ -1,0 +1,20 @@
+.carousel-container {
+  position: relative;
+  width: 900px;
+}
+
+.carousel-item-main {
+  width: 883px;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+
+.carousel-container img {
+  border-radius: 15px;
+  aspect-ratio: 16/9;
+}
+
+.carousel-item {
+  width: 139px;
+  aspect-ratio: 16/9;
+}

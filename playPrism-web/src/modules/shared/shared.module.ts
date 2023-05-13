@@ -4,10 +4,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { InputComponent } from './components/input/input.component';
 import { FormsModule } from '@angular/forms';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @NgModule({
-  declarations: [InputComponent, ImagePickerComponent],
+  declarations: [InputComponent, ImagePickerComponent, CarouselComponent],
   imports: [CommonModule, HttpClientModule, FormsModule],
-  exports: [InputComponent, ImagePickerComponent, CommonModule],
+  exports: [
+    InputComponent,
+    ImagePickerComponent,
+    CommonModule,
+    CarouselComponent,
+  ],
 })
 export class SharedModule {}

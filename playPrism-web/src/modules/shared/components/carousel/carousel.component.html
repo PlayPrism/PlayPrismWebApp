@@ -1,0 +1,42 @@
+<div *ngIf="images && images.length > 0" class="carousel-container">
+  <img
+    class="carousel-item-main"
+    [src]="images[selectedIndex].imageSrc"
+    [alt]="images[selectedIndex].imageAlt"
+  />
+  <div class="flex items-center gap-5">
+    <button
+      class="justify-self-start rounded-lg bg-opacity-70 bg-gray-800 h-12"
+      (click)="selectPreviousImage()"
+    >
+      <img
+        class="inline-block"
+        src="assets/icons/arrow-left-icon.svg"
+        alt="left"
+      />
+    </button>
+    <div class="flex justify-center flex-grow gap-5">
+      <button
+        (click)="selectImage(i)"
+        *ngFor="let image of images; let i = index"
+      >
+        <img
+          class="carousel-item"
+          [src]="image.imageSrc"
+          [alt]="image.imageAlt"
+        />
+      </button>
+    </div>
+
+    <button
+      class="justify-self-end rounded-lg bg-opacity-70 bg-gray-800 h-12"
+      (click)="selectNextImage()"
+    >
+      <img
+        class="inline-block"
+        src="assets/icons/arrow-right-icon.svg"
+        alt="right"
+      />
+    </button>
+  </div>
+</div>

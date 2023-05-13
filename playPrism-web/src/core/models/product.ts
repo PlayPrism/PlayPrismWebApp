@@ -8,8 +8,8 @@ export interface Product {
   image: string;
   platforms: string[];
 
-  developers: string[];
-  publishers: string[];
-  screenshots: string[];
-  pcRequirements: string;
+  // developers: string[];
+  // publishers: string[];
+  // screenshots: string[];
+  // pcRequirements: string;
 }
