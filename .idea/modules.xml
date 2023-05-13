@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/playPrismWebApp.iml" filepath="$PROJECT_DIR$/.idea/playPrismWebApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PlayPrismWebApp.iml" filepath="$PROJECT_DIR$/.idea/PlayPrismWebApp.iml" />
     </modules>
   </component>
 </project>

@@ -23,6 +23,16 @@ public interface IGenericRepository<TEntity>
     Task<TEntity> GetByIdAsync(Guid id);
 
     /// <summary>
+    /// Asynchronously returns TEntity from database requested by id parameter and category.
+    /// </summary>
+    /// <param name="predicate">Predicate that accepts equation and returns bool value that indicates if the expression is true.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel task.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task<TEntity> GetByIdAndCategoryAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Asynchronously returns IEnumerable of entities that pass the predicate condition.
     /// </summary>
     /// <param name="predicate">Predicate that accepts equation an return bool value that indicates if the expression is true.</param>
