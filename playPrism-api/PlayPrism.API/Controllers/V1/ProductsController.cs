@@ -44,7 +44,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(typeof(IList<ProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{category}")]
-    public async Task<IActionResult> GetFilteredProductsAsync(
+    public async Task<IActionResult> GetFilteredProducts(
         [FromRoute] string category,
         [FromQuery] GetProductsRequest request,
         CancellationToken cancellationToken)
@@ -68,7 +68,7 @@ public class ProductsController : ControllerBase
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
     [HttpGet("{category}/filters")]
-    public async Task<IActionResult> GetCategoryFiltersAsync([FromRoute] string category, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCategoryFilters([FromRoute] string category, CancellationToken cancellationToken)
     {
         var res = await _productsService
                 .GetFilterForCategoryAsync(category, cancellationToken: cancellationToken);
@@ -93,7 +93,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{category}/{id}")]
-    public async Task<IActionResult> GetProductByIdAsync(
+    public async Task<IActionResult> GetProductById(
         [FromRoute] string category,
         [FromRoute] Guid id,
         CancellationToken cancellationToken)
