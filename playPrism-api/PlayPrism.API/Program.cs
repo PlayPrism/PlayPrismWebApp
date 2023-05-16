@@ -52,6 +52,8 @@ app.UseSerilogRequestLogging();
 
 app.MapControllers();
 
+await app.MigrateDatabaseAsync();
+
 app.Run();
 
 Log.CloseAndFlush();
