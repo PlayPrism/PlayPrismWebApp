@@ -31,5 +31,6 @@ public class RepositoryDiModule : Module
             .InstancePerLifetimeScope();
         builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerLifetimeScope();
         builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
+        builder.RegisterType<Seeder>().As<ISeeder>().SingleInstance();
     }
 }

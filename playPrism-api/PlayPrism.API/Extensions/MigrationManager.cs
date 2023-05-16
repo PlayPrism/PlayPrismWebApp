@@ -24,6 +24,7 @@ public static class MigrationManager
         try
         {
             await appContext.Database.MigrateAsync();
+            logger.LogInformation("The database migration was successful");
         }
         catch (Exception ex)
         {
