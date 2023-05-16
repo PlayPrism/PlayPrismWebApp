@@ -53,7 +53,6 @@ app.UseSerilogRequestLogging();
 
 app.MapControllers();
 
-
 // Database initialization
 await app.MigrateDatabaseAsync();
 

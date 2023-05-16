@@ -17,7 +17,7 @@ public class RepositoryDiModule : Module
     /// <param name="configuration">IConfiguration that reads config from appsettings.json.</param>
     public RepositoryDiModule(IConfiguration configuration)
     {
-        this._configuration = configuration;
+        _configuration = configuration;
     }
 
     /// <inheritdoc />
@@ -26,7 +26,7 @@ public class RepositoryDiModule : Module
         builder.RegisterType<PlayPrismContext>().WithParameter(
                 (info, context) => info.ParameterType == typeof(DbContextOptions<PlayPrismContext>),
                 (info, context) => new DbContextOptionsBuilder<PlayPrismContext>()
-                    .UseNpgsql(this._configuration.GetConnectionString("DbConnection"))
+                    .UseNpgsql(_configuration.GetConnectionString("DbConnection"))
                     .Options)
             .InstancePerLifetimeScope();
         builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerLifetimeScope();

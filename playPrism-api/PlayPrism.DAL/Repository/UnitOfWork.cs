@@ -54,73 +54,73 @@ public class UnitOfWork : IUnitOfWork
         Lazy<IGenericRepository<UserReview>> reviewRepository,
         Lazy<IGenericRepository<VariationOption>> variationRepository)
     {
-        this._context = context;
-        this._productRepository = productRepository;
-        this._orderRepository = orderRepository;
-        this._orderItemsRepository = orderItemsRepository;
-        this._paymentRepository = paymentRepository;
-        this._productCategoryRepository = productCategoryRepository;
-        this._productConfigRepository = productConfigRepository;
-        this._productItemRepository = productItemRepository;
-        this._userRepository = userRepository;
-        this._reviewRepository = reviewRepository;
-        this._variationRepository = variationRepository;
+        _context = context;
+        _productRepository = productRepository;
+        _orderRepository = orderRepository;
+        _orderItemsRepository = orderItemsRepository;
+        _paymentRepository = paymentRepository;
+        _productCategoryRepository = productCategoryRepository;
+        _productConfigRepository = productConfigRepository;
+        _productItemRepository = productItemRepository;
+        _userRepository = userRepository;
+        _reviewRepository = reviewRepository;
+        _variationRepository = variationRepository;
     }
 
     /// <inheritdoc />
-    public IGenericRepository<Product> Products => this._productRepository.Value;
+    public IGenericRepository<Product> Products => _productRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<Order> Orders => this._orderRepository.Value;
+    public IGenericRepository<Order> Orders => _orderRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<OrderItem> OrderItems => this._orderItemsRepository.Value;
+    public IGenericRepository<OrderItem> OrderItems => _orderItemsRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<PaymentMethod> PaymentMethods => this._paymentRepository.Value;
+    public IGenericRepository<PaymentMethod> PaymentMethods => _paymentRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<ProductCategory> Categories => this._productCategoryRepository.Value;
+    public IGenericRepository<ProductCategory> Categories => _productCategoryRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<ProductConfiguration> ProductConfigurations => this._productConfigRepository.Value;
+    public IGenericRepository<ProductConfiguration> ProductConfigurations => _productConfigRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<ProductItem> ProductItems => this._productItemRepository.Value;
+    public IGenericRepository<ProductItem> ProductItems => _productItemRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<UserProfile> Users => this._userRepository.Value;
+    public IGenericRepository<UserProfile> Users => _userRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<UserReview> Reviews => this._reviewRepository.Value;
+    public IGenericRepository<UserReview> Reviews => _reviewRepository.Value;
 
     /// <inheritdoc />
-    public IGenericRepository<VariationOption> Variations => this._variationRepository.Value;
+    public IGenericRepository<VariationOption> Variations => _variationRepository.Value;
 
 
     /// <inheritdoc />
     public async Task BeginTransactionAsync()
     {
-        this._transactionObj = await this._context.Database.BeginTransactionAsync();
+        _transactionObj = await _context.Database.BeginTransactionAsync();
     }
 
     /// <inheritdoc />
     public async Task CommitAsync()
     {
-        await this._context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
     /// <inheritdoc />
     public async Task RollbackAsync()
     {
-        await this._transactionObj.RollbackAsync();
-        await this._transactionObj.DisposeAsync();
+        await _transactionObj.RollbackAsync();
+        await _transactionObj.DisposeAsync();
     }
 
     /// <inheritdoc />
     public async Task SaveAsync()
     {
-        await this._context.SaveChangesAsync();
-        await this._transactionObj.DisposeAsync();
+        await _context.SaveChangesAsync();
+        await _transactionObj.DisposeAsync();
     }
 }
