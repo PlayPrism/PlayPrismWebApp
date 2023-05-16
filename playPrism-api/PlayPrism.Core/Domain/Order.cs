@@ -34,9 +34,4 @@ public class Order : BaseEntity
     /// Gets or sets references to OrderItems entities.
     /// </summary>
     public IList<OrderItem> OrderItems { get; set; }
-
-    /// <summary>
-    /// Gets or sets reference to ProductItem entity.
-    /// </summary>
-    public ProductItem ProductItem { get; set; }
 }
