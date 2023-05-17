@@ -122,6 +122,11 @@ public class PlayPrismContext : DbContext
             .HasMany(bc => bc.VariationOptions)
             .WithOne(option => option.Product)
             .HasForeignKey(bc => bc.ProductId);
+        
+        modelBuilder.Entity<ProductConfiguration>()
+            .HasOne(x => x.Category)
+            .WithMany(option => option.ProductConfigurations)
+            .HasForeignKey(bc => bc.CategoryId);
 
         modelBuilder.Entity<VariationOption>()
             .HasOne(bc => bc.ProductConfiguration)

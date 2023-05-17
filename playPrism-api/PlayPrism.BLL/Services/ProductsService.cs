@@ -80,7 +80,7 @@ public class ProductsService : IProductsService
     public async Task<IEnumerable<ProductConfiguration>> GetFilterForCategoryAsync(string category,
         CancellationToken cancellationToken)
     {
-        var categoryConfigurations = await this._unitOfWork.ProductConfigurations
+        var categoryConfigurations = await _unitOfWork.ProductConfigurations
             .GetByConditionAsync(
                 configuration => configuration.Category.CategoryName == category,
                 configuration => new ProductConfiguration
@@ -97,7 +97,7 @@ public class ProductsService : IProductsService
     /// <inheritdoc />
     public async Task<Product> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
     {
-        var product = await this._unitOfWork.Products
+        var product = await _unitOfWork.Products
             .GetByIdAndCategoryAsync(
                 product => product.ProductCategory.CategoryName == category && product.Id == id,
                 cancellationToken);

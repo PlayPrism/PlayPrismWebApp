@@ -26,7 +26,7 @@ namespace PlayPrism.Contracts.Extensions
         /// <returns>A <see cref="ApiResponse{T}" /> wrapped object to response </returns>
         public static ApiListResponse<T> ToApiListResponse<T>(this IEnumerable<T> response)
         {
-            return new ApiListResponse<T>() { Data = response };
+            return new ApiListResponse<T>() { Data = response, TotalCount = response.Count()};
         }
 
         /// <summary>

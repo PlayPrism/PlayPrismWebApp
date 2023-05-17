@@ -20,6 +20,13 @@ public interface IGenericRepository<TEntity>
     /// </summary>
     /// <param name="id">Parameter that represents id of the entity ib database.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    
+    /// <summary>
+    /// Asynchronously returns TEntity from database requested by id parameter.
+    /// </summary>
+    /// <param name="id">Parameter that represents id of the entity ib database.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task<TEntity> GetByIdAsync(Guid id);
 
     /// <summary>
@@ -73,6 +80,14 @@ public interface IGenericRepository<TEntity>
     /// <param name="cancellationToken">Cancellation token to cancel task.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     Task AddAsync(TEntity obj, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Asynchronously adds object of TEntity to database.
+    /// </summary>
+    /// <param name="obj">TEntity obj param.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel task.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    Task AddManyAsync(IEnumerable<TEntity> obj, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates TEntity, passed as parameter.
