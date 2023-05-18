@@ -9,7 +9,7 @@
 }
 
 .btn-primary {
-  @apply w-[277px] text-center py-3 shadow-md text-lg font-semibold rounded-lg;
+  @apply w-[277px] text-center py-3 shadow-md text-lg font-semibold rounded-xl;
 }
 
 .btn-primary-blue {
@@ -25,4 +25,9 @@
 .btn-primary-red {
   @extend .btn-primary;
   @apply bg-red-500;
+}
+
+.btn-primary-gradient {
+  @extend .btn-primary;
+  @apply bg-gradient-to-r from-blue-500 to-purple-500;
 }

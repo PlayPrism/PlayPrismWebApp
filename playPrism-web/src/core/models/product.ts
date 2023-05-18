@@ -1,15 +1,14 @@
+import { Platform } from '../enums';
+
 export interface Product {
   id: string;
-  title: string;
+  name: string;
   rating: number;
   price: number;
-  description: string;
+  headerImage: string;
+  shortDescription: string;
+  detailedDescription: string;
+  releaseDate: Date;
   genres: string[];
-  image: string;
-  platforms: string[];
-
-  // developers: string[];
-  // publishers: string[];
-  // screenshots: string[];
-  // pcRequirements: string;
+  platforms: Platform[];
 }

@@ -1,6 +1,10 @@
-<div *ngIf="product$ | async as product" class="bg-gradient-gray mx-auto w-4/5">
-  <h2>{{ product.title }}</h2>
+<div
+  *ngIf="product$ | async as product"
+  class="bg-gradient-gray text-white mx-auto w-4/5"
+>
+  <h2>{{ product.name }}</h2>
   <div class="flex">
     <app-carousel></app-carousel>
+    <app-product-details-card [product]="product"></app-product-details-card>
   </div>
 </div>

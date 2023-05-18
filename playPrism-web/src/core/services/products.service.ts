@@ -4,6 +4,7 @@ import { Product } from '../models';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Observable, of } from 'rxjs';
+import { Platform } from '../enums';
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +19,21 @@ export class ProductsService extends BaseService<Product> {
   public get(id: string): Observable<Product> {
     const product: Product = {
       id: 'cc170eb3-22d4-48e8-a190-9f39df127e03',
-      title: 'Example Game',
+      name: 'Example Game',
       rating: 4.5,
       price: 49.99,
-      description: 'This is an example game description.',
-      genres: ['Action', 'Adventure'],
-      image: 'https://example.com/game-image.jpg',
-      platforms: ['PC', 'PlayStation 5', 'Xbox Series X'],
+      shortDescription: 'This is an example game description.',
+      detailedDescription: 'This is an example game description.',
+      releaseDate: new Date(),
+      genres: ['Action', 'Adventure', 'Sport', 'RPG'],
+      headerImage:
+        'https://3dnews.ru/assets/external/illustrations/2023/02/06/1081456/Cyberpunk2077NG_Cover_art_RGB-en.jpg',
+      platforms: [
+        Platform.Steam,
+        Platform.Xbox,
+        Platform.PlayStation,
+        Platform.EpicGames,
+      ],
     };
 
     return of(product);
