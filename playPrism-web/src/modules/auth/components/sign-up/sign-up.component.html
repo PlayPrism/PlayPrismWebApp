@@ -1,1 +1,62 @@
-<p>sign-up works!</p>
+<div class="sign-up-logo">
+  <a href="#"><img src="assets/images/sign-up-logo.svg" style="width: 380px; height: 65px;"></a>
+</div>
+<div class="flex justify-center">
+  <div class="sign-up-block inline-flex" style="padding-left: 71px; padding-right: 89px">
+    <div>
+      <h1>
+        Реєстрація
+      </h1>
+      <form class="" action="#">
+      <div>
+        <label for="email" class="block text-sm font-medium">Email / Логін</label>
+        <input type="email" name="email" id="email" class="text-sm p-2.5" required>
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium">Пароль</label>
+        <input type="password" name="password" id="password" class="text-sm block p-2.5" required>
+      </div>
+      <div class="flex items-center">
+        <input id="link-radio" type="radio" value="" class="w-4 h-4">
+        <label for="link-radio" class="ml-2 text-sm font-medium">Я згоден(-на) з <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">політикою конфіденційності</a>, <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">користувальницькою угодою </a>і даю згоду на обробку персональних даних.</label>
+      </div>
+      <div>
+        <button type="submit" class="sign-in px-5 py-2.5 text-center">Зареєструватися</button>
+        <a href="#">Пізніше</a>
+      </div>
+      </form>
+    </div>
+    <div>
+      <div class="flex items-center">
+        <ul>
+          <li>
+            <div>
+              <a href="#" class="inline-flex w-full py-2.5 sign-in-link">
+                <img src="assets/images/steam_logo.svg" alt="steam_logo">
+                Увійти за допомогою Steam</a>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a href="#" class="dropdown-google-sign-in inline-flex w-full py-2.5 sign-in-link">
+                <img src="assets/images/google_logo.svg" alt="google_logo">
+                Увійти за допомогою Google</a>
+            </div>
+          </li>
+          <li>
+            <p class="question-label block text-center">
+              Для входу ви можете використовувати свій обліковий запис у Steam, акаунт Google або вашу пошту та пароль
+            </p>
+          </li>
+          <li class="account-here">
+            <p class="question-label block text-center">
+              Вже є акаунт PLAYPRISM?
+            </p>
+            <a href="#" class="w-full py-2.5">Увійти</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -15,20 +15,39 @@
   src: url(/assets/fonts/ProximaNova-Light.ttf) format("opentype");
 }
 /* This is where all the scss associated with the components are located */
+@layer components {}
+.bg-gradient-gray {
+  background-image: linear-gradient(81.2deg, #212735 0.39%, #2b313d 100%, #262c3c 100%);
+  @apply shadow-md;
+}
+
+.btn-primary, .btn-primary-red, .btn-ghost, .btn-primary-blue {
+  @apply w-[277px] text-center py-3 shadow-md text-lg font-semibold rounded-lg;
+}
+
+.btn-primary-blue {
+  @apply bg-blue-500;
+}
+
+.btn-ghost {
+  @apply border-2 border-gray-700;
+}
+
+.btn-primary-red {
+  @apply bg-red-500;
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  background: #000;
-}
-
-div {
-  @apply cursor-default;
-}
-
-.temp {
+  box-sizing: border-box;
+  font-family: inherit;
   font-family: "Proxima Nova Regular", serif;
-  font-size: 32px;
-  color: #FFFFFF;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  background: linear-gradient(180deg, #1A1F2B 0%, #0F131B 36.98%, #0D101B 100%);
+  height: 100%;
 }
 
 /*# sourceMappingURL=styles.css.map */
