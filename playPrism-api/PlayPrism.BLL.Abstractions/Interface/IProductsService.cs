@@ -1,7 +1,5 @@
-﻿using PlayPrism.Contracts.V1.Requests.Products;
-using PlayPrism.Contracts.V1.Responses.Products;
-using PlayPrism.Core.Domain;
-using PlayPrism.Core.Models;
+﻿using PlayPrism.Core.Domain;
+using PlayPrism.Core.Domain.Filters;
 
 namespace PlayPrism.BLL.Abstractions.Interface;
 

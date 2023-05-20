@@ -1,4 +1,4 @@
-﻿using PlayPrism.Core.Models;
+﻿using PlayPrism.Core.Domain.Filters;
 
 namespace PlayPrism.Contracts.V1.Requests.Products;
 

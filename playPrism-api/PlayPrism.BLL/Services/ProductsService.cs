@@ -1,6 +1,6 @@
 ﻿using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Core.Domain;
-using PlayPrism.Core.Models;
+using PlayPrism.Core.Domain.Filters;
 using PlayPrism.DAL.Abstractions.Interfaces;
 
 namespace PlayPrism.BLL.Services;
@@ -15,7 +15,7 @@ public class ProductsService : IProductsService
     /// <summary>
     /// Initializes a new instance of the <see cref="ProductsService"/> class.
     /// </summary>
-    /// <param name="unitOfWork">Unit of work di.</param>
+    /// <param name="unitOfWork"><see cref="IUnitOfWork"/></param>
     public ProductsService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;

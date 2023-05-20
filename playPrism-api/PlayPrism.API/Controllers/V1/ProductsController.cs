@@ -4,8 +4,6 @@ using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.Products;
 using PlayPrism.Contracts.V1.Responses.Products;
-using PlayPrism.Core.Domain;
-using PlayPrism.Core.Models;
 
 namespace PlayPrism.API.Controllers.V1;
 
