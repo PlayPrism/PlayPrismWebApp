@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.Stripes;
 using PlayPrism.Core.External.Stripe;
 
@@ -36,7 +37,7 @@ public class StripeController : ControllerBase
             customer,
             cancellationToken);
 
-        return Ok(createdCustomer);
+        return Ok(createdCustomer.ToApiResponse());
     }
 
     /// <summary>
@@ -55,6 +56,6 @@ public class StripeController : ControllerBase
             payment,
             cancellationToken);
 
-        return Ok(createdPayment);
+        return Ok(createdPayment.ToApiResponse());
     }
 }
