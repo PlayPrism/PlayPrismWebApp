@@ -27,7 +27,8 @@ public class StripeController : ControllerBase
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns><see cref="StripeCustomer"/></returns>
     [HttpPut("customer")]
-    public async Task<ActionResult<StripeCustomer>> AddStripeCustomer(
+    [ProducesResponseType(typeof(IList<StripeCustomer>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddStripeCustomer(
         [FromBody] AddStripeCustomer customer,
         CancellationToken cancellationToken)
     {
@@ -45,7 +46,8 @@ public class StripeController : ControllerBase
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns><see cref="StripePayment"/></returns>
     [HttpPut("payment")]
-    public async Task<ActionResult<StripePayment>> AddStripePayment(
+    [ProducesResponseType(typeof(IList<StripePayment>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddStripePayment(
         [FromBody] AddStripePayment payment,
         CancellationToken cancellationToken)
     {

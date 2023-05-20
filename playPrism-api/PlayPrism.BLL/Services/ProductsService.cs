@@ -1,4 +1,6 @@
-﻿using PlayPrism.BLL.Abstractions.Interface;
+﻿using AutoMapper;
+using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Domain.Filters;
 using PlayPrism.DAL.Abstractions.Interfaces;
@@ -11,18 +13,22 @@ using System.Linq.Expressions;
 public class ProductsService : IProductsService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProductsService"/> class.
     /// </summary>
     /// <param name="unitOfWork"><see cref="IUnitOfWork"/></param>
-    public ProductsService(IUnitOfWork unitOfWork)
+    /// <param name="mapper"><see cref="IMapper"/></param>
+    public ProductsService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
     /// <inheritdoc />
-    public async Task<IList<Product>> GetProductsByFiltersWithPaginationAsync(
+    public async Task<IList<ProductResponse>> GetProductsByFiltersWithPaginationAsync(
         string category,
         PageInfo pageInfo,
         Filter[] filters,
@@ -64,10 +70,11 @@ public class ProductsService : IProductsService
                 Price = q.Price,
             };
 
-            var res = await _unitOfWork.Products
+            var products = await _unitOfWork.Products
                 .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, selector, cancellationToken);
 
-            return res;
+            var result = _mapper.Map<List<ProductResponse>>(products);
+            return result;
         }
         catch (Exception e)
         {
@@ -77,7 +84,7 @@ public class ProductsService : IProductsService
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<ProductConfiguration>> GetFilterForCategoryAsync(string category,
+    public async Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(string category,
         CancellationToken cancellationToken)
     {
         var categoryConfigurations = await _unitOfWork.ProductConfigurations
@@ -91,17 +98,19 @@ public class ProductsService : IProductsService
                     ConfigurationName = configuration.ConfigurationName,
                 }, cancellationToken);
 
-        return categoryConfigurations;
+        var result = _mapper.Map<IEnumerable<CategoryFiltersResponse>>(categoryConfigurations);
+        return result;
     }
 
     /// <inheritdoc />
-    public async Task<Product> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
+    public async Task<ProductResponse> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
     {
         var product = await _unitOfWork.Products
             .GetByIdAndCategoryAsync(
                 product => product.ProductCategory.CategoryName == category && product.Id == id,
                 cancellationToken);
-
-        return product;
+        
+        var result = _mapper.Map<ProductResponse>(product);
+        return result;
     }
 }
