@@ -2,12 +2,13 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using PlayPrism.Core.Domain.Filters;
+
 namespace PlayPrism.DAL.Repository;
 
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Core.Domain;
-using Core.Models;
 using Abstractions.Interfaces;
 
 /// <inheritdoc />

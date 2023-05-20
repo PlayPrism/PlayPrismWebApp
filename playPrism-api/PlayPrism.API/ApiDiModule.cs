@@ -1,5 +1,9 @@
 ﻿using Autofac;
 using PlayPrism.BLL;
+using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.BLL.Services;
+using PlayPrism.Core.Settings;
+using Stripe;
 
 namespace PlayPrism.API;
 
@@ -20,6 +24,14 @@ public class ApiDiModule : Module
     /// <inheritdoc/>
     protected override void Load(ContainerBuilder builder)
     {
+        // Stripe settings
+        var stripeSettings = _configuration.GetSection(nameof(StripeSettings)).Get<StripeSettings>();
+        StripeConfiguration.ApiKey = stripeSettings.SecretKey;
+        builder.RegisterType<CustomerService>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterType<ChargeService>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterType<TokenService>().AsSelf().InstancePerLifetimeScope();
+        builder.RegisterType<StripeService>().As<IStripeService>().InstancePerLifetimeScope();
+
         builder.RegisterModule(new ServiceDiModule(_configuration));
     }
 }

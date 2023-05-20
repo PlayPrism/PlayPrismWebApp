@@ -2,9 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using PlayPrism.Core.Domain.Filters;
+
 namespace PlayPrism.DAL.Abstractions.Interfaces;
 
-using Core.Models;
 using System.Linq.Expressions;
 using Core.Domain;
 
