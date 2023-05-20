@@ -11,15 +11,18 @@ namespace PlayPrism.API.Controllers.V1;
 public class ProductsController : ControllerBase
 {
     private readonly IProductsService _productsService;
+    private readonly ILogger<ProductsController> _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProductsController"/> class.
     /// </summary>
     /// <param name="productsService"><see cref="IProductsService"/></param>
+    /// <param name="logger"><see cref="ILogger{TCategoryName}"/></param>
     public ProductsController(
-        IProductsService productsService)
+        IProductsService productsService, ILogger<ProductsController> logger)
     {
         _productsService = productsService;
+        _logger = logger;
     }
 
     /// <summary>
@@ -32,8 +35,6 @@ public class ProductsController : ControllerBase
     /// A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.
     /// The task result contains the <see cref="IActionResult"/>.
     /// </returns>
-    /// <response code="200">Products</response>
-    /// <response code="400">Bad request</response>
     [HttpGet("{category}")]
     [ProducesResponseType(typeof(IList<ProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,7 +52,8 @@ public class ProductsController : ControllerBase
 
         if (products is null)
         {
-            return NotFound();
+            _logger.LogError("Products not found");
+            return NotFound("Products not found".ToErrorResponse());
         }
 
         return Ok(products.ToApiListResponse());
@@ -73,7 +75,8 @@ public class ProductsController : ControllerBase
 
         if (categoryFilters is null)
         {
-            return NotFound();
+            _logger.LogError($"{category} filters not found");
+            return NotFound($"{category} filters not found".ToErrorResponse());
         }
 
         return Ok(categoryFilters.ToApiListResponse());
@@ -89,8 +92,6 @@ public class ProductsController : ControllerBase
     /// A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.
     /// The task result contains the <see cref="IActionResult"/>.
     /// </returns>
-    /// <response code="200">Product</response>
-    /// <response code="404">Not found</response>
     [HttpGet("{category}/{id}")]
     [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -104,7 +105,8 @@ public class ProductsController : ControllerBase
 
         if (product is null)
         {
-            return NotFound();
+            _logger.LogError($"Product with {id} id in {category} category not found");
+            return NotFound($"Product with {id} id in {category} category not found".ToErrorResponse());
         }
 
         return Ok(product.ToApiResponse());
