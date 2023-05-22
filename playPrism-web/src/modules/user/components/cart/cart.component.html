@@ -5,7 +5,7 @@
       >Продовжити покупки</a
     >
   </div>
-  <div *ngIf="cart" class="grid w-full md:grid-cols-4">
+  <div *ngIf="cart && cart.length > 0" class="grid w-full md:grid-cols-4">
     <div class="text-lg text-gray-600 col-span-2 font-bold">Продукт</div>
     <div class="text-lg text-gray-600 font-bold">Платформа</div>
     <div class="text-lg text-gray-600 font-bold">Вартість</div>
@@ -46,7 +46,7 @@
     </ng-container>
     <hr class="h-px my-8 col-span-full border-0 bg-gray-600" />
   </div>
-  <div class="flex self-end items-center gap-7">
+  <div *ngIf="cart && cart.length > 0" class="flex self-end items-center gap-7">
     <p class="text-2xl text-white">
       Загальна сума до сплати
       <span class="ml-3" *ngIf="totalCartPrice$ | async as totalPrice"
