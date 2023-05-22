@@ -50,7 +50,13 @@
       </span>
     </div>
   </div>
-  <button class="btn-primary-gradient">Додати до кошика</button>
+  <button
+    [disabled]="addedToCart"
+    (click)="AddToCart()"
+    class="btn-primary-gradient"
+  >
+    {{ !addedToCart ? "Додати до кошика" : "У кошику" }}
+  </button>
   <div class="font-semibold text-right text-4xl">
     {{ product.price }}<span class="font-sans">₴</span>
   </div>
