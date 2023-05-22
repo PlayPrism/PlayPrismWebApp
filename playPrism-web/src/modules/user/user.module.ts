@@ -3,10 +3,9 @@ import { UserRoutingModule } from './user-routing.module';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserService } from 'src/core/services';
 import { SharedModule } from '../shared/shared.module';
-import { CartComponent } from './components/cart/cart.component';
 
 @NgModule({
-  declarations: [ProfileComponent, CartComponent],
+  declarations: [ProfileComponent],
   imports: [UserRoutingModule, SharedModule],
   providers: [UserService],
 })

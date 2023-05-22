@@ -3,13 +3,15 @@ import { Route, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ShellComponent } from '../shared/components/app-shell/app-shell.component';
+import { CartComponent } from './components';
 
 export const productsRoute: Route = {
   path: '',
   component: ShellComponent,
   children: [
-    { path: '', component: HomeComponent },
+    { path: 'cart', component: CartComponent },
     { path: ':id', component: ProductDetailsComponent },
+    { path: '', component: HomeComponent },
   ],
 };
 

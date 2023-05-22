@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
-import { HomeComponent } from './components/home/home.component';
-import { ProductsRoutingModule } from './products-routing.module';
-import { ProductsService } from '../../core/services';
+import { ProductsService } from 'src/core/services';
 import { SharedModule } from '../shared/shared.module';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import {
+  HomeComponent,
+  ProductDetailsComponent,
+  CartComponent,
+} from './components';
 import { ProductDetailsCardComponent } from './components/product-details/product-details-card/product-details-card.component';
+import { ProductsRoutingModule } from './products-routing.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
     ProductDetailsComponent,
     ProductDetailsCardComponent,
+    CartComponent,
   ],
   imports: [ProductsRoutingModule, SharedModule],
   providers: [ProductsService],
