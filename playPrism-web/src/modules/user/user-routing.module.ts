@@ -4,13 +4,13 @@ import { Route, Routes, RouterModule } from '@angular/router';
 import { ShellComponent } from '../shared/components';
 import { ProfileComponent } from './components/profile/profile.component';
 
-export const productsRoute: Route = {
+export const usersRoute: Route = {
   path: '',
   component: ShellComponent,
   children: [{ path: '', component: ProfileComponent }],
 };
 
-const routes: Routes = [productsRoute];
+const routes: Routes = [usersRoute];
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes)],
