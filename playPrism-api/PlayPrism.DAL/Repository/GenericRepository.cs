@@ -40,29 +40,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
     }
 
     /// <inheritdoc />
-    public async Task<TEntity> GetByIdAndCategoryAsync(
-        Expression<Func<TEntity, bool>> predicate,
-        Expression<Func<TEntity, TEntity>> selector = null,
-        CancellationToken cancellationToken = default)
-    {
-        IQueryable<TEntity> query = _dbSet;
-
-        if (selector != null)
-        {
-            query = query
-                .Where(predicate)
-                .Select(selector);
-        }
-        else
-        {
-            query = query.Where(predicate);
-        }
-
-        var entity = await query.FirstOrDefaultAsync(cancellationToken: cancellationToken);
-        return entity;
-    }
-
-    /// <inheritdoc />
     public async Task<IList<TEntity>> GetByConditionAsync(
         Expression<Func<TEntity, bool>> predicate,
         Expression<Func<TEntity, TEntity>> selector = null,

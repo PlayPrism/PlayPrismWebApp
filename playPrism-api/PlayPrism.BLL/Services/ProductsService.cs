@@ -88,7 +88,7 @@ public class ProductsService : IProductsService
     public async Task<ProductResponse> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
     {
         var product = await _unitOfWork.Products
-            .GetByIdAndCategoryAsync(
+            .GetByConditionAsync(
                 product => product.ProductCategory.CategoryName == category && product.Id == id,
                 EntitiesSelectors.ProductSelector,
                 cancellationToken);
