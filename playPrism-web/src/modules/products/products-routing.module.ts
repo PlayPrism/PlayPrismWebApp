@@ -6,7 +6,7 @@ import { ShellComponent } from '../shared/components/app-shell/app-shell.compone
 import { CartComponent } from './components';
 
 export const productsRoute: Route = {
-  path: '',
+  path: 'games',
   component: ShellComponent,
   children: [
     { path: 'cart', component: CartComponent },

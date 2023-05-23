@@ -4,7 +4,7 @@
     alt="product image"
     class="rounded-xl mb-3 aspect-video w-70"
   />
-  <div class="flex gap-7">
+  <div class="flex gap-7 justify-between">
     <div class="flex gap-3">
       <div *ngFor="let platform of product.platforms">
         <ng-container [ngSwitch]="platform">
@@ -58,6 +58,6 @@
     {{ !addedToCart ? "Додати до кошика" : "У кошику" }}
   </button>
   <div class="font-semibold text-right text-4xl">
-    {{ product.price }}<span class="font-sans">₴</span>
+    {{ product.price | number : ".2-2" }}<span class="font-sans">₴</span>
   </div>
 </div>

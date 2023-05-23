@@ -47,7 +47,7 @@ app.ConfigureCustomExceptionMiddleware();
 
 app.UseRouting();
 
-app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200/"));
+app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.UseSerilogRequestLogging();
 
