@@ -34,10 +34,12 @@ public interface IGenericRepository<TEntity>
     /// Asynchronously returns TEntity from database requested by id parameter and category.
     /// </summary>
     /// <param name="predicate">Predicate that accepts equation and returns bool value that indicates if the expression is true.</param>
+    /// <param name="selector">Selector value that accepts the expression that defines what tables should be joined ot the requested object.</param>
     /// <param name="cancellationToken">Cancellation token to cancel task.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task<TEntity> GetByIdAndCategoryAsync(
         Expression<Func<TEntity, bool>> predicate,
+        Expression<Func<TEntity, TEntity>> selector = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>

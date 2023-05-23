@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ApiResponse } from '../models';
 
 export class BaseService<T> {
   constructor(protected http: HttpClient) {}
@@ -14,8 +15,8 @@ export class BaseService<T> {
     return this.http.get<T[]>(`${url}`, { params });
   }
 
-  public getById(url: string, id: string): Observable<T> {
-    return this.http.get<T>(`${url}/${id}`);
+  public getById(url: string, id: string): Observable<ApiResponse<T>> {
+    return this.http.get<ApiResponse<T>>(`${url}/Games/${id}`);
   }
 
   public create(url: string, item: T): Observable<T> {

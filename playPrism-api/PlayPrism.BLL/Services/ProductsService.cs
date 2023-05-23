@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.BLL.Constants;
 using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Domain.Filters;
@@ -51,27 +52,8 @@ public class ProductsService : IProductsService
 
             predicates.Add(product => product.ProductCategory.CategoryName == category);
 
-            Expression<Func<Product, Product>> selector = q => new Product
-            {
-                Name = q.Name,
-                VariationOptions = q.VariationOptions.Select(option => new VariationOption
-                {
-                    Id = option.Id,
-                    ProductConfiguration = option.ProductConfiguration,
-                    Value = option.Value,
-                }).ToList(),
-                ShortDescription = q.ShortDescription,
-                DetailedDescription = q.DetailedDescription,
-                Id = q.Id,
-                ProductCategory = q.ProductCategory,
-                ProductCategoryId = q.ProductCategoryId,
-                HeaderImage = q.HeaderImage,
-                ReleaseDate = q.ReleaseDate,
-                Price = q.Price,
-            };
-
             var products = await _unitOfWork.Products
-                .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, selector, cancellationToken);
+                .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, EntitiesSelectors.ProductSelector, cancellationToken);
 
             var result = _mapper.Map<List<ProductResponse>>(products);
             return result;
@@ -108,6 +90,7 @@ public class ProductsService : IProductsService
         var product = await _unitOfWork.Products
             .GetByIdAndCategoryAsync(
                 product => product.ProductCategory.CategoryName == category && product.Id == id,
+                EntitiesSelectors.ProductSelector,
                 cancellationToken);
         
         var result = _mapper.Map<ProductResponse>(product);
