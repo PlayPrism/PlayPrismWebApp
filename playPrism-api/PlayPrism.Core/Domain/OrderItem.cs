@@ -24,9 +24,4 @@ public class OrderItem : BaseEntity
     /// Gets or sets reference to ProductItem entity.
     /// </summary>
     public ProductItem ProductItem { get; set; }
-
-    /// <summary>
-    /// Gets or sets Quantity of OrderItems entity.
-    /// </summary>
-    public int Quantity { get; set; }
 }

@@ -23,13 +23,15 @@ public static class MigrationManager
         var appContext = scope.ServiceProvider.GetRequiredService<PlayPrismContext>();
         try
         {
+            logger.LogInformation("MigrationManager: Trying to migrate database");
             await appContext.Database.MigrateAsync();
-            logger.LogInformation("The database migration was successful");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Database migration failed.");
+            logger.LogError(ex, "MigrationManager: Database migration failed.");
             throw;
         }
+
+        logger.LogInformation("MigrationManager: The database migration was successful");
     }
 }
