@@ -87,11 +87,11 @@ public class ProductsService : IProductsService
     /// <inheritdoc />
     public async Task<ProductResponse> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
     {
-        var product = await _unitOfWork.Products
+        var product = (await _unitOfWork.Products
             .GetByConditionAsync(
                 product => product.ProductCategory.CategoryName == category && product.Id == id,
                 EntitiesSelectors.ProductSelector,
-                cancellationToken);
+                cancellationToken)).FirstOrDefault();
         
         var result = _mapper.Map<ProductResponse>(product);
         return result;
