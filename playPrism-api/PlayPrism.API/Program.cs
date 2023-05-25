@@ -1,5 +1,10 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
+using System.Text;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using PlayPrism.API;
 using PlayPrism.API.Extensions;
 using PlayPrism.DAL.Abstractions.Interfaces;
@@ -20,6 +25,24 @@ builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.ProductProfil
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
+                (builder.Configuration["TokenKey"])),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            RequireExpirationTime = true,
+            ClockSkew = TimeSpan.FromSeconds(10),
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 builder.Host.UseSerilog();
 
@@ -48,6 +71,10 @@ app.ConfigureCustomExceptionMiddleware();
 app.UseRouting();
 
 app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.UseSerilogRequestLogging();
 

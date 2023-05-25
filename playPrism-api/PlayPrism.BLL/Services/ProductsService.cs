@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.BLL.Constants;
 using PlayPrism.Contracts.V1.Responses.Products;

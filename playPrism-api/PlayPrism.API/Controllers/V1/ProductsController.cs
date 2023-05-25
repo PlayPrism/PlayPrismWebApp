@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.Products;
@@ -66,6 +67,7 @@ public class ProductsController : ControllerBase
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
     [HttpGet("{category}/filters")]
+    [Authorize(Roles = "User,Admin")]
     [ProducesResponseType(typeof(CategoryFiltersResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCategoryFiltersAsync([FromRoute] string category, CancellationToken cancellationToken)
