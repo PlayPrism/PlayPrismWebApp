@@ -1,7 +1,6 @@
-﻿using PlayPrism.Contracts.V1.Requests.Products;
-using PlayPrism.Contracts.V1.Responses.Products;
+﻿using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
-using PlayPrism.Core.Models;
+using PlayPrism.Core.Domain.Filters;
 
 namespace PlayPrism.BLL.Abstractions.Interface;
 
@@ -22,7 +21,7 @@ public interface IProductsService
     //     IEnumerable<Filter> filters,
     //     PageInfo pageInfo,
     //     CancellationToken cancellationToken);
-    Task<IList<Product>> GetProductsByFiltersWithPaginationAsync(
+    Task<IList<ProductResponse>> GetProductsByFiltersWithPaginationAsync(
         string category,
         PageInfo pageInfo,
         Filter[] filters,
@@ -34,7 +33,19 @@ public interface IProductsService
     /// <param name="category">The product category.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to cancel task completion.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task<IEnumerable<ProductConfiguration>> GetFilterForCategoryAsync(
+    Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(
         string category,
         CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Asynchronously returns product by id.
+    /// </summary>
+    /// <param name="category">The product's category</param>
+    /// <param name="id">The product's id</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to cancel task completion.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation. The task result contains product</returns>
+    Task<ProductResponse> GetProductByIdAsync(
+               string category,
+               Guid id,
+               CancellationToken cancellationToken);
 }

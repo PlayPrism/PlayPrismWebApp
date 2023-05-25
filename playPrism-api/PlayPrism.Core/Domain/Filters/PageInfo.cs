@@ -1,4 +1,4 @@
-﻿namespace PlayPrism.Core.Models;
+﻿namespace PlayPrism.Core.Domain.Filters;
 
 /// <summary>
 /// Class that defines pagination properties.

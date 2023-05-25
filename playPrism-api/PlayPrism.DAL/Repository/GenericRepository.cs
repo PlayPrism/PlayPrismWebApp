@@ -2,19 +2,19 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using PlayPrism.Core.Domain.Filters;
+
 namespace PlayPrism.DAL.Repository;
 
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Core.Domain;
-using Core.Models;
 using Abstractions.Interfaces;
 
 /// <inheritdoc />
 public class GenericRepository<TEntity> : IGenericRepository<TEntity>
     where TEntity : BaseEntity
 {
-    private readonly PlayPrismContext _appContext;
     private readonly DbSet<TEntity> _dbSet;
 
     /// <summary>
@@ -23,14 +23,20 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
     /// <param name="appContext">PlayPrismContext database context.</param>
     public GenericRepository(PlayPrismContext appContext)
     {
-        this._appContext = appContext;
-        this._dbSet = appContext.Set<TEntity>();
+        _dbSet = appContext.Set<TEntity>();
+    }
+
+    /// <inheritdoc />
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
+    {
+       var entities =  await _dbSet.ToListAsync();
+       return entities;
     }
 
     /// <inheritdoc />
     public async Task<TEntity> GetByIdAsync(Guid id)
     {
-        return await this._dbSet.FindAsync(id);
+        return await _dbSet.FindAsync(id);
     }
 
     /// <inheritdoc />
@@ -39,7 +45,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         Expression<Func<TEntity, TEntity>> selector = null,
         CancellationToken cancellationToken = default)
     {
-        IQueryable<TEntity> query = this._dbSet;
+        IQueryable<TEntity> query = _dbSet;
 
         if (selector != null)
         {
@@ -65,7 +71,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
     {
         var skip = pageInfo.Size * (pageInfo.Number - 1);
 
-        IQueryable<TEntity> query = this._dbSet.AsQueryable();
+        IQueryable<TEntity> query = _dbSet.AsQueryable();
 
         if (selector != null)
         {
@@ -77,27 +83,40 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
             query = query.Where(predicate).Skip(skip).Take(pageInfo.Size);
         }
 
-        return await query.ToListAsync(cancellationToken: cancellationToken);
+        var entities = await query.ToListAsync(cancellationToken: cancellationToken);
+        return entities;
     }
 
     /// <inheritdoc />
     public async Task<bool> ExistAsync(
-        Expression<Func<TEntity, bool>> predicate,
+        Expression<Func<TEntity, bool>> predicate = null,
         CancellationToken cancellationToken = default)
     {
-        return await this._dbSet.AnyAsync(predicate, cancellationToken: cancellationToken);
+        if (predicate is not null)
+        {
+            return await _dbSet.AnyAsync(predicate, cancellationToken);
+
+        }
+        
+        return await _dbSet.AnyAsync(cancellationToken);
     }
 
     /// <inheritdoc />
     public async Task AddAsync(TEntity obj, CancellationToken cancellationToken = default)
     {
-        await this._dbSet.AddAsync(obj, cancellationToken: cancellationToken);
+        await _dbSet.AddAsync(obj, cancellationToken: cancellationToken);
+    }
+    
+    /// <inheritdoc />
+    public async Task AddManyAsync(IEnumerable<TEntity> obj, CancellationToken cancellationToken = default)
+    {
+        await _dbSet.AddRangeAsync(obj, cancellationToken: cancellationToken);
     }
 
     /// <inheritdoc />
     public void Update(TEntity obj)
     {
-        this._dbSet.Update(obj);
+        _dbSet.Update(obj);
     }
 
     /// <inheritdoc />
@@ -105,7 +124,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
     {
         try
         {
-            this._dbSet.Remove(obj);
+            _dbSet.Remove(obj);
         }
         catch (Exception e)
         {

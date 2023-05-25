@@ -11,6 +11,11 @@ public class ProductConfiguration : BaseEntity
     public string ConfigurationName { get; set; }
 
     /// <summary>
+    /// Gets or sets FK id to ProductCategory entity.
+    /// </summary>
+    public Guid CategoryId { get; set; }
+    
+    /// <summary>
     /// Gets or sets reference to Category entity.
     /// </summary>
     public ProductCategory Category { get; set; }

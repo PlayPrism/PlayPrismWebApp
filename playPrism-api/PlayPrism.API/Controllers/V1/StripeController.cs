@@ -1,0 +1,61 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.Contracts.Extensions;
+using PlayPrism.Contracts.V1.Requests.Stripes;
+using PlayPrism.Core.External.Stripe;
+
+namespace PlayPrism.API.Controllers.V1;
+
+/// <inheritdoc />
+[Route("api/[controller]")]
+public class StripeController : ControllerBase
+{
+    private readonly IStripeService _stripeService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StripeController"/> class.
+    /// </summary>
+    /// <param name="stripeService"><see cref="IStripeService"/></param>
+    public StripeController(IStripeService stripeService)
+    {
+        _stripeService = stripeService;
+    }
+
+    /// <summary>
+    /// Adds a new Stripe customer.
+    /// </summary>
+    /// <param name="customer"><see cref="AddStripeCustomer"/></param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns><see cref="StripeCustomer"/></returns>
+    [HttpPut("customer")]
+    [ProducesResponseType(typeof(IList<StripeCustomer>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddStripeCustomer(
+        [FromBody] AddStripeCustomer customer,
+        CancellationToken cancellationToken)
+    {
+        var createdCustomer = await _stripeService.AddStripeCustomerAsync(
+            customer,
+            cancellationToken);
+
+        return Ok(createdCustomer.ToApiResponse());
+    }
+
+    /// <summary>
+    /// Adds a new Stripe payment.
+    /// </summary>
+    /// <param name="payment"><see cref="AddStripePayment"/></param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns><see cref="StripePayment"/></returns>
+    [HttpPut("payment")]
+    [ProducesResponseType(typeof(IList<StripePayment>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AddStripePayment(
+        [FromBody] AddStripePayment payment,
+        CancellationToken cancellationToken)
+    {
+        var createdPayment = await _stripeService.AddStripePaymentAsync(
+            payment,
+            cancellationToken);
+
+        return Ok(createdPayment.ToApiResponse());
+    }
+}
