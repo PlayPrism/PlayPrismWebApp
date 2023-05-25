@@ -5,8 +5,14 @@
 /// </summary>
 public class VariationOption : BaseEntity
 {
+    /// <summary>
+    /// Gets or sets product id
+    /// </summary>
     public Guid ProductId { get; set; }
 
+    /// <summary>
+    /// Gets or sets products
+    /// </summary>
     public Product Product { get; set; }
 
     /// <summary>
@@ -15,6 +21,9 @@ public class VariationOption : BaseEntity
     public string Value { get; set; }
 
 
+    /// <summary>
+    /// Gets or sets product configuration id
+    /// </summary>
     public Guid ProductConfigurationId { get; set; }
 
     /// <summary>

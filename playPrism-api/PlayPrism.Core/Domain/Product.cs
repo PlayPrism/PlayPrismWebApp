@@ -24,6 +24,11 @@ public class Product : BaseEntity
     /// Gets or sets header Image url.
     /// </summary>
     public string HeaderImage { get; set; }
+    
+    /// <summary>
+    ///     Gets or sets product images
+    /// </summary>
+    public string[] Images { get; set; }
 
     /// <summary>
     /// Gets or sets Price of Product.

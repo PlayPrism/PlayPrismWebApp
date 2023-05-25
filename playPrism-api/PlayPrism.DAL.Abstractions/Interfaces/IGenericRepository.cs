@@ -2,9 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using PlayPrism.Core.Domain.Filters;
+
 namespace PlayPrism.DAL.Abstractions.Interfaces;
 
-using Core.Models;
 using System.Linq.Expressions;
 using Core.Domain;
 
@@ -15,6 +16,13 @@ using Core.Domain;
 public interface IGenericRepository<TEntity>
     where TEntity : BaseEntity
 {
+    /// <summary>
+    /// Asynchronously returns TEntity from database requested by id parameter.
+    /// </summary>
+    /// <param name="id">Parameter that represents id of the entity ib database.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    
     /// <summary>
     /// Asynchronously returns TEntity from database requested by id parameter.
     /// </summary>
@@ -63,6 +71,14 @@ public interface IGenericRepository<TEntity>
     /// <param name="cancellationToken">Cancellation token to cancel task.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     Task AddAsync(TEntity obj, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Asynchronously adds object of TEntity to database.
+    /// </summary>
+    /// <param name="obj">TEntity obj param.</param>
+    /// <param name="cancellationToken">Cancellation token to cancel task.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    Task AddManyAsync(IEnumerable<TEntity> obj, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates TEntity, passed as parameter.

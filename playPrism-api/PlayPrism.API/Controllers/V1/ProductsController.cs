@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.Products;
 using PlayPrism.Contracts.V1.Responses.Products;
-using PlayPrism.Core.Domain;
-using PlayPrism.Core.Models;
 
 namespace PlayPrism.API.Controllers.V1;
 
@@ -14,19 +11,18 @@ namespace PlayPrism.API.Controllers.V1;
 public class ProductsController : ControllerBase
 {
     private readonly IProductsService _productsService;
-    private readonly IMapper _mapper;
+    private readonly ILogger<ProductsController> _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProductsController"/> class.
     /// </summary>
-    /// <param name="productsService">The product service.</param>
-    /// <param name="mapper">The automapper service.</param>
+    /// <param name="productsService"><see cref="IProductsService"/></param>
+    /// <param name="logger"><see cref="ILogger{TCategoryName}"/></param>
     public ProductsController(
-        IProductsService productsService,
-        IMapper mapper)
+        IProductsService productsService, ILogger<ProductsController> logger)
     {
         _productsService = productsService;
-        _mapper = mapper;
+        _logger = logger;
     }
 
     /// <summary>
@@ -39,26 +35,28 @@ public class ProductsController : ControllerBase
     /// A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.
     /// The task result contains the <see cref="IActionResult"/>.
     /// </returns>
-    /// <response code="200">Products</response>
-    /// <response code="400">Bad request</response>
+    [HttpGet("{category}")]
     [ProducesResponseType(typeof(IList<ProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{category}")]
     public async Task<IActionResult> GetFilteredProductsAsync(
         [FromRoute] string category,
         [FromQuery] GetProductsRequest request,
         CancellationToken cancellationToken)
     {
-        var res = await _productsService
+        var products = await _productsService
                 .GetProductsByFiltersWithPaginationAsync(
                     category,
                     request.PageInfo,
                     request.Filters,
                     cancellationToken);
 
-        var response = _mapper.Map<List<ProductResponse>>(res);
+        if (products is null)
+        {
+            _logger.LogError("Products not found");
+            return NotFound("Products not found".ToErrorResponse());
+        }
 
-        return Ok(response.ToApiListResponse());
+        return Ok(products.ToApiListResponse());
     }
 
     /// <summary>
@@ -68,13 +66,49 @@ public class ProductsController : ControllerBase
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
     [HttpGet("{category}/filters")]
+    [ProducesResponseType(typeof(CategoryFiltersResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCategoryFiltersAsync([FromRoute] string category, CancellationToken cancellationToken)
     {
-        var res = await _productsService
+        var categoryFilters = await _productsService
                 .GetFilterForCategoryAsync(category, cancellationToken: cancellationToken);
 
-        var response = _mapper.Map<IEnumerable<CategoryFiltersResponse>>(res);
+        if (categoryFilters is null)
+        {
+            _logger.LogError($"{category} filters not found");
+            return NotFound($"{category} filters not found".ToErrorResponse());
+        }
 
-        return Ok(response.ToApiListResponse());
+        return Ok(categoryFilters.ToApiListResponse());
+    }
+
+    /// <summary>
+    /// Retrieves product by id.
+    /// </summary>
+    /// <param name="category">The category's name string</param>
+    /// <param name="id">The product's id</param>
+    /// <param name="cancellationToken">The cancellation token</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.
+    /// The task result contains the <see cref="IActionResult"/>.
+    /// </returns>
+    [HttpGet("{category}/{id}")]
+    [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetProductByIdAsync(
+        [FromRoute] string category,
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var product = await _productsService
+            .GetProductByIdAsync(category, id, cancellationToken);
+
+        if (product is null)
+        {
+            _logger.LogError($"Product with {id} id in {category} category not found");
+            return NotFound($"Product with {id} id in {category} category not found".ToErrorResponse());
+        }
+
+        return Ok(product.ToApiResponse());
     }
 }

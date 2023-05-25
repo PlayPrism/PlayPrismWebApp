@@ -11,4 +11,8 @@
       <DocumentationFile>bin\Debug\PlayPrism.Core.xml</DocumentationFile>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="External" />
+    </ItemGroup>
+
 </Project>

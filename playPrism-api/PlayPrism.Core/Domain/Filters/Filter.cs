@@ -1,4 +1,4 @@
-﻿namespace PlayPrism.Core.Models;
+﻿namespace PlayPrism.Core.Domain.Filters;
 
 /// <summary>
 /// Filter model that represents Name-Value pair and is applied for filtering.

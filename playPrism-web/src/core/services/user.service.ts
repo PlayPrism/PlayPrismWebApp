@@ -14,7 +14,7 @@ export class UserService extends BaseService<UserProfile> {
   private readonly userSubject$ = new BehaviorSubject<UserProfile | null>(null);
   public user$ = this.userSubject$.asObservable();
 
-  private readonly baseUrl = environment.apiUrl + 'user';
+  private readonly baseUrl = environment.apiUrl + '/user';
 
   constructor(http: HttpClient, private readonly router: Router) {
     super(http);

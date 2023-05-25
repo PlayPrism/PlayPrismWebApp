@@ -1,0 +1,58 @@
+<div class="flex flex-col my-9 items-center">
+  <div class="text-center flex flex-col gap-4 mb-16">
+    <h1 class="text-white text-3xl">Ваше замовлення у кошику</h1>
+    <a routerLink="/products" class="underline text-gray-600 text-lg"
+      >Продовжити покупки</a
+    >
+  </div>
+  <div *ngIf="cart && cart.length > 0" class="grid w-full md:grid-cols-4">
+    <div class="text-lg text-gray-600 col-span-2 font-bold">Продукт</div>
+    <div class="text-lg text-gray-600 font-bold">Платформа</div>
+    <div class="text-lg text-gray-600 font-bold">Вартість</div>
+
+    <hr class="h-px my-8 col-span-full border-0 bg-gray-600" />
+    <ng-container *ngFor="let product of cart; let i = index">
+      <div class="grid col-span-2 max-w-md items-start grid-rows-2 grid-cols-2">
+        <img
+          class="rounded-xl row-span-full aspect-video w-52"
+          [src]="product.headerimage"
+          alt="headerImage"
+        />
+        <div class="text-white text-2xl">{{ product.title }}</div>
+        <button
+          (click)="removeItem(product)"
+          class="flex items-center gap-2 w-fit justify-start"
+        >
+          <p class="text-lg text-gray-600 font-bold">Видалити</p>
+          <img src="assets/icons/delete-icon.svg" alt="delete icon" />
+        </button>
+      </div>
+      <div class="text-white flex-wrap flex gap-3">
+        <div
+          class="flex gap-1 items-center flex-nowrap"
+          *ngFor="let platform of product.platforms"
+        >
+          <img
+            class="aspect-square w-5"
+            [src]="getPlatformIcon(platform)"
+            [alt]="platform"
+          />
+          <p>{{ platform }}</p>
+        </div>
+      </div>
+      <div class="text-white">
+        {{ product.price }}<span class="font-sans">₴</span>
+      </div>
+    </ng-container>
+    <hr class="h-px my-8 col-span-full border-0 bg-gray-600" />
+  </div>
+  <div *ngIf="cart && cart.length > 0" class="flex self-end items-center gap-7">
+    <p class="text-2xl text-white">
+      Загальна сума до сплати
+      <span class="ml-3" *ngIf="totalCartPrice$ | async as totalPrice"
+        >{{ totalPrice }}₴</span
+      >
+    </p>
+    <button class="btn-primary-blue">Перейти до оплати</button>
+  </div>
+</div>

@@ -1,6 +1,9 @@
-﻿using PlayPrism.BLL.Abstractions.Interface;
+﻿using AutoMapper;
+using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.BLL.Constants;
+using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
-using PlayPrism.Core.Models;
+using PlayPrism.Core.Domain.Filters;
 using PlayPrism.DAL.Abstractions.Interfaces;
 
 namespace PlayPrism.BLL.Services;
@@ -11,18 +14,22 @@ using System.Linq.Expressions;
 public class ProductsService : IProductsService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProductsService"/> class.
     /// </summary>
-    /// <param name="unitOfWork">Unit of work di.</param>
-    public ProductsService(IUnitOfWork unitOfWork)
+    /// <param name="unitOfWork"><see cref="IUnitOfWork"/></param>
+    /// <param name="mapper"><see cref="IMapper"/></param>
+    public ProductsService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
     /// <inheritdoc />
-    public async Task<IList<Product>> GetProductsByFiltersWithPaginationAsync(
+    public async Task<IList<ProductResponse>> GetProductsByFiltersWithPaginationAsync(
         string category,
         PageInfo pageInfo,
         Filter[] filters,
@@ -45,29 +52,11 @@ public class ProductsService : IProductsService
 
             predicates.Add(product => product.ProductCategory.CategoryName == category);
 
-            Expression<Func<Product, Product>> selector = q => new Product
-            {
-                Name = q.Name,
-                VariationOptions = q.VariationOptions.Select(option => new VariationOption
-                {
-                    Id = option.Id,
-                    ProductConfiguration = option.ProductConfiguration,
-                    Value = option.Value,
-                }).ToList(),
-                ShortDescription = q.ShortDescription,
-                DetailedDescription = q.DetailedDescription,
-                Id = q.Id,
-                ProductCategory = q.ProductCategory,
-                ProductCategoryId = q.ProductCategoryId,
-                HeaderImage = q.HeaderImage,
-                ReleaseDate = q.ReleaseDate,
-                Price = q.Price,
-            };
+            var products = await _unitOfWork.Products
+                .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, EntitiesSelectors.ProductSelector, cancellationToken);
 
-            var res = await _unitOfWork.Products
-                .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, selector, cancellationToken);
-
-            return res;
+            var result = _mapper.Map<List<ProductResponse>>(products);
+            return result;
         }
         catch (Exception e)
         {
@@ -77,10 +66,10 @@ public class ProductsService : IProductsService
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<ProductConfiguration>> GetFilterForCategoryAsync(string category,
+    public async Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(string category,
         CancellationToken cancellationToken)
     {
-        var categoryConfigurations = await this._unitOfWork.ProductConfigurations
+        var categoryConfigurations = await _unitOfWork.ProductConfigurations
             .GetByConditionAsync(
                 configuration => configuration.Category.CategoryName == category,
                 configuration => new ProductConfiguration
@@ -91,6 +80,20 @@ public class ProductsService : IProductsService
                     ConfigurationName = configuration.ConfigurationName,
                 }, cancellationToken);
 
-        return categoryConfigurations;
+        var result = _mapper.Map<IEnumerable<CategoryFiltersResponse>>(categoryConfigurations);
+        return result;
+    }
+
+    /// <inheritdoc />
+    public async Task<ProductResponse> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
+    {
+        var product = (await _unitOfWork.Products
+            .GetByConditionAsync(
+                product => product.ProductCategory.CategoryName == category && product.Id == id,
+                EntitiesSelectors.ProductSelector,
+                cancellationToken)).FirstOrDefault();
+        
+        var result = _mapper.Map<ProductResponse>(product);
+        return result;
     }
 }

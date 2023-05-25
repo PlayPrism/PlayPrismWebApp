@@ -2,6 +2,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using PlayPrism.API;
 using PlayPrism.API.Extensions;
+using PlayPrism.DAL.Abstractions.Interfaces;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,11 +47,20 @@ app.ConfigureCustomExceptionMiddleware();
 
 app.UseRouting();
 
-app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200/"));
+app.UseCors(policyBuilder => policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
 
 app.UseSerilogRequestLogging();
 
 app.MapControllers();
+
+// Database initialization
+await app.MigrateDatabaseAsync();
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<ISeeder>();
+    await seeder.SeedIfNeededAsync();
+}
 
 app.Run();
 

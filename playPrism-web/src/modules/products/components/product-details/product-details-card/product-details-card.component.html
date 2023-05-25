@@ -1,0 +1,63 @@
+<div *ngIf="product">
+  <img
+    [src]="product.headerImage"
+    alt="product image"
+    class="rounded-xl mb-3 aspect-video w-70"
+  />
+  <div class="flex gap-7 justify-between">
+    <div class="flex gap-3">
+      <div *ngFor="let platform of product.platforms">
+        <ng-container [ngSwitch]="platform">
+          <img
+            *ngSwitchCase="platforms.steam"
+            [src]="getPlatformIcon(platform)"
+            alt="Steam"
+          />
+          <img
+            *ngSwitchCase="platforms.epicGames"
+            [src]="getPlatformIcon(platform)"
+            alt="Epic Games"
+          />
+          <img
+            *ngSwitchCase="platforms.playStation"
+            [src]="getPlatformIcon(platform)"
+            alt="PlayStation"
+          />
+          <img
+            *ngSwitchCase="platforms.xbox"
+            [src]="getPlatformIcon(platform)"
+            alt="Xbox"
+          />
+          <img
+            *ngSwitchDefault
+            src="assets/images/question-mark.png"
+            alt="Unknown Platform"
+          />
+        </ng-container>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <img class="w-9" src="assets/icons/solar_star-icon.svg" alt="" />
+      <span class="text-4xl">{{ product.rating }}</span>
+    </div>
+  </div>
+  <span>{{ product.releaseDate | date : "mediumDate" }}</span>
+  <div class="flex gap-3 mb-3">
+    <p class="text-gray-400 grow">Жанр</p>
+    <div class="break-words max-w-[140px]">
+      <span *ngFor="let genre of product.genres">
+        {{ genre }}
+      </span>
+    </div>
+  </div>
+  <button
+    [disabled]="addedToCart"
+    (click)="AddToCart()"
+    class="btn-primary-gradient"
+  >
+    {{ !addedToCart ? "Додати до кошика" : "У кошику" }}
+  </button>
+  <div class="font-semibold text-right text-4xl">
+    {{ product.price | number : ".2-2" }}<span class="font-sans">₴</span>
+  </div>
+</div>

@@ -40,9 +40,6 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<Guid>("PaymentMethodId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ProductItemId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -50,11 +47,9 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("PaymentMethodId");
 
-                    b.HasIndex("ProductItemId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.OrderItem", b =>
@@ -75,14 +70,11 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<Guid>("ProductItemId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.PaymentMethod", b =>
@@ -102,7 +94,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethods", (string)null);
+                    b.ToTable("PaymentMethods");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.Product", b =>
@@ -123,6 +115,9 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<string>("HeaderImage")
                         .HasColumnType("text");
 
+                    b.Property<string[]>("Images")
+                        .HasColumnType("text[]");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -142,7 +137,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("ProductCategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductCategory", b =>
@@ -162,7 +157,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductConfiguration", b =>
@@ -171,7 +166,7 @@ namespace PlayPrism.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConfigurationName")
@@ -187,7 +182,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ProductConfigurations", (string)null);
+                    b.ToTable("ProductConfigurations");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductItem", b =>
@@ -211,7 +206,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductItems", (string)null);
+                    b.ToTable("ProductItems");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
@@ -246,7 +241,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserProfiles", (string)null);
+                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserReview", b =>
@@ -279,7 +274,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserReviews", (string)null);
+                    b.ToTable("UserReviews");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.VariationOption", b =>
@@ -309,7 +304,7 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("VariationOptions", (string)null);
+                    b.ToTable("VariationOptions");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.Order", b =>
@@ -320,10 +315,6 @@ namespace PlayPrism.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlayPrism.Core.Domain.ProductItem", "ProductItem")
-                        .WithMany()
-                        .HasForeignKey("ProductItemId");
-
                     b.HasOne("PlayPrism.Core.Domain.UserProfile", "UserProfile")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
@@ -331,8 +322,6 @@ namespace PlayPrism.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("PaymentMethod");
-
-                    b.Navigation("ProductItem");
 
                     b.Navigation("UserProfile");
                 });
@@ -362,8 +351,10 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductConfiguration", b =>
                 {
                     b.HasOne("PlayPrism.Core.Domain.ProductCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .WithMany("ProductConfigurations")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
                 });
@@ -447,6 +438,11 @@ namespace PlayPrism.DAL.Migrations
                     b.Navigation("UserReviews");
 
                     b.Navigation("VariationOptions");
+                });
+
+            modelBuilder.Entity("PlayPrism.Core.Domain.ProductCategory", b =>
+                {
+                    b.Navigation("ProductConfigurations");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductConfiguration", b =>
