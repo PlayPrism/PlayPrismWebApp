@@ -24,6 +24,7 @@ public class ServiceDiModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         builder.RegisterType<ProductsService>().As<IProductsService>().InstancePerLifetimeScope();
+        builder.RegisterType<GiveawayService>().As<IGiveawaysService>().InstancePerLifetimeScope();
         builder.RegisterModule(new RepositoryDiModule(_configuration));
     }
 }

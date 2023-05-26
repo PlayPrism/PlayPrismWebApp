@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using Microsoft.Extensions.Logging;
 using PlayPrism.Core.Domain;
+using PlayPrism.Core.Enums;
 using PlayPrism.DAL.Abstractions.Interfaces;
 
 namespace PlayPrism.DAL;
@@ -10,7 +11,7 @@ public class Seeder : ISeeder
 {
     private readonly ILogger<Seeder> _logger;
     private readonly IUnitOfWork _unitOfWork;
-    
+
     /// <summary>
     /// <see cref="ISeeder"/>
     /// </summary>
@@ -34,6 +35,8 @@ public class Seeder : ISeeder
             await GenerateProductsAsync();
             await GenerateProductConfigurationsAsync();
             await GenerateProductVariationsAsync();
+            await GenerateUsersAsync();
+            await GenerateGiveawaysAsync();
         }
         else
         {
@@ -56,14 +59,14 @@ public class Seeder : ISeeder
             "Mario Kart 8 Deluxe",
         };
 
-        var productGames = games.Select(game => 
+        var productGames = games.Select(game =>
                 new Faker<Product>()
                     .RuleFor(p => p.Name, game)
                     .RuleFor(p => p.HeaderImage, f => f.Image.PlaceImgUrl())
                     .RuleFor(p => p.ShortDescription, f => f.Lorem.Sentence())
                     .RuleFor(p => p.DetailedDescription, f => f.Lorem.Paragraph())
                     .RuleFor(p => p.Price, f => f.Random.Decimal(2.99M, 9.99M))
-                    .RuleFor(p => p.ReleaseDate,  f => f.Date.Future().ToUniversalTime())
+                    .RuleFor(p => p.ReleaseDate, f => f.Date.Future().ToUniversalTime())
                     .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
                     .RuleFor(p => p.DateCreated, DateTime.UtcNow)
                     .RuleFor(p => p.ProductCategoryId, gamesCategoryId)
@@ -74,34 +77,34 @@ public class Seeder : ISeeder
         await _unitOfWork.CommitAsync();
         _logger.LogInformation("Seeder: Product (games) created");
     }
-    
+
     private async Task GenerateProductCategoriesAsync()
     {
         var categories = new[] { "Games", "Software", "Accounts" };
-        
-        var productCategories = categories.Select(category => 
+
+        var productCategories = categories.Select(category =>
                 new Faker<ProductCategory>()
                 .RuleFor(p => p.DateCreated, DateTime.UtcNow)
                 .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
                 .RuleFor(p => p.CategoryName, category)
                 .Generate())
             .ToList();
-        
+
         await _unitOfWork.Categories.AddManyAsync(productCategories);
         await _unitOfWork.CommitAsync();
         _logger.LogInformation("Seeder: Product categories created");
-    } 
-    
+    }
+
     private async Task GenerateProductConfigurationsAsync()
     {
         var configurations = new[]
         {
             "Genre", "Platform"
         };
-        
+
         var gamesCategoryId = (await _unitOfWork.Categories.GetByConditionAsync(x => x.CategoryName == "Games")).First().Id;
 
-        var productConfigurations = configurations.Select(configuration => 
+        var productConfigurations = configurations.Select(configuration =>
                 new Faker<ProductConfiguration>()
                 .RuleFor(p => p.ConfigurationName, configuration)
                 .RuleFor(p => p.CategoryId, gamesCategoryId)
@@ -109,7 +112,7 @@ public class Seeder : ISeeder
                 .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
                 .Generate())
             .ToList();
-        
+
         await _unitOfWork.ProductConfigurations.AddManyAsync(productConfigurations);
         await _unitOfWork.CommitAsync();
         _logger.LogInformation("Seeder: Product categories created");
@@ -120,7 +123,7 @@ public class Seeder : ISeeder
         {
             "Action", "Fighting", "Horror", "Sport", "Simulator", "Adventure"
         };
-        
+
         var products = await _unitOfWork.Products.GetByConditionAsync(x => x.ProductCategory.CategoryName == "Games");
         var productConfigurationGenreId = (await _unitOfWork.ProductConfigurations.GetByConditionAsync(x => x.ConfigurationName == "Genre")).First().Id;
 
@@ -130,7 +133,7 @@ public class Seeder : ISeeder
             var newProdVariationOption = new Faker<VariationOption>()
                 .RuleFor(p => p.ProductId, product.Id)
                 .RuleFor(p => p.Value, f => f.PickRandom(genres))
-                .RuleFor(p => p.ProductConfigurationId,  productConfigurationGenreId)
+                .RuleFor(p => p.ProductConfigurationId, productConfigurationGenreId)
                 .RuleFor(p => p.DateCreated, DateTime.UtcNow)
                 .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
                 .Generate();
@@ -138,10 +141,47 @@ public class Seeder : ISeeder
             productVariations.Add(newProdVariationOption);
         }
 
-        
-        
+
+
         await _unitOfWork.Variations.AddManyAsync(productVariations);
         await _unitOfWork.CommitAsync();
         _logger.LogInformation("Seeder: Product categories created");
+    }
+
+    private async Task GenerateGiveawaysAsync()
+    {
+        var games = await _unitOfWork.Products.GetByConditionAsync(x => x.ProductCategory.CategoryName == "Games");
+        var users = await _unitOfWork.Users.GetAllAsync();
+
+        var giveaways = games.Select(game =>
+            new Faker<Giveaway>()
+            .RuleFor(p => p.ProductId, game.Id)
+            .RuleFor(p => p.WinnerId, f => f.PickRandom(users).Id)
+            .RuleFor(p => p.DateCreated, DateTime.UtcNow)
+            .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
+            .RuleFor(p => p.ExpirationDate, f => f.Date.Future().ToUniversalTime())
+            .Generate())
+        .ToList();
+
+        await _unitOfWork.Giveaways.AddManyAsync(giveaways);
+        await _unitOfWork.CommitAsync();
+        _logger.LogInformation("Seeder: Giveaways created");
+    }
+
+    private async Task GenerateUsersAsync()
+    {
+        //var users = await _unitOfWork.Users.GetAllAsync();
+        var games = await _unitOfWork.Products.GetByConditionAsync(x => x.ProductCategory.CategoryName == "Games");
+        var userProfiles = games.Select(user =>
+                   new Faker<UserProfile>()
+                   .RuleFor(p => p.Nickname, user.Name)
+                   .RuleFor(p => p.Role, Role.User)
+                   .RuleFor(p => p.DateCreated, DateTime.UtcNow)
+                   .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
+                   .Generate())
+            .ToList();
+        await _unitOfWork.Users.AddManyAsync(userProfiles);
+        await _unitOfWork.CommitAsync();
+        _logger.LogInformation("Seeder: User profiles created");
     }
 }

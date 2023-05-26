@@ -42,4 +42,8 @@ public class UserProfile : BaseEntity
     /// Gets or sets references to Orders entities.
     /// </summary>
     public IList<Order> Orders { get; set; }
+
+    public IList<Giveaway> Giveaways { get; set; }
+
+    public IList<Giveaway> WonGiveaways { get; set; }
 }

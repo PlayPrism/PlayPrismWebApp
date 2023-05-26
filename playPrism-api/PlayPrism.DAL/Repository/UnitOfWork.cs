@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly PlayPrismContext _context;
     private readonly Lazy<IGenericRepository<Product>> _productRepository;
+    private readonly Lazy<IGenericRepository<Giveaway>> _giveawayRepository;
     private readonly Lazy<IGenericRepository<Order>> _orderRepository;
     private readonly Lazy<IGenericRepository<OrderItem>> _orderItemsRepository;
     private readonly Lazy<IGenericRepository<PaymentMethod>> _paymentRepository;
@@ -32,6 +33,7 @@ public class UnitOfWork : IUnitOfWork
     /// </summary>
     /// <param name="context">PlayPrism database context.</param>
     /// <param name="productRepository">Repository for product.</param>
+    /// <param name="giveawayRepository">Repository for giveaway.</param>
     /// <param name="orderRepository">Repository for order.</param>
     /// <param name="orderItemsRepository">Repository for order items.</param>
     /// <param name="paymentRepository">Repository for payment method.</param>
@@ -44,6 +46,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(
         PlayPrismContext context,
         Lazy<IGenericRepository<Product>> productRepository,
+        Lazy<IGenericRepository<Giveaway>> giveawayRepository,
         Lazy<IGenericRepository<Order>> orderRepository,
         Lazy<IGenericRepository<OrderItem>> orderItemsRepository,
         Lazy<IGenericRepository<PaymentMethod>> paymentRepository,
@@ -56,6 +59,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
         _productRepository = productRepository;
+        _giveawayRepository = giveawayRepository;
         _orderRepository = orderRepository;
         _orderItemsRepository = orderItemsRepository;
         _paymentRepository = paymentRepository;
@@ -69,6 +73,9 @@ public class UnitOfWork : IUnitOfWork
 
     /// <inheritdoc />
     public IGenericRepository<Product> Products => _productRepository.Value;
+
+    /// <inheritdoc />
+    public IGenericRepository<Giveaway> Giveaways => _giveawayRepository.Value;
 
     /// <inheritdoc />
     public IGenericRepository<Order> Orders => _orderRepository.Value;

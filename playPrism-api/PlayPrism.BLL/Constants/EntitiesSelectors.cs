@@ -29,4 +29,20 @@ public static class EntitiesSelectors
         ReleaseDate = q.ReleaseDate,
         Price = q.Price,
     };
+
+    /// <summary>
+    /// Gets or sets giveaway selector
+    /// </summary>
+    public static Expression<Func<Giveaway, Giveaway>> GiveawaySelector => q => new Giveaway
+    {
+        Id = q.Id,
+        ProductId = q.ProductId,
+        Participants = q.Participants.Select(participant => new UserProfile
+        {
+            Id = participant.Id,
+            Nickname = participant.Nickname
+        }).ToList(),
+        WinnerId = q.WinnerId,
+        ExpirationDate = q.ExpirationDate,
+    };
 }

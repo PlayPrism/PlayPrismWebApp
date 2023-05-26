@@ -15,6 +15,8 @@ public class PlayPrismContext : DbContext
     {
     }
 
+    public DbSet<Giveaway> Giveaways { get; set; }
+
     /// <summary>
     /// Gets or sets representation Orders table in database.
     /// </summary>
@@ -88,6 +90,15 @@ public class PlayPrismContext : DbContext
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Giveaway>()
+            .HasMany(bc => bc.Participants)
+            .WithMany(c => c.Giveaways);
+
+        modelBuilder.Entity<Giveaway>()
+            .HasOne(bc => bc.Winner)
+            .WithMany(b => b.WonGiveaways)
+            .HasForeignKey(bc => bc.WinnerId);
+
         modelBuilder.Entity<Order>()
             .HasOne(bc => bc.PaymentMethod)
             .WithMany(b => b.Orders)
