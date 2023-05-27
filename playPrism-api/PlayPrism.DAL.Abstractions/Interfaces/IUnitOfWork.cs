@@ -62,6 +62,11 @@ public interface IUnitOfWork
     /// Gets variations repository.
     /// </summary>
     IGenericRepository<VariationOption> Variations { get; }
+    
+    /// <summary>
+    /// Gets variations repository.
+    /// </summary>
+    IGenericRepository<RefreshToken> RefreshTokens { get; }
 
     /// <summary>
     /// Asynchronously begins database transaction.

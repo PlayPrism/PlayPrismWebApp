@@ -29,11 +29,6 @@ public class UserProfile : BaseEntity
     public string Password { get; set; }
 
     /// <summary>
-    /// 
-    /// </summary>
-    public byte[] PasswordSalt { get; set; }
-
-    /// <summary>
     /// Gets or sets Image url.
     /// </summary>
     public string Image { get; set; }

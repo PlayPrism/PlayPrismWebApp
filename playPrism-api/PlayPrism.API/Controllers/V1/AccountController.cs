@@ -27,7 +27,7 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login(AuthRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login([FromBody] AuthRequest request, CancellationToken cancellationToken)
     {
         var responseDto =
             await _accountService.LoginAsync(request.Email, request.Password, cancellationToken);
@@ -41,6 +41,8 @@ public class AccountController : ControllerBase
             return Unauthorized("Failed to login".ToErrorResponse());
         }
 
+        SetRefreshTokenCookie(responseDto.RefreshToken);
+
         var response = new AuthResponse
         {
             Role = responseDto.Role,
@@ -48,13 +50,13 @@ public class AccountController : ControllerBase
             Email = responseDto.Email,
             AccessToken = responseDto.AccessToken
         };
-        
+
         return Ok(response.ToApiResponse());
     }
 
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Register(AuthRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register([FromBody] AuthRequest request, CancellationToken cancellationToken)
     {
         var regDto =
             await _accountService.RegisterAsync(request.Email, request.Password,
@@ -66,7 +68,7 @@ public class AccountController : ControllerBase
         }
 
         SetRefreshTokenCookie(regDto.RefreshToken);
-            
+
         var response = new AuthResponse
         {
             Role = regDto.Role,
@@ -74,12 +76,10 @@ public class AccountController : ControllerBase
             Email = regDto.Email,
             AccessToken = regDto.AccessToken,
         };
-        
-        
 
         return Ok(response.ToApiResponse());
     }
-    
+
     private void SetRefreshTokenCookie(RefreshToken newRefreshToken)
     {
         var cookieOptions = new CookieOptions
