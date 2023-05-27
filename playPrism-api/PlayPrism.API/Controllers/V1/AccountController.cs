@@ -32,16 +32,11 @@ public class AccountController : ControllerBase
         var responseDto =
             await _accountService.LoginAsync(request.Email, request.Password, cancellationToken);
 
-        //var cookie = new Cookie(Cook)
-
-        //Response.Cookies["authCookie"]
-
         if (responseDto == null)
         {
             return Unauthorized("Failed to login".ToErrorResponse());
         }
-        
-        SetRefreshTokenCookie(responseDto.RefreshToken);
+
 
         SetRefreshTokenCookie(responseDto.RefreshToken);
 
