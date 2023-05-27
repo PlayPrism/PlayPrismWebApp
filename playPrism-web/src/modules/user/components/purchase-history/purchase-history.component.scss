@@ -70,3 +70,23 @@
   height: 116px;
   width: 182px;
 }
+
+.show-more{
+}
+
+.show-more a{
+  margin-top: 47px;
+  display: block;
+  max-width: 100%;
+  background: #3A4155;
+  border-radius: 12px;
+  height: 48px;
+  text-align: center;
+  padding-top: 10px;
+  color: #FFFFFF;
+  font-size: 18px;
+}
+
+.show-more a:hover{
+  background: #2D394F;
+}
