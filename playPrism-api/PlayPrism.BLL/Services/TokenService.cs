@@ -55,9 +55,10 @@ public class TokenService : ITokenService
 
         var res = new RefreshToken
         {
+            UserProfileId = user.Id,
             User = user,
             Token = Convert.ToBase64String(randomNumber),
-            ExpireDate = DateTime.UtcNow.Add(_tokenSettings.RefreshTokenLifeTime)
+            ExpireDate = DateTime.UtcNow.Add(_tokenSettings.RefreshTokenLifeTime),
         };
         return res ;
     }

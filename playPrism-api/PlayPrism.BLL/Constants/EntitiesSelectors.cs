@@ -8,10 +8,10 @@ namespace PlayPrism.BLL.Constants;
 /// </summary>
 public static class EntitiesSelectors
 {
-   /// <summary>
-   /// Gets or sets product selector
-   /// </summary>
-   public static Expression<Func<Product, Product>> ProductSelector => q => new Product
+    /// <summary>
+    /// Gets or sets product selector
+    /// </summary>
+    public static Expression<Func<Product, Product>> ProductSelector => q => new Product
     {
         Name = q.Name,
         VariationOptions = q.VariationOptions.Select(option => new VariationOption
@@ -28,5 +28,16 @@ public static class EntitiesSelectors
         HeaderImage = q.HeaderImage,
         ReleaseDate = q.ReleaseDate,
         Price = q.Price,
+    };
+
+    /// <summary>
+    /// Gets or sets Refresh token selector selector
+    /// </summary>
+    public static Expression<Func<RefreshToken, RefreshToken>> RefreshTokenSelector => q => new RefreshToken
+    {
+        Id = q.Id,
+        Token = q.Token,
+        User = q.User,
+        ExpireDate = q.ExpireDate
     };
 }

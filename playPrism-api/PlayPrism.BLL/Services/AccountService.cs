@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.BLL.Abstractions.Interfaces;
+using PlayPrism.BLL.Constants;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.DTOs;
 using PlayPrism.Core.Settings;
@@ -19,12 +20,14 @@ public class AccountService : IAccountService
     private readonly IUnitOfWork _unitOfWork;
     private readonly JwtSettings _jwtSettings;
 
-    public AccountService(ITokenService tokenService,IOptions<JwtSettings> jwtOptions, IUnitOfWork unitOfWork)
+    public AccountService(
+        ITokenService tokenService,
+        IOptions<JwtSettings> jwtOptions,
+        IUnitOfWork unitOfWork)
     {
         _tokenService = tokenService;
         _unitOfWork = unitOfWork;
         _jwtSettings = jwtOptions.Value;
-
     }
 
     /// <inheritdoc />
@@ -43,11 +46,35 @@ public class AccountService : IAccountService
 
         var verificationResult = hash == user.Password;
 
-        if (verificationResult)
+        if (verificationResult != true) return null;
+
+        var tokens = await _unitOfWork.RefreshTokens.GetByConditionAsync(x => x.User.Id == user.Id,
+            EntitiesSelectors.RefreshTokenSelector,
+            cancellationToken);
+        if (tokens != null)
         {
-            var claims = GetUserClaims(user);
-            var token = _tokenService.GenerateAccessToken(claims);
-            var refreshToken = _tokenService.GenerateRefreshToken(user);
+            var tokenToDelete = tokens.FirstOrDefault();
+            _unitOfWork.RefreshTokens.Delete(tokenToDelete);
+        }
+
+        var claims = GetUserClaims(user);
+        var token = _tokenService.GenerateAccessToken(claims);
+        var refreshToken = _tokenService.GenerateRefreshToken(user);
+
+
+        try
+        {
+            using var trans = _unitOfWork.CreateTransactionAsync();
+
+            user.RefreshToken = refreshToken;
+            
+            await _unitOfWork.RefreshTokens.AddAsync(refreshToken, cancellationToken);
+
+            _unitOfWork.Users.Update(user);
+
+            await _unitOfWork.CommitTransactionAsync();
+            await _unitOfWork.SaveAsync();
+
             var response = new AuthDTO()
             {
                 Role = user.Role,
@@ -58,8 +85,15 @@ public class AccountService : IAccountService
             };
             return response;
         }
+        
+        catch (Exception e)
+        {
+            await _unitOfWork.RollbackTransactionAsync();
+            return null;
+        }
 
-        return null;
+
+        
     }
 
     /// <inheritdoc />
@@ -67,8 +101,6 @@ public class AccountService : IAccountService
     {
         try
         {
-            //GetPasswordHash(password, out string passwordHash, out byte[] passwordSalt);
-
             var passwordHash = GetHash(password);
 
             var isUserPresent = await _unitOfWork.Users.ExistAsync(user => user.Email == email, cancellationToken);
@@ -85,15 +117,20 @@ public class AccountService : IAccountService
                 Role = 0
             };
 
-            await _unitOfWork.Users.AddAsync(user, cancellationToken);
-
-
             var claims = GetUserClaims(user);
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
 
             var refreshToken = _tokenService.GenerateRefreshToken(user);
+
+            user.RefreshToken = refreshToken;
+
+
+            using var trans = _unitOfWork.CreateTransactionAsync();
             
+            await _unitOfWork.Users.AddAsync(user, cancellationToken);
+            
+
             await _unitOfWork.RefreshTokens.AddAsync(refreshToken, cancellationToken);
 
             var response = new AuthDTO
@@ -104,13 +141,15 @@ public class AccountService : IAccountService
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
-            
+
+            await _unitOfWork.CommitTransactionAsync();
             await _unitOfWork.SaveAsync();
             return response;
         }
-        
+
         catch (Exception e)
         {
+            await _unitOfWork.RollbackTransactionAsync();
             return null;
         }
     }
@@ -133,21 +172,20 @@ public class AccountService : IAccountService
     private void GetPasswordHash(string password, out string passwordHash, out byte[] passwordSalt)
     {
         var passBytes = Encoding.ASCII.GetBytes(password);
-        
+
         using var hmac = new HMACSHA256();
-        
+
         passwordSalt = hmac.Key;
-        
+
         var hash = hmac.ComputeHash(passBytes);
 
         passwordHash = Encoding.ASCII.GetString(hash);
-
     }
-    
+
     private string GetHash(string password)
     {
         var passBytes = Encoding.UTF8.GetBytes(password);
-        
+
         using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 
         var hash = hmac.ComputeHash(passBytes);
@@ -159,17 +197,15 @@ public class AccountService : IAccountService
 
     private bool VerifyPasswordHash(string password, string passwordHash, byte[] passwordSalt)
     {
-
         //byte[] hashBytes = Encoding.UTF8.GetBytes(passwordHash);
 
         // var key = Encoding.UTF8.GetBytes(passwordSalt);
-        
+
         using var hmac = new HMACSHA256();
         var computedHash = hmac.ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
 
         var res = Encoding.ASCII.GetString(computedHash);
 
         return passwordHash == res;
-
     }
 }

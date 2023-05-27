@@ -146,5 +146,11 @@ public class PlayPrismContext : DbContext
             .HasOne(options => options.Product)
             .WithMany(configuration => configuration.VariationOptions)
             .HasForeignKey(option => option.ProductId);
+
+        modelBuilder.Entity<RefreshToken>()
+            .HasOne(opt => opt.User)
+            .WithOne(x => x.RefreshToken)
+            .HasForeignKey<RefreshToken>(token => token.UserProfileId);
+
     }
 }

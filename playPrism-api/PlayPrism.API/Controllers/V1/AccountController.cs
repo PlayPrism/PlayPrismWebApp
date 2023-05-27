@@ -76,6 +76,34 @@ public class AccountController : ControllerBase
 
         return Ok(response.ToApiResponse());
     }
+    
+    // [HttpPost]
+    // [Route("register")]
+    // public async Task<IActionResult> Refresh(string refreshToken, CancellationToken cancellationToken)
+    // {
+    //     var regDto =
+    //         await _accountService.RegisterAsync(request.Email, request.Password,
+    //             cancellationToken);
+    //
+    //     if (regDto == null)
+    //     {
+    //         return Unauthorized($"User with such email {request.Email} already exists.".ToErrorResponse());
+    //     }
+    //
+    //     SetRefreshTokenCookie(regDto.RefreshToken);
+    //
+    //     var response = new AuthResponse
+    //     {
+    //         Role = regDto.Role,
+    //         UserId = regDto.UserId,
+    //         Email = regDto.Email,
+    //         AccessToken = regDto.AccessToken,
+    //     };
+    //
+    //     return Ok(response.ToApiResponse());
+    // }
+    
+    
 
     private void SetRefreshTokenCookie(RefreshToken newRefreshToken)
     {
