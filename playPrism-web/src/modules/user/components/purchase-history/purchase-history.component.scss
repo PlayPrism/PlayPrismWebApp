@@ -50,7 +50,16 @@
 }
 
 .product-rating{
-  margin-left: 80px;
+  margin-left: 73px;
+  display: inline-block;
+}
+
+.product-rating img{
+  width: 11px;
+  display: inline-block;
+  height: 11px;
+  margin-top: -1px;
+  margin-right: 2px;
 }
 
 .product-cost{
@@ -64,7 +73,7 @@
   max-width: 880px;
 }
 
-.product-item a img{
+.product-logo{
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   height: 116px;
