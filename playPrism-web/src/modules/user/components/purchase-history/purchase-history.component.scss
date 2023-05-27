@@ -1,0 +1,72 @@
+.main-label{
+  font-size: 32px;
+  color: #FFFFFF;
+  margin-top: 21px;
+}
+
+.table-purchase{
+  width: 880px;
+  margin-top: 37px;
+}
+
+.table-purchase h1{
+  color: #777E90;
+  font-size: 16px;
+}
+
+.table-purchase h1 span:nth-child(1){
+  margin-left: 222px;
+}
+
+.table-purchase h1 span:nth-child(2){
+  margin-left: 180px;
+}
+
+.table-purchase h1 span:nth-child(3){
+  margin-left: 80px;
+}
+
+.table-purchase h1 span:nth-child(4){
+  margin-left: 138px;
+}
+
+.product-item{
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  margin-top: 24px;
+}
+
+.product-content{
+  color: white;
+  font-family: 'Proxima Nova Light', serif;
+  font-size: 16px;
+}
+
+.product-name{
+  margin-left: 21px;
+}
+
+.purchase-date{
+  margin-left: 136px;
+}
+
+.product-rating{
+  margin-left: 80px;
+}
+
+.product-cost{
+  margin-left: 150px;
+}
+
+.product-item a{
+  border-radius: 25px;
+  background: rgba(89, 107, 150, 0.3);
+  backdrop-filter: blur(25px);
+  max-width: 880px;
+}
+
+.product-item a img{
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  height: 116px;
+  width: 182px;
+}
