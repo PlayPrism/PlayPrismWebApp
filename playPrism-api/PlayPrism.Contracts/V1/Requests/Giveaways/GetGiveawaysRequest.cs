@@ -1,6 +1,6 @@
 ﻿using PlayPrism.Core.Domain.Filters;
 
-namespace PlayPrism.Contracts.V1.Requests.Products
+namespace PlayPrism.Contracts.V1.Requests.Giveaways
 {
     public class GetGiveawaysRequest
     {

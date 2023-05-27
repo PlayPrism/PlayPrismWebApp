@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
-using PlayPrism.Contracts.V1.Requests.Products;
+using PlayPrism.Contracts.V1.Requests.Giveaways;
 using PlayPrism.Contracts.V1.Responses.Giveaways;
-using PlayPrism.Contracts.V1.Responses.Products;
 
 namespace PlayPrism.API.Controllers.V1
 {
@@ -44,6 +43,7 @@ namespace PlayPrism.API.Controllers.V1
 
             return Ok(giveaway.ToApiResponse());
         }
+
 
         [HttpGet]
         [ProducesResponseType(typeof(GiveawayResponse), StatusCodes.Status200OK)]

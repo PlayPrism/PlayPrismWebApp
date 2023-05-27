@@ -36,7 +36,24 @@ public static class EntitiesSelectors
     public static Expression<Func<Giveaway, Giveaway>> GiveawaySelector => q => new Giveaway
     {
         Id = q.Id,
-        ProductId = q.ProductId,
+        Product = new Product
+        {
+            Id = q.Product.Id,
+            Name = q.Product.Name,
+            HeaderImage = q.Product.HeaderImage,
+            Price = q.Product.Price,
+            ReleaseDate = q.Product.ReleaseDate,
+            ShortDescription = q.Product.ShortDescription,
+            DetailedDescription = q.Product.DetailedDescription,
+            ProductCategory = q.Product.ProductCategory,
+            ProductCategoryId = q.Product.ProductCategoryId,
+            VariationOptions = q.Product.VariationOptions.Select(option => new VariationOption
+            {
+                Id = option.Id,
+                ProductConfiguration = option.ProductConfiguration,
+                Value = option.Value,
+            }).ToList(),
+        },
         Participants = q.Participants.Select(participant => new UserProfile
         {
             Id = participant.Id,
