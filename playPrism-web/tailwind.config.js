@@ -6,7 +6,7 @@ module.exports = {
       width: {
         70: "280px",
       },
-    },
+    }
   },
   plugins: [
     require("@tailwindcss/typography"),
