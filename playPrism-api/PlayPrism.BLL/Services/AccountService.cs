@@ -2,10 +2,12 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Options;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.BLL.Abstractions.Interfaces;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.DTOs;
+using PlayPrism.Core.Settings;
 using PlayPrism.DAL.Abstractions.Interfaces;
 
 namespace PlayPrism.BLL.Services;
@@ -15,11 +17,14 @@ public class AccountService : IAccountService
 {
     private readonly ITokenService _tokenService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly JwtSettings _jwtSettings;
 
-    public AccountService(ITokenService tokenService, IUnitOfWork unitOfWork)
+    public AccountService(ITokenService tokenService,IOptions<JwtSettings> jwtOptions, IUnitOfWork unitOfWork)
     {
         _tokenService = tokenService;
         _unitOfWork = unitOfWork;
+        _jwtSettings = jwtOptions.Value;
+
     }
 
     /// <inheritdoc />
@@ -34,7 +39,9 @@ public class AccountService : IAccountService
             return null;
         }
 
-        var verificationResult = VerifyPasswordHash(password, user.Password, user.PasswordSalt);
+        var hash = GetHash(password);
+
+        var verificationResult = hash == user.Password;
 
         if (verificationResult)
         {
@@ -60,7 +67,9 @@ public class AccountService : IAccountService
     {
         try
         {
-            GetPasswordHash(password, out string passwordHash, out byte[] passwordSalt);
+            //GetPasswordHash(password, out string passwordHash, out byte[] passwordSalt);
+
+            var passwordHash = GetHash(password);
 
             var isUserPresent = await _unitOfWork.Users.ExistAsync(user => user.Email == email, cancellationToken);
 
@@ -73,17 +82,19 @@ public class AccountService : IAccountService
             {
                 Email = email,
                 Password = passwordHash,
-                PasswordSalt = passwordSalt,
                 Role = 0
             };
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
+
 
             var claims = GetUserClaims(user);
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
 
             var refreshToken = _tokenService.GenerateRefreshToken(user);
+            
+            await _unitOfWork.RefreshTokens.AddAsync(refreshToken, cancellationToken);
 
             var response = new AuthDTO
             {
@@ -100,7 +111,6 @@ public class AccountService : IAccountService
         
         catch (Exception e)
         {
-            await _unitOfWork.RollbackTransactionAsync();
             return null;
         }
     }
@@ -114,7 +124,7 @@ public class AccountService : IAccountService
             new Claim(JwtRegisteredClaimNames.Name, user.Nickname ??= string.Empty),
             new Claim(ClaimTypes.Role, Enum.GetName(user.Role)),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.Nickname)
+            new Claim(ClaimTypes.Name, user?.Nickname)
         });
 
         return result;
@@ -122,7 +132,7 @@ public class AccountService : IAccountService
 
     private void GetPasswordHash(string password, out string passwordHash, out byte[] passwordSalt)
     {
-        var passBytes = Encoding.UTF8.GetBytes(password);
+        var passBytes = Encoding.ASCII.GetBytes(password);
         
         using var hmac = new HMACSHA256();
         
@@ -130,18 +140,36 @@ public class AccountService : IAccountService
         
         var hash = hmac.ComputeHash(passBytes);
 
-        passwordHash = Encoding.UTF8.GetString(hash);
+        passwordHash = Encoding.ASCII.GetString(hash);
 
+    }
+    
+    private string GetHash(string password)
+    {
+        var passBytes = Encoding.UTF8.GetBytes(password);
+        
+        using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+
+        var hash = hmac.ComputeHash(passBytes);
+
+        var res = Encoding.UTF8.GetString(hash);
+
+        return res;
     }
 
     private bool VerifyPasswordHash(string password, string passwordHash, byte[] passwordSalt)
     {
 
-        byte[] hashBytes = Encoding.UTF8.GetBytes(passwordHash);
+        //byte[] hashBytes = Encoding.UTF8.GetBytes(passwordHash);
 
-        using var hmac = new HMACSHA256(passwordSalt);
-        var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        // var key = Encoding.UTF8.GetBytes(passwordSalt);
         
-        return computedHash.SequenceEqual(hashBytes);
+        using var hmac = new HMACSHA256();
+        var computedHash = hmac.ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
+
+        var res = Encoding.ASCII.GetString(computedHash);
+
+        return passwordHash == res;
+
     }
 }

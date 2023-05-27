@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlayPrism.DAL;
@@ -11,9 +12,11 @@ using PlayPrism.DAL;
 namespace PlayPrism.DAL.Migrations
 {
     [DbContext(typeof(PlayPrismContext))]
-    partial class PlayPrismContextModelSnapshot : ModelSnapshot
+    [Migration("20230527173331_removedPasswordSalt")]
+    partial class removedPasswordSalt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,34 +212,6 @@ namespace PlayPrism.DAL.Migrations
                     b.ToTable("ProductItems");
                 });
 
-            modelBuilder.Entity("PlayPrism.Core.Domain.RefreshToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ExpireDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshToken");
-                });
-
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -405,15 +380,6 @@ namespace PlayPrism.DAL.Migrations
                     b.Navigation("OrderItem");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("PlayPrism.Core.Domain.RefreshToken", b =>
-                {
-                    b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserReview", b =>

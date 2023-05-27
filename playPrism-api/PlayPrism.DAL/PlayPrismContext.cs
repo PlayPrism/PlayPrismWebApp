@@ -64,6 +64,13 @@ public class PlayPrismContext : DbContext
     /// Gets or sets representation VariationOptions table in database.
     /// </summary>
     public DbSet<VariationOption> VariationOptions { get; set; }
+    
+    /// <summary>
+    /// Gets or sets representation RefreshToken table in database.
+    /// </summary>
+    public DbSet<RefreshToken> RefreshToken { get; set; }
+    
+    
 
     /// <inheritdoc />
     public override int SaveChanges()

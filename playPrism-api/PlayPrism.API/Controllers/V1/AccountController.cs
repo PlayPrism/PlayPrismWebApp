@@ -40,6 +40,8 @@ public class AccountController : ControllerBase
         {
             return Unauthorized("Failed to login".ToErrorResponse());
         }
+        
+        SetRefreshTokenCookie(responseDto.RefreshToken);
 
         var response = new AuthResponse
         {

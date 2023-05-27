@@ -23,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly Lazy<IGenericRepository<ProductItem>> _productItemRepository;
     private readonly Lazy<IGenericRepository<UserProfile>> _userRepository;
     private readonly Lazy<IGenericRepository<UserReview>> _reviewRepository;
+    private readonly Lazy<IGenericRepository<RefreshToken>> _refreshTokenRepository;
     private readonly Lazy<IGenericRepository<VariationOption>> _variationRepository;
     private IDbContextTransaction _transactionObj;
 
@@ -52,6 +53,7 @@ public class UnitOfWork : IUnitOfWork
         Lazy<IGenericRepository<ProductItem>> productItemRepository,
         Lazy<IGenericRepository<UserProfile>> userRepository,
         Lazy<IGenericRepository<UserReview>> reviewRepository,
+        Lazy<IGenericRepository<RefreshToken>> refreshTokenRepository,
         Lazy<IGenericRepository<VariationOption>> variationRepository)
     {
         _context = context;
@@ -64,6 +66,7 @@ public class UnitOfWork : IUnitOfWork
         _productItemRepository = productItemRepository;
         _userRepository = userRepository;
         _reviewRepository = reviewRepository;
+        _refreshTokenRepository = refreshTokenRepository;
         _variationRepository = variationRepository;
     }
 
@@ -96,6 +99,10 @@ public class UnitOfWork : IUnitOfWork
 
     /// <inheritdoc />
     public IGenericRepository<VariationOption> Variations => _variationRepository.Value;
+    
+    /// <inheritdoc />
+    public IGenericRepository<RefreshToken> RefreshTokens => _refreshTokenRepository.Value;
+    
 
 
     /// <inheritdoc />
@@ -137,8 +144,8 @@ public class UnitOfWork : IUnitOfWork
     {
         await _context.SaveChangesAsync();
         
-        if(_transactionObj != null)
-            _transactionObj.Dispose();
+        // if(_transactionObj != null)
+        //     _transactionObj.Dispose();
     }
     
     
