@@ -1,0 +1,70 @@
+<div
+  class="dropdownNavbar w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 z-10 divide-y divide-gray-100 rounded-lg"
+>
+  <form class="" action="#">
+    <h5 class="dropdown-label text-xl font-medium">З поверненням!</h5>
+    <div>
+      <label for="email" class="block text-sm font-medium">Email / Логін</label>
+      <input
+        type="email"
+        name="email"
+        class="text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        required
+      />
+    </div>
+    <div>
+      <label for="password" class="block text-sm font-medium">Пароль</label>
+      <input
+        type="password"
+        name="password"
+        class="text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        required
+      />
+    </div>
+    <button
+      type="submit"
+      class="sign-in w-full px-5 py-2.5 text-center justify-center"
+    >
+      Увійти
+    </button>
+    <div class="forgot-pass">
+      <a href="#" class="hover:underline">Забули пароль?</a>
+    </div>
+    <div class="flex items-center">
+      <ul>
+        <li>
+          <div>
+            <a
+              href="#"
+              class="dropdown-steam-sign-in inline-flex w-full py-2.5 sign-in-link"
+            >
+              <img src="assets/images/steam_logo.svg" alt="steam_logo" />
+              Увійти за допомогою Steam</a
+            >
+          </div>
+        </li>
+        <li>
+          <div>
+            <a
+              href="#"
+              class="dropdown-google-sign-in inline-flex w-full py-2.5 sign-in-link"
+            >
+              <img src="assets/images/google_logo.svg" alt="google_logo" />
+              Увійти за допомогою Google</a
+            >
+          </div>
+        </li>
+        <li>
+          <p class="question-label block text-center">
+            Ще немає акаунту PLAYPRISM?
+          </p>
+        </li>
+        <li>
+          <a href="#" class="w-full py-2.5 dropdown-register"
+            >Зареєструватися</a
+          >
+        </li>
+      </ul>
+    </div>
+  </form>
+</div>

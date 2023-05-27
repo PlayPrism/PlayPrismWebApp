@@ -8,6 +8,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { ShellComponent } from './components/app-shell/app-shell.component';
 import { RouterModule } from '@angular/router';
+import { HeaderSearchComponent } from './components/header-search/header-search.component';
+import { HeaderDropdownComponent } from './components/header-dropdown/header-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { RouterModule } from '@angular/router';
     CarouselComponent,
     HeaderComponent,
     ShellComponent,
+    HeaderSearchComponent,
+    HeaderDropdownComponent,
   ],
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   exports: [
@@ -25,6 +29,9 @@ import { RouterModule } from '@angular/router';
     CarouselComponent,
     HeaderComponent,
     ShellComponent,
+    HeaderSearchComponent,
+    HeaderDropdownComponent,
+    FormsModule,
   ],
 })
 export class SharedModule {}
