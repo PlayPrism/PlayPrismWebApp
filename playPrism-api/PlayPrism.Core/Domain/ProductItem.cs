@@ -21,7 +21,12 @@ public class ProductItem : BaseEntity
     public string Value { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public Guid? OrderItemId { get; set; }
+
+    /// <summary>
     /// Gets or sets reference to OrderItem entity.
     /// </summary>
-    public OrderItem OrderItem { get; set; }
+    public OrderItem? OrderItem { get; set; }
 }

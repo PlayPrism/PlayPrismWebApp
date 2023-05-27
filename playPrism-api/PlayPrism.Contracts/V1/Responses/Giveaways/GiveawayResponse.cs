@@ -1,4 +1,5 @@
 ﻿using PlayPrism.Contracts.V1.Responses.Products;
+using PlayPrism.Contracts.V1.Responses.UserProfiles;
 using PlayPrism.Core.Domain;
 
 namespace PlayPrism.Contracts.V1.Responses.Giveaways
@@ -11,7 +12,9 @@ namespace PlayPrism.Contracts.V1.Responses.Giveaways
 
         public IList<UserProfile> Participants { get; set; }
 
-        public Guid WinnerId { get; set; }
+        public string Value { get; set; }
+
+        public UserProfileResponse Winner { get; set; }
 
         public DateTime ExpirationDate { get; set; }
     }

@@ -2,6 +2,7 @@
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.BLL.Constants;
 using PlayPrism.Contracts.V1.Responses.Giveaways;
+using PlayPrism.Contracts.V1.Responses.ProductItems;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Domain.Filters;
 using PlayPrism.DAL.Abstractions.Interfaces;
@@ -25,9 +26,8 @@ namespace PlayPrism.BLL.Services
         {
             try
             {
-                var predicates = new List<Expression<Func<Giveaway, bool>>>();
                 var giveaways = await _unitOfWork.Giveaways
-                    .GetPageWithMultiplePredicatesAsync(predicates, pageInfo, EntitiesSelectors.GiveawaySelector, cancellationToken);
+                    .GetPageWithMultiplePredicatesAsync(null, pageInfo, EntitiesSelectors.GiveawaySelector, cancellationToken);
                 var result = _mapper.Map<List<GiveawayResponse>>(giveaways);
                 return result;
             }
@@ -41,12 +41,30 @@ namespace PlayPrism.BLL.Services
         public async Task<GiveawayResponse> GetGiveawayByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var giveaway = (await _unitOfWork.Giveaways
-                .GetByConditionAsync(
+               .GetByConditionAsync(
                     giveaway => giveaway.Id == id,
                     EntitiesSelectors.GiveawaySelector,
                     cancellationToken)).FirstOrDefault();
 
             var result = _mapper.Map<GiveawayResponse>(giveaway);
+            return result;
+        }
+
+        public async Task<ProductItemResponse> GetPrizeAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var giveaways = await _unitOfWork.Giveaways
+               .GetByConditionAsync(
+                    giveaway => giveaway.Id == id,
+                    EntitiesSelectors.GiveawaySelector,
+                    cancellationToken);
+
+            var res = giveaways.FirstOrDefault();
+
+            //res.Product.ProductItems.FirstOrDefault();
+
+            //var productItem = res.Product.ProductItems.FirstOrDefault();
+
+            var result = _mapper.Map<ProductItemResponse>(res);
             return result;
         }
     }

@@ -15,6 +15,9 @@ public class PlayPrismContext : DbContext
     {
     }
 
+    /// <summary>
+    /// Gets or sets representation Giveaways table in database.
+    ///</summary>    
     public DbSet<Giveaway> Giveaways { get; set; }
 
     /// <summary>
@@ -117,7 +120,7 @@ public class PlayPrismContext : DbContext
         modelBuilder.Entity<OrderItem>()
             .HasOne(a => a.ProductItem)
             .WithOne(b => b.OrderItem)
-            .HasForeignKey<ProductItem>(b => b.Id);
+            .HasForeignKey<ProductItem>(b => b.OrderItemId);
 
         modelBuilder.Entity<Product>()
             .HasMany(bc => bc.ProductItems)

@@ -53,13 +53,20 @@ public static class EntitiesSelectors
                 ProductConfiguration = option.ProductConfiguration,
                 Value = option.Value,
             }).ToList(),
+            ProductItems = q.Product.ProductItems.ToList(),
         },
         Participants = q.Participants.Select(participant => new UserProfile
         {
             Id = participant.Id,
             Nickname = participant.Nickname
         }).ToList(),
-        WinnerId = q.WinnerId,
+        Winner = new UserProfile 
+        {
+            Id = q.Winner.Id,
+            Nickname = q.Winner.Nickname,
+            Image = q.Winner.Image,
+            Email = q.Winner.Email,
+        },
         ExpirationDate = q.ExpirationDate,
     };
 }

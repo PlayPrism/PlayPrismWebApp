@@ -4,6 +4,7 @@ using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.Giveaways;
 using PlayPrism.Contracts.V1.Responses.Giveaways;
+using PlayPrism.Contracts.V1.Responses.ProductItems;
 
 namespace PlayPrism.API.Controllers.V1
 {
@@ -25,12 +26,16 @@ namespace PlayPrism.API.Controllers.V1
             _logger = logger;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GiveawayResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetGiveawayByIdAsync(
-        [FromRoute] Guid id,
-        CancellationToken cancellationToken)
+        public async Task<IActionResult> GetGiveawayByIdAsync([FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var giveaway = await _giveawaysService
                 .GetGiveawayByIdAsync(id, cancellationToken);
@@ -59,6 +64,23 @@ namespace PlayPrism.API.Controllers.V1
             }
 
             return Ok(giveaways.ToApiResponse());
+        }
+
+        [HttpGet("{id}/prize")]
+        [ProducesResponseType(typeof(ProductItemResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPrizeAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            var prize = await _giveawaysService
+                .GetPrizeAsync(id, cancellationToken);
+
+            if (prize is null)
+            {
+                _logger.LogError($"Prize with {id} id not found");
+                return NotFound($"Prize with {id} id not found".ToErrorResponse());
+            }
+
+            return Ok(prize.ToApiResponse());
         }
     }
 }

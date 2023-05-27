@@ -37,11 +37,13 @@ public class Seeder : ISeeder
             await GenerateProductVariationsAsync();
             await GenerateUsersAsync();
             await GenerateGiveawaysAsync();
+            await GenerateProductItemsAsync();
         }
         else
         {
             _logger.LogInformation("Seeder: Database is already seeded or not empty");
         }
+        
     }
 
     private async Task GenerateProductsAsync()
@@ -147,6 +149,24 @@ public class Seeder : ISeeder
         await _unitOfWork.CommitAsync();
         _logger.LogInformation("Seeder: Product categories created");
     }
+    
+    private async Task GenerateUsersAsync()
+    {
+        var games = await _unitOfWork.Products.GetByConditionAsync(x => x.ProductCategory.CategoryName == "Games");
+        var userProfiles = games.Select(user =>
+                   new Faker<UserProfile>()
+                   .RuleFor(p => p.Nickname, f => f.Internet.UserName())
+                   .RuleFor(p => p.Email, f => f.Internet.Email())
+                   .RuleFor(p => p.Password, f => f.Internet.Password())
+                   .RuleFor(p => p.Role, Role.User)
+                   .RuleFor(p => p.DateCreated, DateTime.UtcNow)
+                   .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
+                   .Generate())
+            .ToList();
+        await _unitOfWork.Users.AddManyAsync(userProfiles);
+        await _unitOfWork.CommitAsync();
+        _logger.LogInformation("Seeder: User profiles created");
+    }
 
     private async Task GenerateGiveawaysAsync()
     {
@@ -168,20 +188,20 @@ public class Seeder : ISeeder
         _logger.LogInformation("Seeder: Giveaways created");
     }
 
-    private async Task GenerateUsersAsync()
+    private async Task GenerateProductItemsAsync() 
     {
-        //var users = await _unitOfWork.Users.GetAllAsync();
         var games = await _unitOfWork.Products.GetByConditionAsync(x => x.ProductCategory.CategoryName == "Games");
-        var userProfiles = games.Select(user =>
-                   new Faker<UserProfile>()
-                   .RuleFor(p => p.Nickname, user.Name)
-                   .RuleFor(p => p.Role, Role.User)
+        var productItems = games.Select(game =>
+                   new Faker<ProductItem>()
+                   .RuleFor(p => p.ProductId, game.Id)
+                   .RuleFor(p => p.Value, f => f.Hacker.Phrase())
                    .RuleFor(p => p.DateCreated, DateTime.UtcNow)
                    .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
                    .Generate())
-            .ToList();
-        await _unitOfWork.Users.AddManyAsync(userProfiles);
+        .ToList();
+
+        await _unitOfWork.ProductItems.AddManyAsync(productItems);
         await _unitOfWork.CommitAsync();
-        _logger.LogInformation("Seeder: User profiles created");
+        _logger.LogInformation("Seeder: Product items created");
     }
 }
