@@ -107,8 +107,15 @@ public class UnitOfWork : IUnitOfWork
     /// <inheritdoc />
     public async Task CommitAsync()
     {
-        await _transactionObj.CommitAsync();
-        //await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+            await _transactionObj.CommitAsync();
+        }
+        catch
+        {
+            await RollbackAsync();
+        }
     }
 
     /// <inheritdoc />

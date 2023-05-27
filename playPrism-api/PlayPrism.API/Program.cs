@@ -7,14 +7,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PlayPrism.API;
 using PlayPrism.API.Extensions;
+using PlayPrism.Core.Settings;
 using PlayPrism.DAL.Abstractions.Interfaces;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var config = builder.Configuration;
+
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(
-    containerBuilder => containerBuilder.RegisterModule(new ApiDiModule(builder.Configuration)));
+    containerBuilder => containerBuilder.RegisterModule(new ApiDiModule(config)));
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -31,14 +34,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters()
         {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
-                (builder.Configuration["TokenKey"])),
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            ValidIssuer = config["JwtSettings:Issuer"],
+            ValidAudience = config["JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"])),
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
             RequireExpirationTime = true,
-            ClockSkew = TimeSpan.FromSeconds(10),
         };
     });
 
@@ -49,6 +52,9 @@ builder.Host.UseSerilog();
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
+
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("JwtSettings"));
 
 // Configure Serilog
 builder.Services.AddLogging(loggingBuilder =>

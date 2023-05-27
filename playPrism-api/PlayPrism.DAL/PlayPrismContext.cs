@@ -88,6 +88,8 @@ public class PlayPrismContext : DbContext
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserProfile>().Property(e => e.Role).HasConversion<string>();
+        
         modelBuilder.Entity<Order>()
             .HasOne(bc => bc.PaymentMethod)
             .WithMany(b => b.Orders)

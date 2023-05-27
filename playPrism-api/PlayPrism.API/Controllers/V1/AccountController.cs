@@ -14,7 +14,7 @@ public class AccountController : ControllerBase
     private readonly ILogger<AccountController> _logger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AccountController"/> class.
+    ///     Initializes a new instance of the <see cref="AccountController" /> class.
     /// </summary>
     /// <param name="accountService">The account service.</param>
     /// <param name="logger">The Logger.</param>
@@ -26,29 +26,55 @@ public class AccountController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login(AuthRequest request, CancellationToken cancellationToken)
     {
-       var response =  await _accountService.LoginAsync(request.Username, request.Password, cancellationToken: cancellationToken);
-       if (response != null)
-       {
-           return Ok(response.ToApiResponse());
-       }
-       
-       return Unauthorized(new LoginResponse().ToApiResponse());
+        var responseDto =
+            await _accountService.LoginAsync(request.Email, request.Password, cancellationToken);
+
+        //var cookie = new Cookie(Cook)
+
+        //Response.Cookies["authCookie"]
+
+        if (responseDto == null)
+        {
+            return Unauthorized("Failed to login".ToErrorResponse());
+        }
+
+        var response = new AuthResponse
+        {
+            Role = responseDto.Role,
+            UserId = responseDto.UserId,
+            Email = responseDto.Email,
+            AccessToken = responseDto.AccessToken
+        };
+        
+        return Ok(response.ToApiResponse());
     }
 
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Register(LoginRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register(AuthRequest request, CancellationToken cancellationToken)
     {
-        var response = await _accountService.RegisterAsync(request.Username, request.Password, cancellationToken: cancellationToken);
-        if (response != null)
+        var registrationResponse =
+            await _accountService.RegisterAsync(request.Email, request.Password,
+                cancellationToken);
+
+        if (registrationResponse == null)
         {
-            return Ok(response.ToApiResponse());
+            return Unauthorized($"User with such email {request.Email} already exists.".ToErrorResponse());
         }
-       
-        return Unauthorized(new LoginResponse().ToApiResponse());
+
+        var response = new AuthResponse
+        {
+            Role = registrationResponse.Role,
+            UserId = registrationResponse.UserId,
+            Email = registrationResponse.Email,
+            AccessToken = registrationResponse.AccessToken,
+        };
+
+        return Ok(response.ToApiResponse());
     }
+
     //
     // [HttpGet]
     // [Route("logout")]
