@@ -8,6 +8,8 @@ public class JwtSettings
 
     public string Audience { get; set; }
 
-    public TimeSpan TokenLifetime { get; set; }
+    public TimeSpan AccessTokenLifetime { get; set; }
+    
+    public TimeSpan RefreshTokenLifeTime { get; set; }
 
 }

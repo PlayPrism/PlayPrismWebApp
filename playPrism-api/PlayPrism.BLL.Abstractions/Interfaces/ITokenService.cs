@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using PlayPrism.Core.Domain;
 
 namespace PlayPrism.BLL.Abstractions.Interfaces;
 
@@ -18,7 +19,7 @@ public interface ITokenService
     /// Generates refresh token.
     /// </summary>
     /// <returns></returns>
-    string GenerateRefreshToken();
+    RefreshToken GenerateRefreshToken(UserProfile user);
 
     /// <summary>
     /// Gets principal form expired token.

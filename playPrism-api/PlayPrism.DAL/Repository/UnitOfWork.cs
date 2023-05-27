@@ -99,36 +99,61 @@ public class UnitOfWork : IUnitOfWork
 
 
     /// <inheritdoc />
+    [Obsolete]
     public async Task BeginTransactionAsync()
     {
         _transactionObj = await _context.Database.BeginTransactionAsync();
     }
-
+    
     /// <inheritdoc />
+    [Obsolete]
     public async Task CommitAsync()
     {
         try
         {
-            await _context.SaveChangesAsync();
-            await _transactionObj.CommitAsync();
+            //await _context.SaveChangesAsync();
+            
+            if(_transactionObj != null)
+                await _transactionObj.CommitAsync();
         }
         catch
         {
             await RollbackAsync();
         }
     }
-
+    
     /// <inheritdoc />
+    [Obsolete]
     public async Task RollbackAsync()
     {
         await _transactionObj.RollbackAsync();
-        await _transactionObj.DisposeAsync();
+        _transactionObj.Dispose();
     }
-
+    
     /// <inheritdoc />
+    
+    
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();
-        await _transactionObj.DisposeAsync();
+        
+        if(_transactionObj != null)
+            _transactionObj.Dispose();
+    }
+    
+    
+    /// <inheritdoc />
+    public Task<IDbContextTransaction> CreateTransactionAsync()
+    {    return _context.Database.BeginTransactionAsync();
+    }
+    
+    /// <inheritdoc />
+    public Task CommitTransactionAsync()
+    {    return _context.Database.CommitTransactionAsync();
+    }
+    
+    /// <inheritdoc />
+    public Task RollbackTransactionAsync()
+    {    return _context.Database.RollbackTransactionAsync();
     }
 }

@@ -3,6 +3,7 @@ using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.Auth;
 using PlayPrism.Contracts.V1.Responses.Auth;
+using PlayPrism.Core.Domain;
 
 namespace PlayPrism.API.Controllers.V1;
 
@@ -55,24 +56,38 @@ public class AccountController : ControllerBase
     [Route("register")]
     public async Task<IActionResult> Register(AuthRequest request, CancellationToken cancellationToken)
     {
-        var registrationResponse =
+        var regDto =
             await _accountService.RegisterAsync(request.Email, request.Password,
                 cancellationToken);
 
-        if (registrationResponse == null)
+        if (regDto == null)
         {
             return Unauthorized($"User with such email {request.Email} already exists.".ToErrorResponse());
         }
 
+        SetRefreshTokenCookie(regDto.RefreshToken);
+            
         var response = new AuthResponse
         {
-            Role = registrationResponse.Role,
-            UserId = registrationResponse.UserId,
-            Email = registrationResponse.Email,
-            AccessToken = registrationResponse.AccessToken,
+            Role = regDto.Role,
+            UserId = regDto.UserId,
+            Email = regDto.Email,
+            AccessToken = regDto.AccessToken,
         };
+        
+        
 
         return Ok(response.ToApiResponse());
+    }
+    
+    private void SetRefreshTokenCookie(RefreshToken newRefreshToken)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = newRefreshToken.ExpireDate
+        };
+        Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
     }
 
     //

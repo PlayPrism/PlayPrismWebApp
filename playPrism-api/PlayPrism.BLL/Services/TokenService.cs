@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PlayPrism.BLL.Abstractions.Interfaces;
+using PlayPrism.Core.Domain;
 using PlayPrism.Core.Settings;
 
 namespace PlayPrism.BLL.Services;
@@ -31,7 +32,7 @@ public class TokenService : ITokenService
             Subject = new ClaimsIdentity(claims),
             Issuer = _tokenSettings.Issuer,
             Audience = _tokenSettings.Audience,
-            Expires = DateTime.UtcNow.Add(_tokenSettings.TokenLifetime),
+            Expires = DateTime.UtcNow.Add(_tokenSettings.AccessTokenLifetime),
             SigningCredentials = signinCredentials
         };
 
@@ -45,13 +46,20 @@ public class TokenService : ITokenService
     }
 
    /// <inheritdoc />
-   public string GenerateRefreshToken()
+   public RefreshToken GenerateRefreshToken(UserProfile user)
     {
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();
         
         rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
+
+        var res = new RefreshToken
+        {
+            User = user,
+            Token = Convert.ToBase64String(randomNumber),
+            ExpireDate = DateTime.UtcNow.Add(_tokenSettings.RefreshTokenLifeTime)
+        };
+        return res ;
     }
 
     /// <inheritdoc />
