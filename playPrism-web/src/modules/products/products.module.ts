@@ -4,7 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import {
   CatalogueComponent,
   ProductDetailsComponent,
-  CartComponent,
+  CartComponent, MainPageComponent,
 } from './components';
 import { ProductDetailsCardComponent } from './components/product-details/product-details-card/product-details-card.component';
 import { ProductsRoutingModule } from './products-routing.module';
@@ -15,6 +15,7 @@ import { ProductsRoutingModule } from './products-routing.module';
     ProductDetailsComponent,
     ProductDetailsCardComponent,
     CartComponent,
+    MainPageComponent,
   ],
   imports: [ProductsRoutingModule, SharedModule],
   providers: [ProductsService],

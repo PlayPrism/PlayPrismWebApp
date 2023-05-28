@@ -1,9 +1,8 @@
-import { Route, RouterModule, Routes } from '@angular/router';
-import { CatalogueComponent } from './components/catalogue/catalogue.component';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { ShellComponent } from '../shared/components/app-shell/app-shell.component';
-import { CartComponent } from './components';
+import {Route, RouterModule, Routes} from "@angular/router";
+import {ShellComponent} from "../shared/components";
+import {CartComponent, CatalogueComponent, MainPageComponent, ProductDetailsComponent} from "./components";
 import {NgModule} from "@angular/core";
+
 
 export const productsRoute: Route = {
   path: 'games',
@@ -11,7 +10,8 @@ export const productsRoute: Route = {
   children: [
     { path: 'cart', component: CartComponent },
     { path: ':id', component: ProductDetailsComponent },
-    { path: '', component: CatalogueComponent },
+    { path: 'catalogue', component: CatalogueComponent },
+    { path: '', component: MainPageComponent },
   ],
 };
 
