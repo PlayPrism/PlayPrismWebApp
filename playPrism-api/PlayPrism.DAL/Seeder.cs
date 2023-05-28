@@ -42,13 +42,12 @@ public class Seeder : ISeeder
             await GeneratePaymentMethodsAsync();
             await GenerateOrdersAsync();
             await GenerateOrderItemsAsync();
-            
+            await UpdateProductItemsAsync();
         }
         else
         {
             _logger.LogInformation("Seeder: Database is already seeded or not empty");
         }
-        await UpdateProductItemsAsync();
     }
 
     private async Task GenerateProductsAsync()
