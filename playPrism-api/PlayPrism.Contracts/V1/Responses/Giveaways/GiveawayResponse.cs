@@ -12,8 +12,6 @@ namespace PlayPrism.Contracts.V1.Responses.Giveaways
 
         public IList<UserProfile> Participants { get; set; }
 
-        public string Value { get; set; }
-
         public UserProfileResponse Winner { get; set; }
 
         public DateTime ExpirationDate { get; set; }

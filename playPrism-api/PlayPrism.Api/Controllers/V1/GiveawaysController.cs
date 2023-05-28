@@ -27,11 +27,11 @@ namespace PlayPrism.API.Controllers.V1
         }
 
         /// <summary>
-        /// 
+        /// Retrieves giveaway by id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="id">The giveaway's id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GiveawayResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,7 +49,12 @@ namespace PlayPrism.API.Controllers.V1
             return Ok(giveaway.ToApiResponse());
         }
 
-
+        /// <summary>
+        /// Retrieves all giveaways.
+        /// </summary>
+        /// <param name="request">The giveaway request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(GiveawayResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,6 +71,12 @@ namespace PlayPrism.API.Controllers.V1
             return Ok(giveaways.ToApiResponse());
         }
 
+        /// <summary>
+        /// Retrieves prize by id and removes it from database.
+        /// </summary>
+        /// <param name="id">The giveaway's id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("{id}/prize")]
         [ProducesResponseType(typeof(ProductItemResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

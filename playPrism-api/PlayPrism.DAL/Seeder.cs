@@ -43,7 +43,6 @@ public class Seeder : ISeeder
         {
             _logger.LogInformation("Seeder: Database is already seeded or not empty");
         }
-        
     }
 
     private async Task GenerateProductsAsync()
@@ -120,7 +119,7 @@ public class Seeder : ISeeder
 
         await _unitOfWork.ProductConfigurations.AddManyAsync(productConfigurations);
         await _unitOfWork.SaveAsync();
-        _logger.LogInformation("Seeder: Product categories created");
+        _logger.LogInformation("Seeder: Product configurations created");
     }
     private async Task GenerateProductVariationsAsync()
     {
@@ -150,7 +149,7 @@ public class Seeder : ISeeder
 
         await _unitOfWork.Variations.AddManyAsync(productVariations);
         await _unitOfWork.SaveAsync();
-        _logger.LogInformation("Seeder: Product categories created");
+        _logger.LogInformation("Seeder: Product variations created");
     }
     
     private async Task GenerateUsersAsync()
@@ -167,7 +166,7 @@ public class Seeder : ISeeder
                    .Generate())
             .ToList();
         await _unitOfWork.Users.AddManyAsync(userProfiles);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: User profiles created");
     }
 
@@ -187,7 +186,7 @@ public class Seeder : ISeeder
         .ToList();
 
         await _unitOfWork.Giveaways.AddManyAsync(giveaways);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Giveaways created");
     }
 
@@ -197,14 +196,14 @@ public class Seeder : ISeeder
         var productItems = games.Select(game =>
                    new Faker<ProductItem>()
                    .RuleFor(p => p.ProductId, game.Id)
-                   .RuleFor(p => p.Value, f => f.Hacker.Phrase())
+                   .RuleFor(p => p.Value, f => f.Random.AlphaNumeric(5).ToUpper() + "-" + f.Random.AlphaNumeric(5).ToUpper() + "-" + f.Random.AlphaNumeric(5).ToUpper())
                    .RuleFor(p => p.DateCreated, DateTime.UtcNow)
                    .RuleFor(p => p.DateUpdated, DateTime.UtcNow)
                    .Generate())
         .ToList();
 
         await _unitOfWork.ProductItems.AddManyAsync(productItems);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product items created");
     }
 }
