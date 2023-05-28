@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.BLL.Helpers;
 using PlayPrism.Contracts.Extensions;
 using PlayPrism.Contracts.V1.Requests.Auth;
 using PlayPrism.Contracts.V1.Responses.Auth;
 using PlayPrism.Core.Domain;
+using Stripe;
 
 namespace PlayPrism.API.Controllers.V1;
 
@@ -106,6 +109,45 @@ public class AccountController : ControllerBase
         {
             return BadRequest("Something went wrong".ToErrorResponse());
         }
+    }
+
+    [HttpPost("requestPasswordReset")]
+    public async Task<IActionResult> RequestPasswordReset([FromBody] string email, CancellationToken cancellationToken)
+    {
+        var res = await _accountService.RequestPasswordRefresh(email);
+        
+        if (res == false)
+        {
+            return BadRequest("Failed to send new refresh code".ToErrorResponse());
+        }
+
+        return Ok();
+    }
+    
+    [HttpPost("verifyCode")]
+    public async Task<IActionResult> VerifyCode([FromBody] EmailWithCodeRequest request, CancellationToken cancellationToken)
+    {
+        var res = await _accountService.VerifyCode(request);
+
+        if (res == false)
+        {
+            return BadRequest("Code is not valid".ToErrorResponse());
+        }
+
+        return Ok();
+    }
+
+    [HttpPost("resetPassword")]
+    public async Task<IActionResult> ResetUserPassword([FromBody] AuthRequest request, CancellationToken cancellationToken)
+    {
+        var res = await _accountService.ResetUserPassword(request);
+
+        if (res == false)
+        {
+            return BadRequest("Failed to refresh password".ToErrorResponse());
+        }
+
+        return Ok();
     }
 
     private void SetRefreshTokenCookie(RefreshToken newRefreshToken)

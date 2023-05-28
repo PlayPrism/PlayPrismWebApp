@@ -69,9 +69,14 @@ public interface IUnitOfWork
     IGenericRepository<VariationOption> Variations { get; }
     
     /// <summary>
-    /// Gets variations repository.
+    /// Gets RefreshTokens repository.
     /// </summary>
     IGenericRepository<RefreshToken> RefreshTokens { get; }
+    
+    /// <summary>
+    /// Gets RefreshCodes repository.
+    /// </summary>
+    IGenericRepository<ResetPasswordCode> RefreshCodes { get; }
 
     /// <summary>
     /// Asynchronously begins database transaction.

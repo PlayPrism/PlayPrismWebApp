@@ -1,0 +1,340 @@
+.filter-menu-container{
+  .catalogue-label{
+    text-align: center;
+    h1{
+      display: inline-block;
+      font-size: 32px;
+      color: #777E90;
+      font-family: "Proxima Nova Semibold", serif;
+      margin-left: 7px;
+      margin-top: 10px;
+    }
+    img{
+      display: inline-block;
+      margin-top: -15px;
+    }
+  }
+  .filter-menu{
+    width: 240px;
+    height: 2076px;
+    background: linear-gradient(180.93deg, #262C3C 0.8%, rgba(24, 31, 44, 0) 102.78%);
+    backdrop-filter: blur(2px);
+    border-radius: 25px;
+    box-shadow: inset 0px 4px 0px #3A4155;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    a{
+      color: #777E90;
+    }
+    a:hover{
+      background: #3A4155;
+      border-radius: 10px;
+      transition: background-color 0.15s ease;
+      padding: 6px 12px;
+      color: #FFFFFF;
+    }
+    .cost-label{
+      font-size: 20px;
+      color: #FFFFFF;
+      font-family: "Proxima Nova Semibold", serif;
+      padding-top: 30px;
+      margin-left: 66px;
+      span{
+        font-family: "Proxima Nova Regular", serif;
+      }
+    }
+    .cost-regulator{
+      margin-left: 42px;
+      padding-top: 20px;
+      div{
+        display: inline-block;
+      }
+      div:first-child{
+        margin-right: 30px;
+      }
+      h1{
+        text-align: center;
+        color: #FFFFFF;
+      }
+      input{
+        width: 60px;
+        background: #3A4155;
+        border-radius: 2px;
+        border: none;
+        text-align: center;
+        outline: none;
+        font-family: "Proxima Nova Semibold", serif;
+        color: #FFFFFF;
+      }
+    }
+    .platform-selector{
+      padding-top: 27px;
+      .platform-label{
+        color: #FFFFFF;
+        font-size: 20px;
+        font-family: "Proxima Nova Semibold", serif;
+        margin-left: 66px;
+        margin-bottom: 20px;
+      }
+      div{
+        margin-bottom: 16px;
+        a{
+          margin-left: 35px;
+          img{
+            display: inline;
+
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+    .genre-selector{
+      .genre-label{
+        color: #FFFFFF;
+        font-size: 20px;
+        font-family: "Proxima Nova Semibold", serif;
+        margin-left: 66px;
+        margin-bottom: 16px;
+
+      }
+      div {
+        margin-bottom: 16px;
+        margin-left: 66px;
+      }
+    }
+    .certificates-link{
+      margin-left: 66px;
+      font-size: 20px;
+      color: #FFFFFF;
+      font-family: "Proxima Nova Semibold", serif;
+    }
+  }
+}
+
+.base-container {
+  float: right;
+}
+
+.main-label {
+  font-size: 32px;
+  color: #ffffff;
+  margin-top: 21px;
+}
+
+.catalogue-items {
+  width: 880px;
+  margin-top: 19px;
+  .sorting-block{
+    .sort-link{
+      color: #FFFFFF;
+      height: 34px;
+      display: inline-block;
+      text-align: center;
+      padding-top: 5px;
+    }
+    .sort-link:hover{
+      background: #3A4155;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .sort-link:first-child{
+      margin-right: 10px;
+      width: 105px;
+    }
+    .sort-link:nth-child(2){
+      width: 60px;
+    }
+    .dropdown-sort{
+      float: right;
+      width: 180px;
+      height: 34px;
+      text-align: center;
+      padding-left: 35px;
+      background: #191E29;
+      border: 1px solid #777E90;
+      border-radius: 10px;
+      outline: none;
+    }
+    .dropdown-sort-list{
+      width: 180px;
+      background: #191E29;
+      border: 1px solid #777E90;
+      border-radius: 10px;
+      li{
+        label{
+          color: #FFFFFF;
+          margin-left: 17px;
+          font-size: 16px;
+        }
+        input{
+          margin-left: 10px;
+        }
+      }
+
+    }
+  }
+  h1 {
+    color: #777e90;
+    font-size: 16px;
+
+    span:nth-child(1) {
+      margin-left: 222px;
+    }
+
+    span:nth-child(2) {
+      margin-left: 180px;
+    }
+
+    span:nth-child(3) {
+      margin-left: 80px;
+    }
+
+    span:nth-child(4) {
+      margin-left: 138px;
+    }
+  }
+}
+
+.product-item {
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  margin-top: 20px;
+
+  .product-content {
+    color: white;
+    font-family: "Proxima Nova Light", serif;
+    font-size: 16px;
+    width: 540px;
+    height: 160px;
+    margin-left: 21px;
+    margin-top: 18px;
+    .name-rating{
+      h1{
+        font-size: 24px;
+        color: #FFFFFF;
+        font-family: "Proxima Nova Regular", serif;
+        display: inline-block;
+        img{
+          display: inline-block;
+          height: 23px;
+          margin-top: -5px;
+          margin-right: 3px;
+        }
+      }
+      h1:last-child{
+        float: right;
+      }
+
+    }
+    .item-genres{
+      margin-top: 5px;
+      h1{
+        display: inline-block;
+        background: #52586A;
+        border-radius: 16px;
+        margin-right: 5px;
+        padding: 4px 12px;
+        font-size: 10px;
+        color: #FFFFFF;
+        font-family: "Proxima Nova Regular", serif;
+      }
+    }
+    .item-description{
+      margin-top: 5px;
+      width: 454px;
+      h1{
+        font-size: 11px;
+        font-family: "Proxima Nova Regular", serif;
+        color: #CACED9;
+        line-height: 13px;
+      }
+    }
+    .platforms-price{
+      position: absolute;
+      bottom: 0;
+      width: 540px;
+      img{
+        display: inline-block;
+        margin-right: 12px;
+        margin-bottom: 16px;
+      }
+      h1{
+        display: inline-block;
+        float: right;
+        font-size: 36px;
+        font-family: "Proxima Nova Semibold", serif;
+        color: #FFFFFF;
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  }
+
+  //.product-name {
+  //  margin-left: 21px;
+  //}
+  //
+  //.purchase-date {
+  //  margin-left: 136px;
+  //}
+  //
+  //.product-rating {
+  //  margin-left: 73px;
+  //  display: inline-block;
+  //
+  //  img {
+  //    width: 11px;
+  //    display: inline-block;
+  //    height: 11px;
+  //    margin-top: -1px;
+  //    margin-right: 2px;
+  //  }
+  //}
+  //
+  //.product-cost {
+  //  margin-left: 150px;
+  //}
+
+  a {
+    border-radius: 25px;
+    background: rgba(89, 107, 150, 0.3);
+    backdrop-filter: blur(25px);
+    max-width: 880px;
+
+    .product-logo {
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+      height: 188px;
+      width: 300px;
+    }
+  }
+}
+
+.show-more {
+  a {
+    margin-top: 47px;
+    display: block;
+    max-width: 100%;
+    background: #3a4155;
+    border-radius: 12px;
+    height: 48px;
+    text-align: center;
+    padding-top: 10px;
+    color: #ffffff;
+    font-size: 18px;
+
+    &:hover {
+      background: #2d394f;
+    }
+  }
+}

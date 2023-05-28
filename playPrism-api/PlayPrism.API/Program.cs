@@ -29,14 +29,17 @@ builder.Services.AddAutoMapper(typeof(PlayPrism.Contracts.Mappings.ProductProfil
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<AppSettings>(
+    builder.Configuration.GetSection("AppSettings"));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters()
         {
-            ValidIssuer = config["JwtSettings:Issuer"],
-            ValidAudience = config["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"])),
+            ValidIssuer = config["AppSettings:JwtSettings:Issuer"],
+            ValidAudience = config["AppSettings:JwtSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AppSettings:JwtSettings:Key"])),
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
@@ -53,8 +56,7 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
-builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings"));
+
 
 // Configure Serilog
 builder.Services.AddLogging(loggingBuilder =>

@@ -25,6 +25,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly Lazy<IGenericRepository<UserProfile>> _userRepository;
     private readonly Lazy<IGenericRepository<UserReview>> _reviewRepository;
     private readonly Lazy<IGenericRepository<RefreshToken>> _refreshTokenRepository;
+    private readonly Lazy<IGenericRepository<ResetPasswordCode>> _refreshCodeRepository;
     private readonly Lazy<IGenericRepository<VariationOption>> _variationRepository;
     private IDbContextTransaction _transactionObj;
 
@@ -43,7 +44,9 @@ public class UnitOfWork : IUnitOfWork
     /// <param name="productItemRepository">Repository for product item.</param>
     /// <param name="userRepository">Repository for user profile.</param>
     /// <param name="reviewRepository">Repository for user reviews.</param>
+    /// <param name="refreshCodeRepository"></param>
     /// <param name="variationRepository">Repository for product variation.</param>
+    /// <param name="refreshTokenRepository"></param>
     public UnitOfWork(
         PlayPrismContext context,
         Lazy<IGenericRepository<Product>> productRepository,
@@ -57,6 +60,7 @@ public class UnitOfWork : IUnitOfWork
         Lazy<IGenericRepository<UserProfile>> userRepository,
         Lazy<IGenericRepository<UserReview>> reviewRepository,
         Lazy<IGenericRepository<RefreshToken>> refreshTokenRepository,
+        Lazy<IGenericRepository<ResetPasswordCode>> refreshCodeRepository,
         Lazy<IGenericRepository<VariationOption>> variationRepository)
     {
         _context = context;
@@ -71,6 +75,7 @@ public class UnitOfWork : IUnitOfWork
         _userRepository = userRepository;
         _reviewRepository = reviewRepository;
         _refreshTokenRepository = refreshTokenRepository;
+        _refreshCodeRepository = refreshCodeRepository;
         _variationRepository = variationRepository;
     }
 
@@ -109,6 +114,9 @@ public class UnitOfWork : IUnitOfWork
     
     /// <inheritdoc />
     public IGenericRepository<RefreshToken> RefreshTokens => _refreshTokenRepository.Value;
+    
+    /// <inheritdoc />
+    public IGenericRepository<ResetPasswordCode> RefreshCodes => _refreshCodeRepository.Value;
     
 
 
@@ -170,6 +178,10 @@ public class UnitOfWork : IUnitOfWork
     
     /// <inheritdoc />
     public Task RollbackTransactionAsync()
-    {    return _context.Database.RollbackTransactionAsync();
+    {
+        if(_context.Database.CurrentTransaction != null)
+            return _context.Database.RollbackTransactionAsync();
+        
+        return Task.CompletedTask;
     }
 }
