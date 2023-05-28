@@ -274,18 +274,4 @@ public class AccountService : IAccountService
 
         return res;
     }
-
-    private bool VerifyPasswordHash(string password, string passwordHash, byte[] passwordSalt)
-    {
-        //byte[] hashBytes = Encoding.UTF8.GetBytes(passwordHash);
-
-        // var key = Encoding.UTF8.GetBytes(passwordSalt);
-
-        using var hmac = new HMACSHA256();
-        var computedHash = hmac.ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
-
-        var res = Encoding.ASCII.GetString(computedHash);
-
-        return passwordHash == res;
-    }
 }
