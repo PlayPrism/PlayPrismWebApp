@@ -1,5 +1,5 @@
 import { Route, RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { CatalogueComponent } from './components/catalogue/catalogue.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ShellComponent } from '../shared/components/app-shell/app-shell.component';
 import { CartComponent } from './components';
@@ -11,7 +11,7 @@ export const productsRoute: Route = {
   children: [
     { path: 'cart', component: CartComponent },
     { path: ':id', component: ProductDetailsComponent },
-    { path: '', component: HomeComponent },
+    { path: '', component: CatalogueComponent },
   ],
 };
 

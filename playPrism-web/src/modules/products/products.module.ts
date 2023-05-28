@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ProductsService } from 'src/core/services';
 import { SharedModule } from '../shared/shared.module';
 import {
-  HomeComponent,
+  CatalogueComponent,
   ProductDetailsComponent,
   CartComponent,
 } from './components';
@@ -11,7 +11,7 @@ import { ProductsRoutingModule } from './products-routing.module';
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    CatalogueComponent,
     ProductDetailsComponent,
     ProductDetailsCardComponent,
     CartComponent,
