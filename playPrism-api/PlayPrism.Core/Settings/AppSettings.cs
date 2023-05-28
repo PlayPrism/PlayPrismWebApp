@@ -14,6 +14,7 @@ public class SmtpSettings
     public bool EnableSsl { get; set; }
     public bool UseDefaultCredentials { get; set; }
     public string SenderEmail { get; set; }
+    public TimeSpan ResetPasswordCodeLifetime { get; set; }
 }
 
 public class JwtSettings

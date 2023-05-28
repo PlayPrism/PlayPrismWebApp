@@ -12,8 +12,8 @@ using PlayPrism.DAL;
 namespace PlayPrism.DAL.Migrations
 {
     [DbContext(typeof(PlayPrismContext))]
-    [Migration("20230527224047_addedRaltionForRefreshToken")]
-    partial class addedRaltionForRefreshToken
+    [Migration("20230528203455_InitialMigrationAfterReset")]
+    partial class InitialMigrationAfterReset
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,51 @@ namespace PlayPrism.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("GiveawayUserProfile", b =>
+                {
+                    b.Property<Guid>("GiveawaysId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ParticipantsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("GiveawaysId", "ParticipantsId");
+
+                    b.HasIndex("ParticipantsId");
+
+                    b.ToTable("GiveawayUserProfile");
+                });
+
+            modelBuilder.Entity("PlayPrism.Core.Domain.Giveaway", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("WinnerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WinnerId");
+
+                    b.ToTable("Giveaways");
+                });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.Order", b =>
                 {
@@ -191,6 +236,7 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductItem", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateCreated")
@@ -199,6 +245,9 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("OrderItemId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
 
@@ -206,6 +255,9 @@ namespace PlayPrism.DAL.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderItemId")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 
@@ -230,15 +282,44 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<string>("Token")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserProfileId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserProfileId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("RefreshToken");
+                });
+
+            modelBuilder.Entity("PlayPrism.Core.Domain.ResetPasswordCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProfileUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileUserId")
+                        .IsUnique();
+
+                    b.ToTable("RefreshCode");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
@@ -340,6 +421,38 @@ namespace PlayPrism.DAL.Migrations
                     b.ToTable("VariationOptions");
                 });
 
+            modelBuilder.Entity("GiveawayUserProfile", b =>
+                {
+                    b.HasOne("PlayPrism.Core.Domain.Giveaway", null)
+                        .WithMany()
+                        .HasForeignKey("GiveawaysId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlayPrism.Core.Domain.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PlayPrism.Core.Domain.Giveaway", b =>
+                {
+                    b.HasOne("PlayPrism.Core.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlayPrism.Core.Domain.UserProfile", "Winner")
+                        .WithMany("WonGiveaways")
+                        .HasForeignKey("WinnerId");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Winner");
+                });
+
             modelBuilder.Entity("PlayPrism.Core.Domain.Order", b =>
                 {
                     b.HasOne("PlayPrism.Core.Domain.PaymentMethod", "PaymentMethod")
@@ -396,9 +509,7 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.OrderItem", "OrderItem")
                         .WithOne("ProductItem")
-                        .HasForeignKey("PlayPrism.Core.Domain.ProductItem", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlayPrism.Core.Domain.ProductItem", "OrderItemId");
 
                     b.HasOne("PlayPrism.Core.Domain.Product", "Product")
                         .WithMany("ProductItems")
@@ -415,7 +526,18 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
                         .WithOne("RefreshToken")
-                        .HasForeignKey("PlayPrism.Core.Domain.RefreshToken", "UserProfileId")
+                        .HasForeignKey("PlayPrism.Core.Domain.RefreshToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PlayPrism.Core.Domain.ResetPasswordCode", b =>
+                {
+                    b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
+                        .WithOne("ResetPasswordCode")
+                        .HasForeignKey("PlayPrism.Core.Domain.ResetPasswordCode", "ProfileUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -499,6 +621,10 @@ namespace PlayPrism.DAL.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("RefreshToken");
+
+                    b.Navigation("ResetPasswordCode");
+
+                    b.Navigation("WonGiveaways");
                 });
 #pragma warning restore 612, 618
         }

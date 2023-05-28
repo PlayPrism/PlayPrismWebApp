@@ -284,7 +284,8 @@ public class AccountService : IAccountService
             {
                 User = user,
                 ProfileUserId = user.Id,
-                Code = code
+                Code = code,
+                ExpirationDate = DateTime.UtcNow.Add(_appSettings.SmtpSettings.ResetPasswordCodeLifetime)
             };
 
             await _unitOfWork.RefreshCodes.AddAsync(refreshCode);
@@ -305,7 +306,7 @@ public class AccountService : IAccountService
     {
         var users = await _unitOfWork.Users.GetByConditionAsync(x => x.Email == request.Email);
 
-        if (users.Count > 0)
+        if (users.Count == 0)
             return false;
 
         var user = users.FirstOrDefault();
@@ -334,7 +335,7 @@ public class AccountService : IAccountService
     {
         var users = await _unitOfWork.Users.GetByConditionAsync(x => x.Email == request.Email);
 
-        if (users.Count > 0)
+        if (users.Count == 0)
             return false;
 
         var user = users.FirstOrDefault();
