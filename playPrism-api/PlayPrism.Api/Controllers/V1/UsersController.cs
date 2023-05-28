@@ -5,13 +5,13 @@ using PlayPrism.Contracts.V1.Responses.Orders;
 
 namespace PlayPrism.API.Controllers.V1
 {
-    public class UsersContoller : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _usersService;
-        private readonly ILogger<UsersContoller> _logger;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersContoller(
-                       IUserService usersService, ILogger<UsersContoller> logger)
+        public UsersController(
+                       IUserService usersService, ILogger<UsersController> logger)
         {
             _usersService = usersService;
             _logger = logger;

@@ -42,12 +42,13 @@ public class Seeder : ISeeder
             await GeneratePaymentMethodsAsync();
             await GenerateOrdersAsync();
             await GenerateOrderItemsAsync();
+            
         }
         else
         {
             _logger.LogInformation("Seeder: Database is already seeded or not empty");
         }
-
+        await UpdateProductItemsAsync();
     }
 
     private async Task GenerateProductsAsync()
@@ -257,5 +258,19 @@ public class Seeder : ISeeder
         await _unitOfWork.OrderItems.AddManyAsync(orderItems);
         await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Order items created");
+    }
+
+    private async Task UpdateProductItemsAsync() 
+    {
+        var productItems = (await _unitOfWork.ProductItems.GetAllAsync()).ToList();
+        var orderItems = (await _unitOfWork.OrderItems.GetAllAsync()).ToList();
+        for (int i = 0; i < productItems.Count(); i++)
+        {
+            productItems[i].OrderItemId = new Faker().PickRandom(orderItems[i]).Id;
+            await _unitOfWork.ProductItems.Update(productItems[i]);
+        }
+
+        await _unitOfWork.SaveAsync();
+        _logger.LogInformation("Seeder: Product items updated with order item id");
     }
 }
