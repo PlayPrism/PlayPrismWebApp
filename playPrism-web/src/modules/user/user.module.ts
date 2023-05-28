@@ -5,10 +5,9 @@ import { UserService } from 'src/core/services';
 import { SharedModule } from '../shared/shared.module';
 import { PurchaseHistoryComponent } from './components/purchase-history/purchase-history.component';
 import { UserListgroupComponent } from './components/user-listgroup/user-listgroup.component';
-import { PurchaseHistoryCardComponent } from './components/purchase-history/purchase-history-card/purchase-history-card.component';
 
 @NgModule({
-  declarations: [ProfileComponent, PurchaseHistoryComponent, UserListgroupComponent, PurchaseHistoryCardComponent],
+  declarations: [ProfileComponent, PurchaseHistoryComponent, UserListgroupComponent],
   imports: [UserRoutingModule, SharedModule],
   providers: [UserService],
 })

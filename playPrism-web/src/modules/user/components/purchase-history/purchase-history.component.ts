@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable, switchMap, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {HistoryItem} from "../../../../core/models/history-item";
-import { CurrencyPipe } from '@angular/common';
-import {ProductsService, UserService} from "../../../../core/services";
+import {UserService} from "../../../../core/services";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
