@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.BLL.Abstractions.Interfaces;
 using PlayPrism.BLL.Constants;
@@ -68,7 +69,7 @@ public class AccountService : IAccountService
             var trans = _unitOfWork.CreateTransactionAsync();
 
             user.RefreshToken = refreshToken;
-            
+
             await _unitOfWork.RefreshTokens.AddAsync(refreshToken, cancellationToken);
 
             await _unitOfWork.Users.Update(user);
@@ -86,15 +87,12 @@ public class AccountService : IAccountService
             };
             return response;
         }
-        
+
         catch (Exception e)
         {
             await _unitOfWork.RollbackTransactionAsync();
             return null;
         }
-
-
-        
     }
 
     /// <inheritdoc />
@@ -128,9 +126,9 @@ public class AccountService : IAccountService
 
 
             var trans = await _unitOfWork.CreateTransactionAsync();
-            
+
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
-            
+
 
             await _unitOfWork.RefreshTokens.AddAsync(refreshToken, cancellationToken);
 
@@ -151,6 +149,87 @@ public class AccountService : IAccountService
         catch (Exception e)
         {
             await _unitOfWork.RollbackTransactionAsync();
+            return null;
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task<AuthDTO> RefreshAuth(string accessToken, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var inputToken = accessToken.Replace("Bearer", "").Trim();
+            var principal = _tokenService.GetPrincipalFromExpiredToken(inputToken);
+
+            var emailClaim = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+
+            var email = emailClaim?.Value;
+
+            if (string.IsNullOrEmpty(email)) return null;
+
+            var users = await _unitOfWork.Users
+                .GetByConditionAsync(x => x.Email == email,
+                    cancellationToken: cancellationToken);
+
+            if (users.Count == 0)
+                return null;
+
+            var user = users.FirstOrDefault();
+
+            var refreshTokens = await _unitOfWork.RefreshTokens
+                .GetByConditionAsync(x => x.UserId == user.Id, EntitiesSelectors.RefreshTokenSelector,
+                    cancellationToken: cancellationToken);
+
+            if (refreshTokens.Count != 0)
+            {
+                var refreshTokenOld = refreshTokens.FirstOrDefault();
+                _unitOfWork.RefreshTokens.Delete(refreshTokenOld);
+                await _unitOfWork.SaveAsync();
+            }
+
+
+            var newRefreshToken = _tokenService.GenerateRefreshToken(user);
+
+            var claims = GetUserClaims(user);
+
+            var newAccessToken = _tokenService.GenerateAccessToken(claims);
+
+            user.RefreshToken = newRefreshToken;
+
+            try
+            {
+                var trans = await _unitOfWork.CreateTransactionAsync();
+
+                await _unitOfWork.RefreshTokens.AddAsync(newRefreshToken, cancellationToken);
+
+                await _unitOfWork.Users.Update(user);
+
+                await _unitOfWork.CommitTransactionAsync();
+                await _unitOfWork.SaveAsync();
+
+                var res = new AuthDTO()
+                {
+                    Email = user.Email,
+                    AccessToken = newAccessToken,
+                    RefreshToken = newRefreshToken,
+                    UserId = user.Id,
+                    Role = user.Role
+                };
+
+                return res;
+            }
+            catch (Exception e)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                return null;
+            }
+        }
+        catch (SecurityTokenException securityException)
+        {
+            return null;
+        }
+        catch (Exception ex)
+        {
             return null;
         }
     }

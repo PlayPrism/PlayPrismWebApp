@@ -76,34 +76,32 @@ public class AccountController : ControllerBase
 
         return Ok(response.ToApiResponse());
     }
-    
-    // [HttpPost]
-    // [Route("register")]
-    // public async Task<IActionResult> Refresh(string refreshToken, CancellationToken cancellationToken)
-    // {
-    //     var regDto =
-    //         await _accountService.RegisterAsync(request.Email, request.Password,
-    //             cancellationToken);
-    //
-    //     if (regDto == null)
-    //     {
-    //         return Unauthorized($"User with such email {request.Email} already exists.".ToErrorResponse());
-    //     }
-    //
-    //     SetRefreshTokenCookie(regDto.RefreshToken);
-    //
-    //     var response = new AuthResponse
-    //     {
-    //         Role = regDto.Role,
-    //         UserId = regDto.UserId,
-    //         Email = regDto.Email,
-    //         AccessToken = regDto.AccessToken,
-    //     };
-    //
-    //     return Ok(response.ToApiResponse());
-    // }
-    
-    
+
+    [HttpGet]
+    [Route("refresh")]
+    public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
+    {
+        var token = Request.Headers.Authorization;
+
+        var responseDto = await _accountService.RefreshAuth(token, cancellationToken);
+
+        if (responseDto == null)
+        {
+            return Unauthorized("Failed to login".ToErrorResponse());
+        }
+
+        SetRefreshTokenCookie(responseDto.RefreshToken);
+
+        var response = new AuthResponse
+        {
+            Role = responseDto.Role,
+            UserId = responseDto.UserId,
+            Email = responseDto.Email,
+            AccessToken = responseDto.AccessToken
+        };
+
+        return Ok(response.ToApiResponse());
+    }
 
     private void SetRefreshTokenCookie(RefreshToken newRefreshToken)
     {
@@ -115,12 +113,4 @@ public class AccountController : ControllerBase
         Response.Cookies.Delete("refreshToken");
         Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
     }
-
-    //
-    // [HttpGet]
-    // [Route("logout")]
-    // public Task<IActionResult> Logout(CancellationToken cancellationToken)
-    // {
-    //     
-    // }
 }

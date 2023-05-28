@@ -143,7 +143,9 @@ public class UnitOfWork : IUnitOfWork
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();
-        
+
+        _context.Database.CurrentTransaction?.Dispose();
+
         // if(_transactionObj != null)
         //     _transactionObj.Dispose();
     }
