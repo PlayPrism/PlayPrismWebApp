@@ -10,6 +10,7 @@ import { ShellComponent } from './components/app-shell/app-shell.component';
 import { RouterModule } from '@angular/router';
 import { HeaderSearchComponent } from './components/header-search/header-search.component';
 import { HeaderDropdownComponent } from './components/header-dropdown/header-dropdown.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { HeaderDropdownComponent } from './components/header-dropdown/header-dro
     ShellComponent,
     HeaderSearchComponent,
     HeaderDropdownComponent,
+    FooterComponent,
   ],
   imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
   exports: [
