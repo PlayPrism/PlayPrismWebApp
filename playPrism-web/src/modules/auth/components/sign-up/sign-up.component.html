@@ -1,28 +1,100 @@
 <div class="sign-up-logo">
-  <a href="#"><img src="assets/images/sign-up-logo.svg" style="width: 380px; height: 65px;"></a>
+  <a href="#"
+    ><img
+      src="assets/images/sign-up-logo.svg"
+      style="width: 380px; height: 65px"
+  /></a>
 </div>
 <div class="flex justify-center">
-  <div class="sign-up-block inline-flex" style="padding-left: 71px; padding-right: 89px">
+  <div
+    class="sign-up-block inline-flex"
+    style="padding-left: 71px; padding-right: 89px"
+  >
     <div class="divided-block">
-      <h1 class="register-label">
-        Реєстрація
-      </h1>
+      <h1 class="register-label">Реєстрація</h1>
       <div>
-        <form class="" action="#">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div>
-            <label for="email" class="block text-sm font-medium input-label">Email</label>
-            <input type="email" name="email" id="email" class="text-sm p-2.5 sign-up-input" required>
+            <label for="email" class="block text-sm font-medium input-label"
+              >Email</label
+            >
+            <input
+              type="email"
+              formControlName="email"
+              name="email"
+              id="email"
+              class="text-sm p-2.5 sign-up-input"
+            />
+            <div
+              class="error-text"
+              *ngIf="emailControl.invalid && emailControl.touched"
+            >
+              <div *ngIf="emailControl.errors?.['required']">
+                Email is required
+              </div>
+              <div *ngIf="emailControl.errors?.['email']">
+                Invalid email format
+              </div>
+              <div *ngIf="emailControl.errors?.['alreadyRegistered']">
+                {{ alreadyRegistered }}
+              </div>
+            </div>
           </div>
           <div>
-            <label for="password" class="block text-sm font-medium input-label">Пароль</label>
-            <input type="password" name="password" id="password" class="text-sm block p-2.5 sign-up-input" required>
+            <label for="password" class="block text-sm font-medium input-label"
+              >Пароль</label
+            >
+            <input
+              type="password"
+              formControlName="password"
+              name="password"
+              id="password"
+              class="text-sm block p-2.5 sign-up-input"
+            />
+            <div
+              class="error-text"
+              *ngIf="passwordControl.invalid && passwordControl.touched"
+            >
+              <div *ngIf="passwordControl.errors?.['required']">
+                Password is required
+              </div>
+              <div *ngIf="passwordControl.errors?.['minlength']">
+                This field must have at least 6 character.
+              </div>
+            </div>
           </div>
           <div class="flex items-center">
-            <input id="link-radio" type="checkbox" value="" class="w-4 h-4 checkbox">
-            <label for="link-radio" class="ml-2 text-sm font-medium approve-label">Я згоден(-на) з <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">політикою конфіденційності</a>, <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">користувальницькою угодою </a>і даю згоду на обробку персональних даних.</label>
+            <input
+              id="link-radio"
+              formControlName="agreeTerms"
+              type="checkbox"
+              value=""
+              class="w-4 h-4 checkbox"
+            />
+            <label
+              for="link-radio"
+              class="ml-2 text-sm font-medium approve-label"
+              >Я згоден(-на) з
+              <a
+                href="#"
+                class="text-blue-600 dark:text-blue-500 hover:underline"
+                >політикою конфіденційності</a
+              >,
+              <a
+                href="#"
+                class="text-blue-600 dark:text-blue-500 hover:underline"
+                >користувальницькою угодою </a
+              >і даю згоду на обробку персональних даних.</label
+            >
           </div>
           <div class="sign-up-buttons">
-            <button type="submit" class="sign-in px-5 py-2.5 text-center sign-up-button">Зареєструватися</button>
+            <button
+              [disabled]="form.invalid"
+              type="submit"
+              class="sign-in px-5 py-2.5 text-center sign-up-button"
+            >
+              Зареєструватися
+            </button>
             <a href="#" class="inline-flex">Пізніше</a>
           </div>
         </form>
@@ -35,27 +107,34 @@
           <ul>
             <li>
               <div>
-                <a href="#" class="steam-sign-in inline-flex w-full py-2.5 sign-in-link">
-                  <img src="assets/images/steam_logo.svg" alt="steam_logo">
-                  Увійти за допомогою Steam</a>
+                <a
+                  href="#"
+                  class="steam-sign-in inline-flex w-full py-2.5 sign-in-link"
+                >
+                  <img src="assets/images/steam_logo.svg" alt="steam_logo" />
+                  Увійти за допомогою Steam</a
+                >
               </div>
             </li>
             <li>
               <div>
-                <a href="#" class="google-sign-in inline-flex w-full py-2.5 sign-in-link">
-                  <img src="assets/images/google_logo.svg" alt="google_logo">
-                  Увійти за допомогою Google</a>
+                <a
+                  href="#"
+                  class="google-sign-in inline-flex w-full py-2.5 sign-in-link"
+                >
+                  <img src="assets/images/google_logo.svg" alt="google_logo" />
+                  Увійти за допомогою Google</a
+                >
               </div>
             </li>
             <li>
               <h1 class="question-label block text-center">
-                Для входу ви можете використовувати свій обліковий запис у Steam, акаунт Google або вашу пошту та пароль
+                Для входу ви можете використовувати свій обліковий запис у
+                Steam, акаунт Google або вашу пошту та пароль
               </h1>
             </li>
             <li class="account-here flex items-center">
-              <p class="block text-center">
-                Вже є акаунт PLAYPRISM?
-              </p>
+              <p class="block text-center">Вже є акаунт PLAYPRISM?</p>
               <a href="#" class="py-2.5">Увійти</a>
             </li>
           </ul>
@@ -64,4 +143,3 @@
     </div>
   </div>
 </div>
-

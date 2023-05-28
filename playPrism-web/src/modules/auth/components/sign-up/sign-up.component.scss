@@ -1,6 +1,6 @@
-.sign-up-input{
+.sign-up-input {
   font-size: 16px;
-  background: linear-gradient(180deg, #1E2128 0%, #1E242B 100%);
+  background: linear-gradient(180deg, #1e2128 0%, #1e242b 100%);
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.07);
   border-radius: 12px;
   border: none;
@@ -9,87 +9,99 @@
   color: white;
 }
 
-.input-label{
+.input-label {
   margin-bottom: 5px;
   margin-top: 12px;
 }
 
-.approve-label{
+.approve-label {
   font-size: 12px;
   margin-top: 32px;
 }
 
-.checkbox{
+.checkbox {
   border-radius: 15px;
   margin-top: 11px;
 }
 
-.register-label{
-  font-family: 'Proxima Nova Semibold', serif;
+.register-label {
+  font-family: "Proxima Nova Semibold", serif;
   font-size: 40px;
   color: white;
   margin-top: 25px;
 }
 
-.divided-block{
+.divided-block {
   width: 420px;
 }
 
-.sign-up-logo img{
+.sign-up-logo img {
   margin: 0 auto;
   margin-top: 78px;
   margin-bottom: 53px;
 }
 
-.sign-up-block{
+.sign-up-block {
   width: 1180px;
   height: 523px;
-  background: linear-gradient(81.2deg, #202734 0.39%, #2B313D 100%, #262C3C 100%);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 0px #3A4155;
+  background: linear-gradient(
+    81.2deg,
+    #202734 0.39%,
+    #2b313d 100%,
+    #262c3c 100%
+  );
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 0px #3a4155;
   border-radius: 25px;
-  color: #CACED9;
+  color: #caced9;
 }
 
-.sign-up-block label{
-  color: #CACED9;
+.sign-up-block label {
+  color: #caced9;
 }
 
-.sign-up-buttons{
+.sign-up-buttons {
   margin-top: 36px;
 }
 
-.sign-up-buttons button{
+.sign-up-buttons button {
   width: 200px;
   height: 48px;
-  background: linear-gradient(92.41deg, #497CFB 7.56%, #279CF9 28.98%, #7D50E9 57.83%, #BF5BB5 78.38%, #A148E1 89.74%);
+  background: linear-gradient(
+    92.41deg,
+    #497cfb 7.56%,
+    #279cf9 28.98%,
+    #7d50e9 57.83%,
+    #bf5bb5 78.38%,
+    #a148e1 89.74%
+  );
   border-radius: 12px;
   color: white;
-  font-family: 'Proxima Nova Semibold', serif;
+  font-family: "Proxima Nova Semibold", serif;
   font-size: 18px;
   margin-right: 20px;
 }
 
-.sign-up-buttons a{
+.sign-up-buttons a {
   display: inline-block;
   width: 200px;
   height: 48px;
   border-radius: 12px;
   text-align: center;
-  background: #3A4155;
+  background: #3a4155;
   padding-top: 13px;
   color: white;
 }
 
-.account-here{
+.account-here {
   margin-top: 36px;
 }
 
-.account-here p{
+.account-here p {
   font-family: "Proxima Nova Semibold", serif;
   font-size: 16px;
 }
 
-.account-here a{
+.account-here a {
   display: inline-block;
   width: 200px;
   height: 48px;
@@ -100,46 +112,53 @@
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   padding-top: 13px;
   color: white;
-  background: linear-gradient(180.93deg, #262C3C 0.8%, rgba(24, 31, 44, 0) 102.78%);
+  background: linear-gradient(
+    180.93deg,
+    #262c3c 0.8%,
+    rgba(24, 31, 44, 0) 102.78%
+  );
   backdrop-filter: blur(2px);
 }
 
-.border{
+.border {
   height: 370px;
   margin: auto;
-  border-color: #3A4155;
+  border-color: #3a4155;
   border-width: 2px;
 }
 
-.sign-in-link{
-  font-family: 'Proxima Nova Semibold', serif;
-  background: linear-gradient(180.93deg, #262C3C 0.8%, #181F2C00 102.78%);
+.sign-in-link {
+  font-family: "Proxima Nova Semibold", serif;
+  background: linear-gradient(180.93deg, #262c3c 0.8%, #181f2c00 102.78%);
   width: 420px;
   height: 50px;
   backdrop-filter: blur(2px);
   box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.1);
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  color: #CACED9;
+  color: #caced9;
   font-size: 18px;
   border-radius: 12px;
   padding-left: 65px;
-
 }
 
-.sign-in-link img{
+.sign-in-link img {
   padding-right: 17px;
 }
 
-.google-sign-in{
+.google-sign-in {
   margin-top: 38px;
 }
 
-.steam-sign-in{
+.steam-sign-in {
   margin-top: 120px;
 }
 
-.question-label{
+.question-label {
   width: 385px;
   font-size: 12px;
   margin-top: 36px;
+}
+
+.error-text {
+  @apply text-xs text-red-500;
 }
