@@ -2,19 +2,20 @@ import { NgModule } from '@angular/core';
 import { ProductsService } from 'src/core/services';
 import { SharedModule } from '../shared/shared.module';
 import {
-  HomeComponent,
+  CatalogueComponent,
   ProductDetailsComponent,
-  CartComponent,
+  CartComponent, MainPageComponent,
 } from './components';
 import { ProductDetailsCardComponent } from './components/product-details/product-details-card/product-details-card.component';
 import { ProductsRoutingModule } from './products-routing.module';
 
 @NgModule({
   declarations: [
-    HomeComponent,
+    CatalogueComponent,
     ProductDetailsComponent,
     ProductDetailsCardComponent,
     CartComponent,
+    MainPageComponent,
   ],
   imports: [ProductsRoutingModule, SharedModule],
   providers: [ProductsService],
