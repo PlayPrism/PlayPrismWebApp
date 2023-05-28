@@ -19,6 +19,11 @@ public interface IUnitOfWork
     IGenericRepository<Product> Products { get; }
 
     /// <summary>
+    /// Gets giveaways repository.
+    /// </summary>
+    IGenericRepository<Giveaway> Giveaways { get; }
+
+    /// <summary>
     /// Gets orders repository.
     /// </summary>
     IGenericRepository<Order> Orders { get; }

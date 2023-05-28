@@ -27,6 +27,7 @@ public class ServiceDiModule : Module
         builder.RegisterType<TokenService>().As<ITokenService>().InstancePerLifetimeScope();
         builder.RegisterType<ProductsService>().As<IProductsService>().InstancePerLifetimeScope();
         builder.RegisterType<AccountService>().As<IAccountService>().InstancePerLifetimeScope();
+        builder.RegisterType<GiveawayService>().As<IGiveawaysService>().InstancePerLifetimeScope();
         builder.RegisterModule(new RepositoryDiModule(_configuration));
     }
 }

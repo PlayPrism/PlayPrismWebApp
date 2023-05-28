@@ -16,6 +16,11 @@ public class PlayPrismContext : DbContext
     }
 
     /// <summary>
+    /// Gets or sets representation Giveaways table in database.
+    ///</summary>    
+    public DbSet<Giveaway> Giveaways { get; set; }
+
+    /// <summary>
     /// Gets or sets representation Orders table in database.
     /// </summary>
     public DbSet<Order> Orders { get; set; }
@@ -97,6 +102,15 @@ public class PlayPrismContext : DbContext
     {
         modelBuilder.Entity<UserProfile>().Property(e => e.Role).HasConversion<string>();
         
+        modelBuilder.Entity<Giveaway>()
+            .HasMany(bc => bc.Participants)
+            .WithMany(c => c.Giveaways);
+
+        modelBuilder.Entity<Giveaway>()
+            .HasOne(bc => bc.Winner)
+            .WithMany(b => b.WonGiveaways)
+            .HasForeignKey(bc => bc.WinnerId);
+
         modelBuilder.Entity<Order>()
             .HasOne(bc => bc.PaymentMethod)
             .WithMany(b => b.Orders)
@@ -115,7 +129,7 @@ public class PlayPrismContext : DbContext
         modelBuilder.Entity<OrderItem>()
             .HasOne(a => a.ProductItem)
             .WithOne(b => b.OrderItem)
-            .HasForeignKey<ProductItem>(b => b.Id);
+            .HasForeignKey<ProductItem>(b => b.OrderItemId);
 
         modelBuilder.Entity<Product>()
             .HasMany(bc => bc.ProductItems)

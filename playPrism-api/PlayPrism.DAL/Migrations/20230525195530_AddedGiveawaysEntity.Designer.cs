@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlayPrism.DAL;
@@ -11,9 +12,11 @@ using PlayPrism.DAL;
 namespace PlayPrism.DAL.Migrations
 {
     [DbContext(typeof(PlayPrismContext))]
-    partial class PlayPrismContextModelSnapshot : ModelSnapshot
+    [Migration("20230525195530_AddedGiveawaysEntity")]
+    partial class AddedGiveawaysEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,7 +236,6 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.ProductItem", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateCreated")
@@ -241,9 +243,6 @@ namespace PlayPrism.DAL.Migrations
 
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid?>("OrderItemId")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
@@ -253,41 +252,9 @@ namespace PlayPrism.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderItemId")
-                        .IsUnique();
-
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductItems");
-                });
-
-            modelBuilder.Entity("PlayPrism.Core.Domain.RefreshToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ExpireDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserProfileId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserProfileId")
-                        .IsUnique();
-
-                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
@@ -317,9 +284,8 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -477,7 +443,9 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.OrderItem", "OrderItem")
                         .WithOne("ProductItem")
-                        .HasForeignKey("PlayPrism.Core.Domain.ProductItem", "OrderItemId");
+                        .HasForeignKey("PlayPrism.Core.Domain.ProductItem", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PlayPrism.Core.Domain.Product", "Product")
                         .WithMany("ProductItems")
@@ -488,17 +456,6 @@ namespace PlayPrism.DAL.Migrations
                     b.Navigation("OrderItem");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("PlayPrism.Core.Domain.RefreshToken", b =>
-                {
-                    b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
-                        .WithOne("RefreshToken")
-                        .HasForeignKey("PlayPrism.Core.Domain.RefreshToken", "UserProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserReview", b =>
@@ -576,8 +533,6 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("RefreshToken");
 
                     b.Navigation("WonGiveaways");
                 });

@@ -78,9 +78,16 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
             query = query.Select(selector);
         }
 
-        foreach (var predicate in predicates)
+        if (predicates == null || predicates.Count() == 0)
         {
-            query = query.Where(predicate).Skip(skip).Take(pageInfo.Size);
+            query = query.Skip(skip).Take(pageInfo.Size);
+        }
+        else 
+        {
+            foreach (var predicate in predicates)
+            {
+                query = query.Where(predicate).Skip(skip).Take(pageInfo.Size);
+            }
         }
 
         var entities = await query.ToListAsync(cancellationToken: cancellationToken);
