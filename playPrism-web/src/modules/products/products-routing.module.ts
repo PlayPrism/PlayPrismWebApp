@@ -10,8 +10,9 @@ export const productsRoute: Route = {
   children: [
     { path: 'cart', component: CartComponent },
     { path: ':id', component: ProductDetailsComponent },
-    { path: 'catalogue', component: CatalogueComponent },
-    { path: '', component: MainPageComponent },
+    //{ path: 'catalogue', component: CatalogueComponent },
+    //{ path: '', component: MainPageComponent },
+    { path: '', component: CatalogueComponent },
   ],
 };
 
