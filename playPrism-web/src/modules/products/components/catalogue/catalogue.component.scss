@@ -25,6 +25,13 @@
     a{
       color: #777E90;
     }
+    a:hover{
+      background: #3A4155;
+      border-radius: 10px;
+      transition: background-color 0.15s ease;
+      padding: 6px 12px;
+      color: #FFFFFF;
+    }
     .cost-label{
       font-size: 20px;
       color: #FFFFFF;
