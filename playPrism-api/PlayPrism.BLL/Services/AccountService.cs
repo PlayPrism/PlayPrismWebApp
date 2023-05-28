@@ -51,10 +51,11 @@ public class AccountService : IAccountService
         var tokens = await _unitOfWork.RefreshTokens.GetByConditionAsync(x => x.User.Id == user.Id,
             EntitiesSelectors.RefreshTokenSelector,
             cancellationToken);
-        if (tokens != null)
+        if (tokens != null && tokens.Count > 0)
         {
             var tokenToDelete = tokens.FirstOrDefault();
             _unitOfWork.RefreshTokens.Delete(tokenToDelete);
+            await _unitOfWork.SaveAsync();
         }
 
         var claims = GetUserClaims(user);
@@ -64,13 +65,13 @@ public class AccountService : IAccountService
 
         try
         {
-            using var trans = _unitOfWork.CreateTransactionAsync();
+            var trans = _unitOfWork.CreateTransactionAsync();
 
             user.RefreshToken = refreshToken;
             
             await _unitOfWork.RefreshTokens.AddAsync(refreshToken, cancellationToken);
 
-            _unitOfWork.Users.Update(user);
+            await _unitOfWork.Users.Update(user);
 
             await _unitOfWork.CommitTransactionAsync();
             await _unitOfWork.SaveAsync();
@@ -126,7 +127,7 @@ public class AccountService : IAccountService
             user.RefreshToken = refreshToken;
 
 
-            using var trans = _unitOfWork.CreateTransactionAsync();
+            var trans = await _unitOfWork.CreateTransactionAsync();
             
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
             

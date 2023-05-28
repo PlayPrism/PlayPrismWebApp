@@ -36,6 +36,7 @@ public static class EntitiesSelectors
     public static Expression<Func<RefreshToken, RefreshToken>> RefreshTokenSelector => q => new RefreshToken
     {
         Id = q.Id,
+        UserId = q.UserId,
         Token = q.Token,
         User = q.User,
         ExpireDate = q.ExpireDate

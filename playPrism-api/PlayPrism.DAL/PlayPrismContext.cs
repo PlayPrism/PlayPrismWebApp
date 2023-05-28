@@ -150,7 +150,7 @@ public class PlayPrismContext : DbContext
         modelBuilder.Entity<RefreshToken>()
             .HasOne(opt => opt.User)
             .WithOne(x => x.RefreshToken)
-            .HasForeignKey<RefreshToken>(token => token.UserProfileId);
+            .HasForeignKey<RefreshToken>(token => token.UserId);
 
     }
 }
