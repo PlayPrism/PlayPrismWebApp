@@ -78,26 +78,34 @@ public class AccountController : ControllerBase
     [HttpGet("refresh")]
     public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
     {
-        var token = Request.Headers.Authorization;
-
-        var responseDto = await _accountService.RefreshAuth(token, Request.Cookies["refreshToken"], cancellationToken);
-
-        if (responseDto == null)
+        try
         {
-            return Unauthorized("Failed to login".ToErrorResponse());
+            var token = Request.Headers.Authorization;
+
+            var responseDto =
+                await _accountService.RefreshAuth(token, Request.Cookies["refreshToken"], cancellationToken);
+
+            if (responseDto == null)
+            {
+                return Unauthorized("Failed to login".ToErrorResponse());
+            }
+
+            SetRefreshTokenCookie(responseDto.RefreshToken);
+
+            var response = new AuthResponse
+            {
+                Role = responseDto.Role,
+                UserId = responseDto.UserId,
+                Email = responseDto.Email,
+                AccessToken = responseDto.AccessToken
+            };
+
+            return Ok(response.ToApiResponse());
         }
-
-        SetRefreshTokenCookie(responseDto.RefreshToken);
-
-        var response = new AuthResponse
+        catch (Exception e)
         {
-            Role = responseDto.Role,
-            UserId = responseDto.UserId,
-            Email = responseDto.Email,
-            AccessToken = responseDto.AccessToken
-        };
-
-        return Ok(response.ToApiResponse());
+            return BadRequest("Something went wrong".ToErrorResponse());
+        }
     }
 
     private void SetRefreshTokenCookie(RefreshToken newRefreshToken)
