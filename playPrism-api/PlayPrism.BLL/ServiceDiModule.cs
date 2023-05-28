@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
 using PlayPrism.BLL.Abstractions.Interface;
+using PlayPrism.BLL.Abstractions.Interfaces;
 using PlayPrism.BLL.Services;
 using PlayPrism.DAL;
 
@@ -23,7 +24,9 @@ public class ServiceDiModule : Module
     /// <inheritdoc />
     protected override void Load(ContainerBuilder builder)
     {
+        builder.RegisterType<TokenService>().As<ITokenService>().InstancePerLifetimeScope();
         builder.RegisterType<ProductsService>().As<IProductsService>().InstancePerLifetimeScope();
+        builder.RegisterType<AccountService>().As<IAccountService>().InstancePerLifetimeScope();
         builder.RegisterType<GiveawayService>().As<IGiveawaysService>().InstancePerLifetimeScope();
         builder.RegisterModule(new RepositoryDiModule(_configuration));
     }

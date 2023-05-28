@@ -28,6 +28,11 @@ public class ProductResponse
     public string HeaderImage { get; set; }
     
     /// <summary>
+    /// Gets or sets product images.
+    /// </summary>
+    public string[] Images { get; set; }
+    
+    /// <summary>
     /// Gets or sets Description of Product.
     /// </summary>
     public string ShortDescription { get; set; }

@@ -1,6 +1,6 @@
 <div
   *ngIf="user$ | async as user"
-  class="w-[880px] temp h-[1174px] bg-gradient-gray rounded-[35px] text-white px-20 pt-11 pb-[70px]"
+  class="w-[880px] mx-auto float-right my-14 h-[1174px] bg-gradient-gray rounded-[35px] text-white px-20 pt-11 pb-[70px]"
 >
   <h2 class="text-3xl mb-6">Налаштування облікового запису</h2>
   <div>
@@ -53,3 +53,4 @@
     <button class="btn-primary-red">Запит на видалення</button>
   </div>
 </div>
+<app-user-listgroup></app-user-listgroup>

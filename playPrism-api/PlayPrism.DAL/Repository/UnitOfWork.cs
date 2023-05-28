@@ -24,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly Lazy<IGenericRepository<ProductItem>> _productItemRepository;
     private readonly Lazy<IGenericRepository<UserProfile>> _userRepository;
     private readonly Lazy<IGenericRepository<UserReview>> _reviewRepository;
+    private readonly Lazy<IGenericRepository<RefreshToken>> _refreshTokenRepository;
     private readonly Lazy<IGenericRepository<VariationOption>> _variationRepository;
     private IDbContextTransaction _transactionObj;
 
@@ -55,6 +56,7 @@ public class UnitOfWork : IUnitOfWork
         Lazy<IGenericRepository<ProductItem>> productItemRepository,
         Lazy<IGenericRepository<UserProfile>> userRepository,
         Lazy<IGenericRepository<UserReview>> reviewRepository,
+        Lazy<IGenericRepository<RefreshToken>> refreshTokenRepository,
         Lazy<IGenericRepository<VariationOption>> variationRepository)
     {
         _context = context;
@@ -68,6 +70,7 @@ public class UnitOfWork : IUnitOfWork
         _productItemRepository = productItemRepository;
         _userRepository = userRepository;
         _reviewRepository = reviewRepository;
+        _refreshTokenRepository = refreshTokenRepository;
         _variationRepository = variationRepository;
     }
 
@@ -103,31 +106,70 @@ public class UnitOfWork : IUnitOfWork
 
     /// <inheritdoc />
     public IGenericRepository<VariationOption> Variations => _variationRepository.Value;
+    
+    /// <inheritdoc />
+    public IGenericRepository<RefreshToken> RefreshTokens => _refreshTokenRepository.Value;
+    
 
 
     /// <inheritdoc />
+    [Obsolete]
     public async Task BeginTransactionAsync()
     {
         _transactionObj = await _context.Database.BeginTransactionAsync();
     }
-
+    
     /// <inheritdoc />
+    [Obsolete]
     public async Task CommitAsync()
     {
-        await _context.SaveChangesAsync();
+        try
+        {
+            //await _context.SaveChangesAsync();
+            
+            if(_transactionObj != null)
+                await _transactionObj.CommitAsync();
+        }
+        catch
+        {
+            await RollbackAsync();
+        }
     }
-
+    
     /// <inheritdoc />
+    [Obsolete]
     public async Task RollbackAsync()
     {
         await _transactionObj.RollbackAsync();
-        await _transactionObj.DisposeAsync();
+        _transactionObj.Dispose();
     }
-
+    
     /// <inheritdoc />
+    
+    
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();
-        await _transactionObj.DisposeAsync();
+
+        _context.Database.CurrentTransaction?.Dispose();
+
+        // if(_transactionObj != null)
+        //     _transactionObj.Dispose();
+    }
+    
+    
+    /// <inheritdoc />
+    public Task<IDbContextTransaction> CreateTransactionAsync()
+    {    return _context.Database.BeginTransactionAsync();
+    }
+    
+    /// <inheritdoc />
+    public Task CommitTransactionAsync()
+    {    return _context.Database.CommitTransactionAsync();
+    }
+    
+    /// <inheritdoc />
+    public Task RollbackTransactionAsync()
+    {    return _context.Database.RollbackTransactionAsync();
     }
 }

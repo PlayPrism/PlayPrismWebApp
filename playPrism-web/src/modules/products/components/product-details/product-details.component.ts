@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { Product } from 'src/core/models';
 import { ProductsService } from 'src/core/services';
+import { CarouselImage } from 'src/modules/shared/components';
 
 @Component({
   selector: 'app-product-details',
@@ -11,6 +12,7 @@ import { ProductsService } from 'src/core/services';
 })
 export class ProductDetailsComponent implements OnInit {
   public product$: Observable<Product>;
+  public productImages: CarouselImage[];
 
   constructor(
     private readonly productService: ProductsService,
@@ -24,7 +26,14 @@ export class ProductDetailsComponent implements OnInit {
         if (!productId) {
           throw new Error('Product ID not provided');
         }
-        return this.productService.get(productId);
+        return this.productService.getProducts(productId);
+      }),
+      tap((product) => {
+        console.log(product);
+        this.productImages = product.images.map((image) => ({
+          imageSrc: image,
+          imageAlt: product.name,
+        }));
       })
     );
   }

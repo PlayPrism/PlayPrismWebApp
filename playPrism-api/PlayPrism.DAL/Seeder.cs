@@ -64,7 +64,10 @@ public class Seeder : ISeeder
         var productGames = games.Select(game =>
                 new Faker<Product>()
                     .RuleFor(p => p.Name, game)
-                    .RuleFor(p => p.HeaderImage, f => f.Image.PlaceImgUrl())
+                    .RuleFor(p => p.HeaderImage, f => f.Image.PicsumUrl())
+                    .RuleFor(p => p.Images, f => Enumerable.Range(1, 3)
+                        .Select(_ => f.Image.PicsumUrl())
+                        .ToArray())
                     .RuleFor(p => p.ShortDescription, f => f.Lorem.Sentence())
                     .RuleFor(p => p.DetailedDescription, f => f.Lorem.Paragraph())
                     .RuleFor(p => p.Price, f => f.Random.Decimal(2.99M, 9.99M))
@@ -76,7 +79,7 @@ public class Seeder : ISeeder
             .ToList();
 
         await _unitOfWork.Products.AddManyAsync(productGames);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product (games) created");
     }
 
@@ -93,7 +96,7 @@ public class Seeder : ISeeder
             .ToList();
 
         await _unitOfWork.Categories.AddManyAsync(productCategories);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product categories created");
     }
 
@@ -116,7 +119,7 @@ public class Seeder : ISeeder
             .ToList();
 
         await _unitOfWork.ProductConfigurations.AddManyAsync(productConfigurations);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product categories created");
     }
     private async Task GenerateProductVariationsAsync()
@@ -146,7 +149,7 @@ public class Seeder : ISeeder
 
 
         await _unitOfWork.Variations.AddManyAsync(productVariations);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product categories created");
     }
     

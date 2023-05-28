@@ -44,6 +44,11 @@ public class UserProfile : BaseEntity
     public IList<Order> Orders { get; set; }
 
     /// <summary>
+    /// Gets or sets reference to Refresh Token entity.
+    /// </summary>
+    public RefreshToken RefreshToken { get; set; }
+
+    /// <summary>
     /// Gets or sets references to Giveaways entities.
     /// </summary>
     public IList<Giveaway> Giveaways { get; set; }

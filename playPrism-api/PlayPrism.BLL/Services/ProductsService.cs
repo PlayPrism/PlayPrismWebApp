@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.BLL.Constants;
+using PlayPrism.Contracts.V1.Responses;
 using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Domain.Filters;
@@ -64,6 +66,32 @@ public class ProductsService : IProductsService
             throw;
         }
     }
+    
+    /// <inheritdoc />
+    public async Task<ProductResponse> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
+    {
+        var product = (await _unitOfWork.Products
+            .GetByConditionAsync(
+                product => product.ProductCategory.CategoryName == category && product.Id == id,
+                EntitiesSelectors.ProductSelector,
+                cancellationToken)).FirstOrDefault();
+        
+        var result = _mapper.Map<ProductResponse>(product);
+        return result;
+    }
+    
+    /// <inheritdoc />
+    public async Task<IEnumerable<SearchItem>> GetSearchableProductsByKeywordAsync(string keyword, CancellationToken cancellationToken = default)
+    {
+        var products = await _unitOfWork.Products
+            .GetByConditionAsync(
+                product => product.Name.Contains(keyword), 
+                null,
+                cancellationToken);
+        var productsRange = products.Take(5);
+        var result = _mapper.Map<IEnumerable<SearchItem>>(productsRange);
+        return result;
+    }
 
     /// <inheritdoc />
     public async Task<IEnumerable<CategoryFiltersResponse>> GetFilterForCategoryAsync(string category,
@@ -81,19 +109,6 @@ public class ProductsService : IProductsService
                 }, cancellationToken);
 
         var result = _mapper.Map<IEnumerable<CategoryFiltersResponse>>(categoryConfigurations);
-        return result;
-    }
-
-    /// <inheritdoc />
-    public async Task<ProductResponse> GetProductByIdAsync(string category, Guid id, CancellationToken cancellationToken)
-    {
-        var product = (await _unitOfWork.Products
-            .GetByConditionAsync(
-                product => product.ProductCategory.CategoryName == category && product.Id == id,
-                EntitiesSelectors.ProductSelector,
-                cancellationToken)).FirstOrDefault();
-        
-        var result = _mapper.Map<ProductResponse>(product);
         return result;
     }
 }

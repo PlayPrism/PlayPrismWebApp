@@ -261,6 +261,35 @@ namespace PlayPrism.DAL.Migrations
                     b.ToTable("ProductItems");
                 });
 
+            modelBuilder.Entity("PlayPrism.Core.Domain.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserProfileId")
+                        .IsUnique();
+
+                    b.ToTable("RefreshToken");
+                });
+
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -288,8 +317,9 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -460,6 +490,17 @@ namespace PlayPrism.DAL.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("PlayPrism.Core.Domain.RefreshToken", b =>
+                {
+                    b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
+                        .WithOne("RefreshToken")
+                        .HasForeignKey("PlayPrism.Core.Domain.RefreshToken", "UserProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PlayPrism.Core.Domain.UserReview", b =>
                 {
                     b.HasOne("PlayPrism.Core.Domain.Product", "Product")
@@ -535,6 +576,8 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("RefreshToken");
 
                     b.Navigation("WonGiveaways");
                 });
