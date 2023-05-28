@@ -190,8 +190,13 @@ public class AccountService : IAccountService
                 var now = DateTime.UtcNow;
 
                 if (refreshTokenOld?.ExpireDate < now)
+                {
+                    _unitOfWork.RefreshTokens.Delete(refreshTokenOld);
+                    await _unitOfWork.SaveAsync();
                     return null;
+                }
 
+                
                 foreach (var token in refreshTokens)
                 {
                     _unitOfWork.RefreshTokens.Delete(token);
