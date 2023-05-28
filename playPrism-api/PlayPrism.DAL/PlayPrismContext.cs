@@ -75,6 +75,11 @@ public class PlayPrismContext : DbContext
     /// </summary>
     public DbSet<RefreshToken> RefreshToken { get; set; }
     
+    /// <summary>
+    /// Gets or sets representation RefreshToken table in database.
+    /// </summary>
+    public DbSet<ResetPasswordCode> RefreshCode { get; set; }
+    
     
 
     /// <inheritdoc />
@@ -166,5 +171,9 @@ public class PlayPrismContext : DbContext
             .WithOne(x => x.RefreshToken)
             .HasForeignKey<RefreshToken>(token => token.UserId);
 
+        modelBuilder.Entity<ResetPasswordCode>()
+            .HasOne(u => u.User)
+            .WithOne(profile => profile.ResetPasswordCode)
+            .HasForeignKey<ResetPasswordCode>(pr => pr.ProfileUserId);
     }
 }

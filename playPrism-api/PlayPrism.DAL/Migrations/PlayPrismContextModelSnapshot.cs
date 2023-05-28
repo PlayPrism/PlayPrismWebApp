@@ -279,15 +279,44 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<string>("Token")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserProfileId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserProfileId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("RefreshToken");
+                });
+
+            modelBuilder.Entity("PlayPrism.Core.Domain.ResetPasswordCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProfileUserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileUserId")
+                        .IsUnique();
+
+                    b.ToTable("RefreshCode");
                 });
 
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
@@ -494,7 +523,18 @@ namespace PlayPrism.DAL.Migrations
                 {
                     b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
                         .WithOne("RefreshToken")
-                        .HasForeignKey("PlayPrism.Core.Domain.RefreshToken", "UserProfileId")
+                        .HasForeignKey("PlayPrism.Core.Domain.RefreshToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PlayPrism.Core.Domain.ResetPasswordCode", b =>
+                {
+                    b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
+                        .WithOne("ResetPasswordCode")
+                        .HasForeignKey("PlayPrism.Core.Domain.ResetPasswordCode", "ProfileUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -578,6 +618,8 @@ namespace PlayPrism.DAL.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("RefreshToken");
+
+                    b.Navigation("ResetPasswordCode");
 
                     b.Navigation("WonGiveaways");
                 });

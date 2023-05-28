@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PlayPrism.BLL.Abstractions.Interfaces;
@@ -13,9 +14,9 @@ namespace PlayPrism.BLL.Services;
 /// <inheritdoc />
 public class TokenService : ITokenService
 {
-    private readonly JwtSettings _tokenSettings;
+    private readonly AppSettings _tokenSettings;
 
-    public TokenService(IOptions<JwtSettings> tokenSettings)
+    public TokenService(IOptions<AppSettings> tokenSettings)
     {
         _tokenSettings = tokenSettings.Value;
     }
@@ -24,15 +25,15 @@ public class TokenService : ITokenService
     public string GenerateAccessToken(IList<Claim> claims)
     {
     
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.Key));
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.JwtSettings.Key));
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
         var tokenDescriptor = new SecurityTokenDescriptor()
         {
             Subject = new ClaimsIdentity(claims),
-            Issuer = _tokenSettings.Issuer,
-            Audience = _tokenSettings.Audience,
-            Expires = DateTime.UtcNow.Add(_tokenSettings.AccessTokenLifetime),
+            Issuer = _tokenSettings.JwtSettings.Issuer,
+            Audience = _tokenSettings.JwtSettings.Audience,
+            Expires = DateTime.UtcNow.Add(_tokenSettings.JwtSettings.AccessTokenLifetime),
             SigningCredentials = signinCredentials
         };
 
@@ -58,7 +59,7 @@ public class TokenService : ITokenService
             UserId = user.Id,
             User = user,
             Token = Convert.ToBase64String(randomNumber),
-            ExpireDate = DateTime.Now.Add(_tokenSettings.RefreshTokenLifeTime).ToUniversalTime(),
+            ExpireDate = DateTime.Now.Add(_tokenSettings.JwtSettings.RefreshTokenLifeTime).ToUniversalTime(),
         };
         
         return res ;
@@ -72,7 +73,7 @@ public class TokenService : ITokenService
             ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
             ValidateIssuer = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.Key)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.JwtSettings.Key)),
             ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
         };
         var tokenHandler = new JwtSecurityTokenHandler();

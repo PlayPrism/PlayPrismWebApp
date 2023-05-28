@@ -47,6 +47,11 @@ public class UserProfile : BaseEntity
     /// Gets or sets reference to Refresh Token entity.
     /// </summary>
     public RefreshToken RefreshToken { get; set; }
+    
+    /// <summary>
+    /// Gets or sets reference to Refresh Token entity.
+    /// </summary>
+    public ResetPasswordCode ResetPasswordCode { get; set; }
 
     /// <summary>
     /// Gets or sets references to Giveaways entities.
