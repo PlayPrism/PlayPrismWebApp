@@ -58,7 +58,7 @@ namespace PlayPrism.API.Controllers.V1
         [HttpGet]
         [ProducesResponseType(typeof(GiveawayResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetGiveaways([FromQuery] GetGiveawaysRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetGiveawaysAsync([FromQuery] GetGiveawaysRequest request, CancellationToken cancellationToken)
         {
             var giveaways = await _giveawaysService
                     .GetGiveawaysAsync(request.PageInfo, cancellationToken);

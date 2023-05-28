@@ -9,7 +9,6 @@ namespace PlayPrism.Contracts.Mappings
         public GiveawayProfile() 
         {
             CreateMap<Giveaway, GiveawayResponse>();
-                
         }
     }
 }

@@ -103,4 +103,28 @@ public static class EntitiesSelectors
         },
         DateCreated = q.DateCreated,
     };
+
+    public static Expression<Func<UserProfile, UserProfile>> UserSelector => q => new UserProfile
+    {
+        Id = q.Id,
+        Email = q.Email,
+        Nickname = q.Nickname,
+        Password = q.Password,
+        Image = q.Image,
+        Role = q.Role,
+        Orders = q.Orders.Select(order => new Order
+        {
+            Id = order.Id,
+            OrderTotal = order.OrderTotal,
+            PaymentMethodId = order.PaymentMethodId,
+        }).ToList(),
+        Giveaways = q.Giveaways.Select(giveaways => new Giveaway
+        {
+            Id = giveaways.Id,
+        }).ToList(),
+        WonGiveaways = q.WonGiveaways.Select(w => new Giveaway
+        {
+            Id = w.Id,
+        }).ToList(),
+    };
 }

@@ -10,7 +10,7 @@ namespace PlayPrism.Contracts.V1.Responses.Giveaways
 
         public ProductResponse Product { get; set; }
 
-        public IList<UserProfile> Participants { get; set; }
+        public IList<UserProfileResponse> Participants { get; set; }
 
         public UserProfileResponse Winner { get; set; }
 
