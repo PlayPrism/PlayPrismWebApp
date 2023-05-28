@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlayPrism.DAL;
@@ -11,9 +12,11 @@ using PlayPrism.DAL;
 namespace PlayPrism.DAL.Migrations
 {
     [DbContext(typeof(PlayPrismContext))]
-    partial class PlayPrismContextModelSnapshot : ModelSnapshot
+    [Migration("20230527175959_addedRefreshTokens")]
+    partial class addedRefreshTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,13 +230,12 @@ namespace PlayPrism.DAL.Migrations
                     b.Property<string>("Token")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserProfileId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserProfileId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("RefreshToken");
                 });
@@ -411,10 +413,8 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.RefreshToken", b =>
                 {
                     b.HasOne("PlayPrism.Core.Domain.UserProfile", "User")
-                        .WithOne("RefreshToken")
-                        .HasForeignKey("PlayPrism.Core.Domain.RefreshToken", "UserProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -494,8 +494,6 @@ namespace PlayPrism.DAL.Migrations
             modelBuilder.Entity("PlayPrism.Core.Domain.UserProfile", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("RefreshToken");
                 });
 #pragma warning restore 612, 618
         }

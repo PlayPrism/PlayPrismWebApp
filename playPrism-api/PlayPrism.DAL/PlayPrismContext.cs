@@ -64,6 +64,13 @@ public class PlayPrismContext : DbContext
     /// Gets or sets representation VariationOptions table in database.
     /// </summary>
     public DbSet<VariationOption> VariationOptions { get; set; }
+    
+    /// <summary>
+    /// Gets or sets representation RefreshToken table in database.
+    /// </summary>
+    public DbSet<RefreshToken> RefreshToken { get; set; }
+    
+    
 
     /// <inheritdoc />
     public override int SaveChanges()
@@ -88,6 +95,8 @@ public class PlayPrismContext : DbContext
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<UserProfile>().Property(e => e.Role).HasConversion<string>();
+        
         modelBuilder.Entity<Order>()
             .HasOne(bc => bc.PaymentMethod)
             .WithMany(b => b.Orders)
@@ -137,5 +146,11 @@ public class PlayPrismContext : DbContext
             .HasOne(options => options.Product)
             .WithMany(configuration => configuration.VariationOptions)
             .HasForeignKey(option => option.ProductId);
+
+        modelBuilder.Entity<RefreshToken>()
+            .HasOne(opt => opt.User)
+            .WithOne(x => x.RefreshToken)
+            .HasForeignKey<RefreshToken>(token => token.UserId);
+
     }
 }

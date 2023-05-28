@@ -84,7 +84,7 @@ public interface IGenericRepository<TEntity>
     /// Updates TEntity, passed as parameter.
     /// </summary>
     /// <param name="obj">TEntity object to be updated.</param>
-    void Update(TEntity obj);
+    Task Update(TEntity obj);
 
     /// <summary>
     /// Removes entity from database.

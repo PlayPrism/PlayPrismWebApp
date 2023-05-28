@@ -74,7 +74,7 @@ public class Seeder : ISeeder
             .ToList();
 
         await _unitOfWork.Products.AddManyAsync(productGames);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product (games) created");
     }
     
@@ -91,7 +91,7 @@ public class Seeder : ISeeder
             .ToList();
         
         await _unitOfWork.Categories.AddManyAsync(productCategories);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product categories created");
     } 
     
@@ -114,7 +114,7 @@ public class Seeder : ISeeder
             .ToList();
         
         await _unitOfWork.ProductConfigurations.AddManyAsync(productConfigurations);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product categories created");
     }
     private async Task GenerateProductVariationsAsync()
@@ -144,7 +144,7 @@ public class Seeder : ISeeder
         
         
         await _unitOfWork.Variations.AddManyAsync(productVariations);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product categories created");
     }
 }

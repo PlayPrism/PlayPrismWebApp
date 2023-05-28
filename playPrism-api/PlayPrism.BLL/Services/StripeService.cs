@@ -1,27 +1,27 @@
 ﻿using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.V1.Requests.Stripes;
-using PlayPrism.Core.External.Stripe;
-using Stripe;
+using PlayPrism.Core.External.Stripe ;
+using StripeServices = Stripe;
 
 namespace PlayPrism.BLL.Services;
 
 /// <inheritdoc />
 public class StripeService: IStripeService
 {
-    private readonly ChargeService _chargeService;
-    private readonly CustomerService _customerService;
-    private readonly TokenService _tokenService;
+    private readonly StripeServices.ChargeService _chargeService;
+    private readonly StripeServices.CustomerService _customerService;
+    private readonly StripeServices.TokenService _tokenService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ProductsService"/> class.
     /// </summary>
-    /// <param name="chargeService"><see cref="ChargeService"/></param>
-    /// <param name="customerService"><see cref="CustomerService"/></param>
-    /// <param name="tokenService"><see cref="TokenService"/></param>
+    /// <param name="chargeService"><see cref="StripeServices.ChargeService"/></param>
+    /// <param name="customerService"><see cref="StripeServices.CustomerService"/></param>
+    /// <param name="tokenService"><see cref="StripeServices.TokenService"/></param>
     public StripeService(
-        ChargeService chargeService,
-        CustomerService customerService,
-        TokenService tokenService)
+        StripeServices.ChargeService chargeService,
+        StripeServices.CustomerService customerService,
+        StripeServices.TokenService tokenService)
     {
         _chargeService = chargeService;
         _customerService = customerService;
@@ -32,9 +32,9 @@ public class StripeService: IStripeService
     public async Task<StripeCustomer> AddStripeCustomerAsync(AddStripeCustomer customer, CancellationToken cancellationToken)
     {
         // Set Stripe Token options based on customer data
-        var tokenOptions = new TokenCreateOptions
+        var tokenOptions = new StripeServices.TokenCreateOptions
         {
-            Card = new TokenCardOptions
+            Card = new StripeServices.TokenCardOptions
             {
                 Name = customer.Name,
                 Number = customer.CreditCard.CardNumber,
@@ -48,7 +48,7 @@ public class StripeService: IStripeService
         var stripeToken = await _tokenService.CreateAsync(tokenOptions, null, cancellationToken);
 
         // Set Customer options using
-        var customerOptions = new CustomerCreateOptions
+        var customerOptions = new StripeServices.CustomerCreateOptions
         {
             Name = customer.Name,
             Email = customer.Email,
@@ -59,7 +59,7 @@ public class StripeService: IStripeService
         var createdCustomer = await _customerService.CreateAsync(customerOptions, null, cancellationToken);
 
         // Return the created customer at stripe
-        var stripeCustomer = new StripeCustomer()
+        var stripeCustomer = new StripeCustomer
         {
             CustomerId = createdCustomer.Id,
             Name = createdCustomer.Name,
@@ -72,7 +72,7 @@ public class StripeService: IStripeService
     public async Task <StripePayment> AddStripePaymentAsync(AddStripePayment payment, CancellationToken cancellationToken) 
     {
         // Set the options for the payment we would like to create at Stripe
-        var paymentOptions = new ChargeCreateOptions {
+        var paymentOptions = new StripeServices.ChargeCreateOptions {
             Customer = payment.CustomerId,
             ReceiptEmail = payment.ReceiptEmail,
             Description = payment.Description,

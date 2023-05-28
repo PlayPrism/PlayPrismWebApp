@@ -114,9 +114,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>
     }
 
     /// <inheritdoc />
-    public void Update(TEntity obj)
+    public Task Update(TEntity obj)
     {
-        _dbSet.Update(obj);
+        _dbSet.Entry(obj).State = EntityState.Modified;
+        return Task.CompletedTask;
+        //_dbSet.Update(obj);
     }
 
     /// <inheritdoc />
