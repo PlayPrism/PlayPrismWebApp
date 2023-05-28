@@ -109,7 +109,6 @@ public class AccountController : ControllerBase
     {
         var cookieOptions = new CookieOptions
         {
-            Secure = true,
             HttpOnly = true,
             Expires = newRefreshToken.ExpireDate
         };
