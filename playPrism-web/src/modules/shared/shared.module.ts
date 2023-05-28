@@ -21,13 +21,7 @@ import { HeaderDropdownComponent } from './components/header-dropdown/header-dro
     HeaderSearchComponent,
     HeaderDropdownComponent,
   ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    RouterModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
   exports: [
     InputComponent,
     ImagePickerComponent,
