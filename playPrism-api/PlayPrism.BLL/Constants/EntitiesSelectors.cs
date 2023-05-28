@@ -26,6 +26,7 @@ public static class EntitiesSelectors
         ProductCategory = q.ProductCategory,
         ProductCategoryId = q.ProductCategoryId,
         HeaderImage = q.HeaderImage,
+        Images = q.Images.ToArray(),
         ReleaseDate = q.ReleaseDate,
         Price = q.Price,
     };

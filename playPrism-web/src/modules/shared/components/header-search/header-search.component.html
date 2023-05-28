@@ -11,7 +11,7 @@
       />
       <button
         type="submit"
-        class="search-dropdown-submit absolute top-0 right-0 p-2.5 text-sm"
+        class="search-dropdown-submit absolute top-0 right-0"
       >
         <svg
           aria-hidden="true"
@@ -31,7 +31,7 @@
         <span class="sr-only">Search</span>
       </button>
       <ul class="dropdown-list" *ngIf="showDropdown && items.length > 0">
-        <li class="p-1 truncate cursor-pointer" *ngFor="let result of items">
+        <li class="dropdown-item" *ngFor="let result of items">
           <a [routerLink]="result.id">{{ result.name }}</a>
         </li>
       </ul>
