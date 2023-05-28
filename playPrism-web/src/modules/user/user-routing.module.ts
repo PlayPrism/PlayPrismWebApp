@@ -8,7 +8,8 @@ import {PurchaseHistoryComponent} from "./components/purchase-history/purchase-h
 export const usersRoute: Route = {
   path: '',
   component: ShellComponent,
-  children: [{ path: '', component: ProfileComponent },
+  children: [
+    { path: '', component: ProfileComponent },
     {path: 'history', component: PurchaseHistoryComponent}],
 };
 

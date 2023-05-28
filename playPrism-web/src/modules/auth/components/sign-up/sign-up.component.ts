@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {HeaderComponent} from "../../../shared/components";
 
 @Component({
   selector: 'app-sign-up',

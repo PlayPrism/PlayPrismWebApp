@@ -1,35 +1,27 @@
 <div class="base-container">
-    <h1 class="main-label">Історія покупок</h1>
-    <div class="table-purchase">
-      <h1><span>ПРОДУКТ</span><span>ДАТА</span><span>ОЦІНКА</span><span>ЦІНА</span></h1>
+  <h1 class="main-label">Історія покупок</h1>
+  <div class="table-purchase">
+    <h1><span>ПРОДУКТ</span><span>ДАТА</span><span>ОЦІНКА</span><span>ЦІНА</span></h1>
+<!--    <ng-container *ngFor="let item of items">-->
+    <ng-container *ngFor="let item of historyItems$ | async">
       <div class="product-item text-sm text-left">
         <a href="#" class="flex flex-col items-center rounded-lg shadow md:flex-row md:max-w-xl">
-          <img class="product-logo object-cover w-full md:h-auto md:w-48" src="./assets/images/cyberpunk_logo.png" alt="">
+          <img class="product-logo object-cover w-full md:h-auto md:w-48" src="./assets/images/{{item.headerImage}}"
+               alt="{{item.headerImage}}">
           <div class="product-content">
-            <p class="mb-1"><span class="product-name">Cyberpunk 2077</span><span class="purchase-date">30.03.2023</span><span class="product-rating"><img src="./assets/icons/solar_star-icon.svg" alt="star">5.0</span><span class="product-cost">1 750₴</span></p>
+            <span class="product-name">{{item.name}}</span>
+            <span class="purchase-date">{{item.purchaseDate | date: 'shortDate'}}</span>
+            <span class="product-rating">
+                <img src="./assets/icons/solar_star-icon.svg" alt="star">{{item.rating | number: '1.1-2'}}</span>
+            <span class="product-cost">{{item.price}}₴</span>
           </div>
         </a>
       </div>
-      <div class="product-item text-sm text-left">
-        <a href="#" class="flex flex-col items-center rounded-lg shadow md:flex-row md:max-w-xl">
-          <img class="product-logo object-cover w-full md:h-auto md:w-48" src="./assets/images/cyberpunk_logo.png" alt="">
-          <div class="product-content">
-            <p class="mb-1"><span class="product-name">Cyberpunk 2077</span><span class="purchase-date">30.03.2023</span><span class="product-rating"><img src="./assets/icons/solar_star-icon.svg" alt="star">5.0</span><span class="product-cost">1 750₴</span></p>
-          </div>
-        </a>
-      </div>
-      <div class="product-item text-sm text-left">
-        <a href="#" class="flex flex-col items-center rounded-lg shadow md:flex-row md:max-w-xl">
-          <img class="product-logo object-cover w-full md:h-auto md:w-48" src="./assets/images/cyberpunk_logo.png" alt="">
-          <div class="product-content">
-            <p class="mb-1"><span class="product-name">Cyberpunk 2077</span><span class="purchase-date">30.03.2023</span><span class="product-rating"><img src="./assets/icons/solar_star-icon.svg" alt="star">5.0</span><span class="product-cost">1 750₴</span></p>
-          </div>
-        </a>
-      </div>
-      <div class="show-more border-blue-300">
-        <a href="#" >Показати ще</a>
-      </div>
+    </ng-container>
+    <div class="show-more border-blue-300">
+      <a href="#">Показати ще</a>
     </div>
+  </div>
 </div>
 
 <app-user-listgroup></app-user-listgroup>
