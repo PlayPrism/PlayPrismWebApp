@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 namespace PlayPrism.BLL.Services
 {
     /// <inheritdoc />
-    public class GiveawayService : IGiveawaysService
+    public class GiveawayService : IGiveawayService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;

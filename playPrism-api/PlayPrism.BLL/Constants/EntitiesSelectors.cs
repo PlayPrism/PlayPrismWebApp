@@ -82,4 +82,49 @@ public static class EntitiesSelectors
         User = q.User,
         ExpireDate = q.ExpireDate
     };
+
+    public static Expression<Func<OrderItem, OrderItem>> HistoryItemSelector => q => new OrderItem
+    {
+        Id = q.Id,
+        ProductItem = new ProductItem 
+        {
+            ProductId = q.ProductItem.ProductId,
+            Product = new Product
+            {
+                Name = q.ProductItem.Product.Name,
+                HeaderImage = q.ProductItem.Product.HeaderImage,
+                Price = q.ProductItem.Product.Price,
+            },
+            Value = q.ProductItem.Value,
+        },
+        Order = new Order 
+        {
+            UserId = q.Order.UserId,
+        },
+        DateCreated = q.DateCreated,
+    };
+
+    public static Expression<Func<UserProfile, UserProfile>> UserSelector => q => new UserProfile
+    {
+        Id = q.Id,
+        Email = q.Email,
+        Nickname = q.Nickname,
+        Password = q.Password,
+        Image = q.Image,
+        Role = q.Role,
+        Orders = q.Orders.Select(order => new Order
+        {
+            Id = order.Id,
+            OrderTotal = order.OrderTotal,
+            PaymentMethodId = order.PaymentMethodId,
+        }).ToList(),
+        Giveaways = q.Giveaways.Select(giveaways => new Giveaway
+        {
+            Id = giveaways.Id,
+        }).ToList(),
+        WonGiveaways = q.WonGiveaways.Select(w => new Giveaway
+        {
+            Id = w.Id,
+        }).ToList(),
+    };
 }

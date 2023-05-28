@@ -1,4 +1,6 @@
-﻿using PlayPrism.Core.Domain;
+﻿using PlayPrism.Contracts.V1.Responses.Giveaways;
+using PlayPrism.Contracts.V1.Responses.Orders;
+using PlayPrism.Core.Domain;
 using PlayPrism.Core.Enums;
 
 namespace PlayPrism.Contracts.V1.Responses.UserProfiles
@@ -17,10 +19,10 @@ namespace PlayPrism.Contracts.V1.Responses.UserProfiles
 
         public Role Role { get; set; }
 
-        public IList<Order> Orders { get; set; }
+        public IList<OrderResponse> Orders { get; set; }
 
-        public IList<Giveaway> Giveaways { get; set; }
+        public IList<GiveawayResponse> Giveaways { get; set; }
 
-        public IList<Giveaway> WonGiveaways { get; set; }
+        public IList<GiveawayResponse> WonGiveaways { get; set; }
     }
 }
