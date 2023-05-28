@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Bogus.DataSets;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PlayPrism.BLL.Abstractions.Interface;
@@ -185,6 +186,10 @@ public class AccountService : IAccountService
                 var refreshTokenOld = refreshTokens.FirstOrDefault();
 
                 if (refreshTokenOld?.Token != refreshToken)
+                    return null;
+                var now = DateTime.UtcNow;
+
+                if (refreshTokenOld?.ExpireDate < now)
                     return null;
 
                 foreach (var token in refreshTokens)
