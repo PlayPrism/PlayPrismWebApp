@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PlayPrism.Contracts.V1.Responses;
 using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 
@@ -8,6 +9,8 @@ public class ProductProfile : Profile
 {
     public ProductProfile()
     {
+        CreateMap<Product, SearchItem>();
+        
         CreateMap<ProductConfiguration, CategoryFiltersResponse>()
             .ForMember(response => response.FilterOptions,
             opt => opt

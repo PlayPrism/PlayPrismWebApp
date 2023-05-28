@@ -59,7 +59,10 @@ public class Seeder : ISeeder
         var productGames = games.Select(game => 
                 new Faker<Product>()
                     .RuleFor(p => p.Name, game)
-                    .RuleFor(p => p.HeaderImage, f => f.Image.PlaceImgUrl())
+                    .RuleFor(p => p.HeaderImage, f => f.Image.PicsumUrl())
+                    .RuleFor(p => p.Images, f => Enumerable.Range(1, 3)
+                        .Select(_ => f.Image.PicsumUrl())
+                        .ToArray())
                     .RuleFor(p => p.ShortDescription, f => f.Lorem.Sentence())
                     .RuleFor(p => p.DetailedDescription, f => f.Lorem.Paragraph())
                     .RuleFor(p => p.Price, f => f.Random.Decimal(2.99M, 9.99M))

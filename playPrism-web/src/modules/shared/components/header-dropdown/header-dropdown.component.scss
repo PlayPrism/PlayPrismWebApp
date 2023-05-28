@@ -1,0 +1,173 @@
+.dropdownNavbar {
+  margin-top: 19px !important;
+  width: 381px;
+  height: 707px;
+  background: linear-gradient(
+    81.2deg,
+    #202734 0.39%,
+    #2b313d 100%,
+    #262c3c 100%
+  );
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 0px #3a4155;
+  border-radius: 25px;
+  padding: 25px;
+
+  label {
+    font-family: "Proxima Nova Semibold", serif;
+    font-size: 16px;
+    color: #caced9;
+    margin-bottom: 5px;
+    margin-top: 12px;
+  }
+
+  input {
+    font-size: 16px;
+    background: linear-gradient(180deg, #1e2128 0%, #1e242b 100%);
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.07);
+    border-radius: 12px;
+    border: none;
+    width: 331px;
+    height: 48px;
+    color: white;
+  }
+
+  .sign-in {
+    background: linear-gradient(180.93deg, #262c3c 0.8%, #181f2c00 102.78%);
+    width: 200px;
+    height: 50px;
+    backdrop-filter: blur(2px);
+    box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.1);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    color: #caced9;
+    font-size: 18px;
+    border-radius: 12px;
+    margin-left: 67px;
+    margin-top: 28px;
+    margin-bottom: 17px;
+    font-family: "Proxima Nova Semibold", serif;
+  }
+
+  .forgot-pass {
+    border-bottom: 2px solid #3a4155;
+    padding-bottom: 14px;
+
+    a {
+      font-family: "Proxima Nova Semibold", serif;
+      color: #caced9;
+      font-size: 16px;
+      margin-left: 106px;
+    }
+  }
+
+  .sign-in-link {
+    font-family: "Proxima Nova Semibold", serif;
+    background: linear-gradient(180.93deg, #262c3c 0.8%, #181f2c00 102.78%);
+    width: 331px;
+    height: 50px;
+    backdrop-filter: blur(2px);
+    box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.1);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    color: #caced9;
+    font-size: 18px;
+    border-radius: 12px;
+    padding-left: 24px;
+  }
+
+  .dropdown-steam-sign-in {
+    margin-top: 36px;
+  }
+
+  .dropdown-google-sign-in {
+    margin-top: 22px;
+    margin-bottom: 41px;
+  }
+
+  .sign-in-link img {
+    width: 27px;
+    height: 27px;
+    margin-right: 13px;
+  }
+
+  .question-label {
+    color: #caced9;
+    font-size: 16px;
+    font-family: "Proxima Nova Semibold", serif;
+  }
+
+  .dropdown-button {
+    color: white;
+    font-family: "Proxima Nova Semibold", serif;
+    text-align: center;
+    display: inline-block;
+    border-radius: 51px;
+    position: relative;
+    width: 180px;
+    height: 40.75px;
+    background: linear-gradient(
+      92.41deg,
+      #497cfb 7.56%,
+      #279cf9 28.98%,
+      #7d50e9 57.83%,
+      #bf5bb5 78.38%,
+      #a148e1 89.74%
+    );
+    z-index: 2;
+
+    &::before {
+      position: absolute;
+      content: "Вхід / Реєстрація";
+      display: flex;
+      border-radius: 51px;
+      line-height: 24px;
+      text-align: center;
+      inset: 0;
+      padding-left: 19px;
+      align-items: center;
+      background-image: linear-gradient(
+        272.41deg,
+        #497cfb 7.56%,
+        #279cf9 28.98%,
+        #7d50e9 57.83%,
+        #bf5bb5 78.38%,
+        #a148e1 89.74%
+      );
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.5s linear;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .dropdown-register {
+    color: white;
+    font-size: 18px;
+    font-family: "Proxima Nova Semibold", serif;
+    text-align: center;
+    display: inline-block;
+    border-radius: 12px;
+    position: relative;
+    width: 217px;
+    height: 48px;
+    background: linear-gradient(
+      92.41deg,
+      #497cfb 7.56%,
+      #279cf9 28.98%,
+      #7d50e9 57.83%,
+      #bf5bb5 78.38%,
+      #a148e1 89.74%
+    );
+    z-index: 2;
+    margin-top: 31px;
+    margin-left: 57px;
+  }
+}
+
+.dropdown-label {
+  text-align: center;
+  color: white;
+  font-family: "Proxima Nova Semibold", serif;
+  font-size: 24px;
+}

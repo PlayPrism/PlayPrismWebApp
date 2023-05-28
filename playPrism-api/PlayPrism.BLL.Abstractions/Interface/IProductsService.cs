@@ -1,4 +1,5 @@
-﻿using PlayPrism.Contracts.V1.Responses.Products;
+﻿using PlayPrism.Contracts.V1.Responses;
+using PlayPrism.Contracts.V1.Responses.Products;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Domain.Filters;
 
@@ -48,4 +49,14 @@ public interface IProductsService
                string category,
                Guid id,
                CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Asynchronously returns five products by keywords.
+    /// </summary>
+    /// <param name="keyword">The keyword for searching</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to cancel task completion.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation. The task result contains product</returns>
+    Task<IEnumerable<SearchItem>> GetSearchableProductsByKeywordAsync(
+        string keyword,
+        CancellationToken cancellationToken = default);
 }

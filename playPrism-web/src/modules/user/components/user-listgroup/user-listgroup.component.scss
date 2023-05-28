@@ -1,56 +1,60 @@
-.list-group{
+.list-group {
   width: 240px;
   height: 237px;
   margin-left: 20px;
   margin-top: 33px;
-  background: linear-gradient(180.93deg, #262C3C 0.8%, #202634 102.78%);
+  background: linear-gradient(180.93deg, #262c3c 0.8%, #202634 102.78%);
   backdrop-filter: blur(2px);
   border-radius: 25px;
-  box-shadow: inset 0px 4px 0px #3A4155;
+  box-shadow: inset 0px 4px 0px #3a4155;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+  a {
+    width: 204px;
+    display: inline-block;
+    background: transparent;
+    margin-left: 18px;
+    color: #777e90;
+    font-size: 16px;
+    height: 42px;
+    border-bottom: 2px solid #3a4155;
+    margin-top: 6px;
+
+    &:hover {
+      background: transparent;
+      color: #ffffff;
+      background: linear-gradient(
+        92.41deg,
+        #497cfb 7.56%,
+        #279cf9 28.98%,
+        #7d50e9 57.83%,
+        #bf5bb5 78.38%,
+        #a148e1 89.74%
+      );
+      border-radius: 12px;
+      height: 42px;
+      border-bottom: 2px solid #3a4155;
+    }
+
+    img {
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      margin-top: -3px;
+      margin-right: 5px;
+
+      &:hover {
+        background: white;
+      }
+    }
+
+    &:nth-child(1) {
+      margin-top: 21px;
+      border-bottom: 2px solid #3a4155;
+    }
+
+    &:nth-child(4) {
+      border: none;
+    }
+  }
 }
-
-.list-group a{
-  width: 204px;
-  display: inline-block;
-  background: transparent;
-  margin-left: 18px;
-  color: #777E90;
-  font-size: 16px;
-  height: 42px;
-  border-bottom: 2px solid #3A4155;
-  margin-top: 6px;
-}
-
-.list-group a:hover{
-  background: transparent;
-  color: #FFFFFF;
-  background: linear-gradient(92.41deg, #497CFB 7.56%, #279CF9 28.98%, #7D50E9 57.83%, #BF5BB5 78.38%, #A148E1 89.74%);
-  border-radius: 12px;
-  height: 42px;
-  border-bottom: 2px solid #3A4155;
-}
-
-.list-group a img{
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  margin-top: -3px;
-  margin-right: 5px;
-}
-
-.list-group a img:hover{
-  background: white;
-}
-
-.list-group a:nth-child(1){
-  margin-top: 21px;
-  border-bottom: 2px solid #3A4155;
-}
-
-.list-group a:nth-child(4){
-  border: none;
-}
-
-
-

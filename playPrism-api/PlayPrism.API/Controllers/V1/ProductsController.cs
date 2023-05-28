@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PlayPrism.BLL.Abstractions.Interface;
 using PlayPrism.Contracts.Extensions;
-using PlayPrism.Contracts.V1.Requests.Products;
+using PlayPrism.Contracts.V1.Requests.Filters;
+using PlayPrism.Contracts.V1.Responses;
+using PlayPrism.Contracts.V1.Responses.Api;
 using PlayPrism.Contracts.V1.Responses.Products;
 
 namespace PlayPrism.API.Controllers.V1;
@@ -40,7 +42,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetFilteredProductsAsync(
         [FromRoute] string category,
-        [FromQuery] GetProductsRequest request,
+        [FromQuery] PaginationFilter request,
         CancellationToken cancellationToken)
     {
         var products = await _productsService
@@ -57,6 +59,21 @@ public class ProductsController : ControllerBase
         }
 
         return Ok(products.ToApiListResponse());
+    }
+
+    /// <summary>
+    ///     Find products by keyword
+    /// </summary>
+    /// <param name="keyword">Keyword for searching.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>All activities that match filter.</returns>
+    [HttpGet("search")]
+    [ProducesResponseType(typeof(ApiListResponse<SearchItem>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetProductsByKeyword([FromQuery] string keyword, CancellationToken cancellationToken)
+    {
+        var items = await _productsService.GetSearchableProductsByKeywordAsync(keyword, cancellationToken);
+
+        return Ok(items.ToApiListResponse());
     }
 
     /// <summary>

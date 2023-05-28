@@ -6,6 +6,7 @@ export interface Product {
   rating: number;
   price: number;
   headerImage: string;
+  images: string[];
   shortDescription: string;
   detailedDescription: string;
   releaseDate: Date;

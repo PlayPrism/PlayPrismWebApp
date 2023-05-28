@@ -1,0 +1,22 @@
+.search-dropdown {
+  background: linear-gradient(180deg, #1e2128 0%, #1e242b 100%);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.07);
+  border: none;
+  @apply rounded-t-xl h-10 w-60;
+}
+
+.search-dropdown-submit {
+  background: linear-gradient(180deg, #1e2128 0%, #1e242b 100%);
+  outline: none;
+  @apply text-sm p-2.5 rounded-xl h-10 border-none;
+}
+
+.dropdown-list {
+  background: linear-gradient(180deg, #1e2128 0%, #1e242b 100%);
+  width: inherit;
+  @apply rounded-b-xl z-10 text-gray-200 absolute list-none left-0 top-full;
+}
+
+.dropdown-item {
+  @apply p-1 truncate cursor-pointer last:rounded-b-xl hover:bg-gray-600;
+}
