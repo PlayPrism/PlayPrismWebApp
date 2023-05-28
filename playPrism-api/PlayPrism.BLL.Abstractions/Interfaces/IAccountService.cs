@@ -9,5 +9,5 @@ public interface IAccountService
 
     Task<AuthDTO> RegisterAsync(string username, string password, CancellationToken cancellationToken);
 
-    Task<AuthDTO> RefreshAuth(string accessToken, CancellationToken cancellationToken);
+    Task<AuthDTO> RefreshAuth(string accessToken, string refreshToken, CancellationToken cancellationToken);
 }

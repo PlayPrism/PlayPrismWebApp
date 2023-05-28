@@ -25,8 +25,7 @@ public class AccountController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
-    [Route("login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] AuthRequest request, CancellationToken cancellationToken)
     {
         var responseDto =
@@ -51,8 +50,7 @@ public class AccountController : ControllerBase
         return Ok(response.ToApiResponse());
     }
 
-    [HttpPost]
-    [Route("register")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] AuthRequest request, CancellationToken cancellationToken)
     {
         var regDto =
@@ -77,13 +75,12 @@ public class AccountController : ControllerBase
         return Ok(response.ToApiResponse());
     }
 
-    [HttpGet]
-    [Route("refresh")]
+    [HttpGet("refresh")]
     public async Task<IActionResult> Refresh(CancellationToken cancellationToken)
     {
         var token = Request.Headers.Authorization;
 
-        var responseDto = await _accountService.RefreshAuth(token, cancellationToken);
+        var responseDto = await _accountService.RefreshAuth(token, Request.Cookies["refreshToken"], cancellationToken);
 
         if (responseDto == null)
         {

@@ -154,7 +154,7 @@ public class AccountService : IAccountService
     }
 
     /// <inheritdoc />
-    public async Task<AuthDTO> RefreshAuth(string accessToken, CancellationToken cancellationToken)
+    public async Task<AuthDTO> RefreshAuth(string accessToken, string refreshToken, CancellationToken cancellationToken)
     {
         try
         {
@@ -183,7 +183,15 @@ public class AccountService : IAccountService
             if (refreshTokens.Count != 0)
             {
                 var refreshTokenOld = refreshTokens.FirstOrDefault();
-                _unitOfWork.RefreshTokens.Delete(refreshTokenOld);
+
+                if (refreshTokenOld?.Token != refreshToken)
+                    return null;
+
+                foreach (var token in refreshTokens)
+                {
+                    _unitOfWork.RefreshTokens.Delete(token);
+                }
+                
                 await _unitOfWork.SaveAsync();
             }
 
@@ -247,19 +255,6 @@ public class AccountService : IAccountService
         });
 
         return result;
-    }
-
-    private void GetPasswordHash(string password, out string passwordHash, out byte[] passwordSalt)
-    {
-        var passBytes = Encoding.ASCII.GetBytes(password);
-
-        using var hmac = new HMACSHA256();
-
-        passwordSalt = hmac.Key;
-
-        var hash = hmac.ComputeHash(passBytes);
-
-        passwordHash = Encoding.ASCII.GetString(hash);
     }
 
     private string GetHash(string password)
