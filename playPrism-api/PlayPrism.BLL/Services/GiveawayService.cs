@@ -6,6 +6,7 @@ using PlayPrism.Contracts.V1.Responses.ProductItems;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Domain.Filters;
 using PlayPrism.DAL.Abstractions.Interfaces;
+using PlayPrism.DAL.Repository;
 using System.Linq.Expressions;
 
 namespace PlayPrism.BLL.Services
@@ -60,11 +61,23 @@ namespace PlayPrism.BLL.Services
 
             var res = giveaways.FirstOrDefault();
 
-            //res.Product.ProductItems.FirstOrDefault();
-
-            //var productItem = res.Product.ProductItems.FirstOrDefault();
-
             var result = _mapper.Map<ProductItemResponse>(res);
+            using (Task transaction = _unitOfWork.BeginTransactionAsync()) 
+            {
+                var productItem = await _unitOfWork.ProductItems.GetByIdAsync(result.Id);
+                try 
+                {
+                    _unitOfWork.ProductItems.Delete(productItem);
+                    await _unitOfWork.SaveAsync();
+                    await _unitOfWork.CommitAsync();
+                }
+                catch (Exception ex) 
+                {
+                    await _unitOfWork.RollbackAsync();
+                    throw;
+                }
+            }
+
             return result;
         }
     }
