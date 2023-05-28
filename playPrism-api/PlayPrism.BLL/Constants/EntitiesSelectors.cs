@@ -82,4 +82,25 @@ public static class EntitiesSelectors
         User = q.User,
         ExpireDate = q.ExpireDate
     };
+
+    public static Expression<Func<OrderItem, OrderItem>> HistoryItemSelector => q => new OrderItem
+    {
+        Id = q.Id,
+        ProductItem = new ProductItem 
+        {
+            ProductId = q.ProductItem.ProductId,
+            Product = new Product
+            {
+                Name = q.ProductItem.Product.Name,
+                HeaderImage = q.ProductItem.Product.HeaderImage,
+                Price = q.ProductItem.Product.Price,
+            },
+            Value = q.ProductItem.Value,
+        },
+        Order = new Order 
+        {
+            UserId = q.Order.UserId,
+        },
+        DateCreated = q.DateCreated,
+    };
 }

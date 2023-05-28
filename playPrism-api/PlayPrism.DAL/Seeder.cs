@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using PlayPrism.Core.Domain;
 using PlayPrism.Core.Enums;
 using PlayPrism.DAL.Abstractions.Interfaces;
+using System.Runtime.CompilerServices;
 
 namespace PlayPrism.DAL;
 
@@ -38,11 +39,15 @@ public class Seeder : ISeeder
             await GenerateUsersAsync();
             await GenerateGiveawaysAsync();
             await GenerateProductItemsAsync();
+            await GeneratePaymentMethodsAsync();
+            await GenerateOrdersAsync();
+            await GenerateOrderItemsAsync();
         }
         else
         {
             _logger.LogInformation("Seeder: Database is already seeded or not empty");
         }
+
     }
 
     private async Task GenerateProductsAsync()
@@ -205,5 +210,52 @@ public class Seeder : ISeeder
         await _unitOfWork.ProductItems.AddManyAsync(productItems);
         await _unitOfWork.SaveAsync();
         _logger.LogInformation("Seeder: Product items created");
+    }
+
+    private async Task GeneratePaymentMethodsAsync() 
+    {
+        var paymentMethods = new List<PaymentMethod>();
+        var payment = new Faker<PaymentMethod>()
+                .RuleFor(p => p.Name, f => f.Company.CatchPhrase())
+                .RuleFor(p => p.DateCreated, DateTime.UtcNow)
+                .RuleFor(p => p.DateUpdated, DateTime.UtcNow).Generate();
+        paymentMethods.Add(payment);
+
+        await _unitOfWork.PaymentMethods.AddManyAsync(paymentMethods);
+        await _unitOfWork.SaveAsync();
+        _logger.LogInformation("Seeder: Payment methods created");
+    }
+
+    private async Task GenerateOrdersAsync() 
+    {
+        var users = await _unitOfWork.Users.GetAllAsync();
+        var payments = await _unitOfWork.PaymentMethods.GetAllAsync();
+        var orders = users.Select(user =>
+            new Faker<Order>()
+            .RuleFor(p => p.UserId, user.Id)
+            .RuleFor(p => p.OrderTotal, f => f.Random.Number(5))
+            .RuleFor(p => p.PaymentMethodId, f => f.PickRandom(payments).Id)
+            .RuleFor(p => p.DateCreated, DateTime.UtcNow)
+            .RuleFor(p => p.DateUpdated, DateTime.UtcNow).Generate()).ToList();
+
+        await _unitOfWork.Orders.AddManyAsync(orders);
+        await _unitOfWork.SaveAsync();
+        _logger.LogInformation("Seeder: Orders created");
+    }
+
+    private async Task GenerateOrderItemsAsync() 
+    {
+        var orders = await _unitOfWork.Orders.GetAllAsync();
+        var productItems = await _unitOfWork.ProductItems.GetAllAsync();
+        var orderItems = productItems.Select(productItem =>
+            new Faker<OrderItem>()
+            .RuleFor(p => p.OrderId, f => f.PickRandom(orders).Id)
+            .RuleFor(p => p.ProductItemId, productItem.Id)
+            .RuleFor(p => p.DateCreated, DateTime.UtcNow)
+            .RuleFor(p => p.DateUpdated, DateTime.UtcNow).Generate()).ToList();
+
+        await _unitOfWork.OrderItems.AddManyAsync(orderItems);
+        await _unitOfWork.SaveAsync();
+        _logger.LogInformation("Seeder: Order items created");
     }
 }

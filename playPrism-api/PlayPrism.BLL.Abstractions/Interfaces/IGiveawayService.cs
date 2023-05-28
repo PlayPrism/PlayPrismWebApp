@@ -7,7 +7,7 @@ namespace PlayPrism.BLL.Abstractions.Interface
     /// <summary>
     /// Giweaway service that works with giveaways.
     /// </summary>
-    public interface IGiveawaysService
+    public interface IGiveawayService
     {
         /// <summary>
         /// Asynchronously returns a list of giveaways.

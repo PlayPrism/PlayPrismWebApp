@@ -11,16 +11,16 @@ namespace PlayPrism.API.Controllers.V1
     [Route("api/[controller]")]
     public class GiveawaysController : ControllerBase
     {
-        private readonly IGiveawaysService _giveawaysService;
+        private readonly IGiveawayService _giveawaysService;
         private readonly ILogger<GiveawaysController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GiveawaysController"/> class.
         /// </summary>
-        /// <param name="giveawaysService"><see cref="IGiveawaysService"/></param>
+        /// <param name="giveawaysService"><see cref="IGiveawayService"/></param>
         /// <param name="logger"><see cref="ILogger{TCategoryName}"/></param>
         public GiveawaysController(
-            IGiveawaysService giveawaysService, ILogger<GiveawaysController> logger)
+            IGiveawayService giveawaysService, ILogger<GiveawaysController> logger)
         {
             _giveawaysService = giveawaysService;
             _logger = logger;
