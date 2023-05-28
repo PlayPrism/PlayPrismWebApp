@@ -80,15 +80,15 @@ public class ProductsService : IProductsService
     }
     
     /// <inheritdoc />
-    public async Task<IEnumerable<SearchItemResponse>> GetSearchableProductsByKeywordAsync(string keyword, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SearchItem>> GetSearchableProductsByKeywordAsync(string keyword, CancellationToken cancellationToken = default)
     {
         var products = await _unitOfWork.Products
             .GetByConditionAsync(
                 product => product.Name.Contains(keyword), 
                 null,
                 cancellationToken);
-        
-        var result = _mapper.Map<IEnumerable<SearchItemResponse>>(products);
+        var productsRange = products.Take(5);
+        var result = _mapper.Map<IEnumerable<SearchItem>>(productsRange);
         return result;
     }
 

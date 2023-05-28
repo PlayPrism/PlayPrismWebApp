@@ -1,9 +1,12 @@
-<form>
+<form [formGroup]="form">
   <div class="flex">
     <div class="relative w-full">
       <input
         type="search"
+        #search
         class="search-dropdown block p-2.5 z-20 text-sm"
+        formControlName="search"
+        [class.rounded-b-xl]="items.length === 0"
         required
       />
       <button
@@ -12,7 +15,7 @@
       >
         <svg
           aria-hidden="true"
-          class="search-img w-5 h-5"
+          class="text-gray-500 w-5 h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -27,6 +30,11 @@
         </svg>
         <span class="sr-only">Search</span>
       </button>
+      <ul class="dropdown-list" *ngIf="showDropdown && items.length > 0">
+        <li class="p-1 truncate cursor-pointer" *ngFor="let result of items">
+          <a [routerLink]="result.id">{{ result.name }}</a>
+        </li>
+      </ul>
     </div>
   </div>
 </form>

@@ -9,7 +9,7 @@ public class ProductProfile : Profile
 {
     public ProductProfile()
     {
-        CreateMap<Product, SearchItemResponse>();
+        CreateMap<Product, SearchItem>();
         
         CreateMap<ProductConfiguration, CategoryFiltersResponse>()
             .ForMember(response => response.FilterOptions,

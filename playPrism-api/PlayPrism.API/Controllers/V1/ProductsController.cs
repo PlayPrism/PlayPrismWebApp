@@ -67,8 +67,8 @@ public class ProductsController : ControllerBase
     /// <param name="keyword">Keyword for searching.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>All activities that match filter.</returns>
-    [HttpGet("find")]
-    [ProducesResponseType(typeof(ApiListResponse<SearchItemResponse>), StatusCodes.Status200OK)]
+    [HttpGet("search")]
+    [ProducesResponseType(typeof(ApiListResponse<SearchItem>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetProductsByKeyword([FromQuery] string keyword, CancellationToken cancellationToken)
     {
         var items = await _productsService.GetSearchableProductsByKeywordAsync(keyword, cancellationToken);

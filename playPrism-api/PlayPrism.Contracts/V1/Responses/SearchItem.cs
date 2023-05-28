@@ -1,6 +1,6 @@
 ﻿namespace PlayPrism.Contracts.V1.Responses;
 
-public class SearchItemResponse
+public class SearchItem
 {
     /// <summary>
     ///     Gets or sets id

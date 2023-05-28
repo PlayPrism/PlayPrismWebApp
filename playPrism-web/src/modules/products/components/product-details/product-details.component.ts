@@ -24,7 +24,7 @@ export class ProductDetailsComponent implements OnInit {
         if (!productId) {
           throw new Error('Product ID not provided');
         }
-        return this.productService.get(productId);
+        return this.productService.getProducts(productId);
       })
     );
   }

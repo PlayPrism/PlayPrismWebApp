@@ -51,12 +51,12 @@ public interface IProductsService
                CancellationToken cancellationToken);
 
     /// <summary>
-    /// Asynchronously returns products by keywords.
+    /// Asynchronously returns five products by keywords.
     /// </summary>
     /// <param name="keyword">The keyword for searching</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to cancel task completion.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation. The task result contains product</returns>
-    Task<IEnumerable<SearchItemResponse>> GetSearchableProductsByKeywordAsync(
+    Task<IEnumerable<SearchItem>> GetSearchableProductsByKeywordAsync(
         string keyword,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken = default);
 }

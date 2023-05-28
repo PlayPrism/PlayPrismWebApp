@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { InputComponent } from './components/input/input.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
@@ -21,7 +21,13 @@ import { HeaderDropdownComponent } from './components/header-dropdown/header-dro
     HeaderSearchComponent,
     HeaderDropdownComponent,
   ],
-  imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+  ],
   exports: [
     InputComponent,
     ImagePickerComponent,
@@ -32,6 +38,7 @@ import { HeaderDropdownComponent } from './components/header-dropdown/header-dro
     HeaderSearchComponent,
     HeaderDropdownComponent,
     FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class SharedModule {}
