@@ -195,6 +195,68 @@
     color: white;
     font-family: "Proxima Nova Light", serif;
     font-size: 16px;
+    width: 540px;
+    height: 160px;
+    margin-left: 21px;
+    margin-top: 18px;
+    .name-rating{
+      h1{
+        font-size: 24px;
+        color: #FFFFFF;
+        font-family: "Proxima Nova Regular", serif;
+        display: inline-block;
+        img{
+          display: inline-block;
+          height: 23px;
+          margin-top: -5px;
+          margin-right: 3px;
+        }
+      }
+      h1:last-child{
+        float: right;
+      }
+
+    }
+    .item-genres{
+      margin-top: 5px;
+      h1{
+        display: inline-block;
+        background: #52586A;
+        border-radius: 16px;
+        margin-right: 5px;
+        padding: 4px 12px;
+        font-size: 10px;
+        color: #FFFFFF;
+        font-family: "Proxima Nova Regular", serif;
+      }
+    }
+    .item-description{
+      margin-top: 5px;
+      width: 454px;
+      h1{
+        font-size: 11px;
+        font-family: "Proxima Nova Regular", serif;
+        color: #CACED9;
+        line-height: 13px;
+      }
+    }
+    .platforms-price{
+      position: absolute;
+      bottom: 0;
+      width: 540px;
+      img{
+        display: inline-block;
+        margin-right: 12px;
+        margin-bottom: 16px;
+      }
+      h1{
+        display: inline-block;
+        float: right;
+        font-size: 36px;
+        font-family: "Proxima Nova Semibold", serif;
+        color: #FFFFFF;
+      }
+    }
 
 
 
