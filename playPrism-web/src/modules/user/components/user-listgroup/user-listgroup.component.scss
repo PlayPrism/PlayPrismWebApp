@@ -9,7 +9,39 @@
   box-shadow: inset 0px 4px 0px #3a4155;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
+  .active{
+    background: transparent;
+    color: #ffffff;
+    background: linear-gradient(
+        92.41deg,
+        #497cfb 7.56%,
+        #279cf9 28.98%,
+        #7d50e9 57.83%,
+        #bf5bb5 78.38%,
+        #a148e1 89.74%
+    );
+    border-radius: 12px;
+    height: 42px;
+    border-bottom: 2px solid #3a4155;
+  }
+
   a {
+    .active{
+      background: transparent;
+      color: #ffffff;
+      background: linear-gradient(
+          92.41deg,
+          #497cfb 7.56%,
+          #279cf9 28.98%,
+          #7d50e9 57.83%,
+          #bf5bb5 78.38%,
+          #a148e1 89.74%
+      );
+      border-radius: 12px;
+      height: 42px;
+      border-bottom: 2px solid #3a4155;
+    }
+
     width: 204px;
     display: inline-block;
     background: transparent;

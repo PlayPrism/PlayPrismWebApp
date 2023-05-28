@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
+
+import {HeaderComponent} from "../../../shared/components";
+
 import { FormBuilder, Validators } from '@angular/forms';
 import { catchError, of, tap } from 'rxjs';
 import { AuthService } from 'src/core/services';
+
 
 @Component({
   selector: 'app-sign-up',

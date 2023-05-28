@@ -5,7 +5,7 @@ import {NgModule} from "@angular/core";
 
 
 export const productsRoute: Route = {
-  path: 'games',
+  path: '',
   component: ShellComponent,
   children: [
     { path: 'cart', component: CartComponent },
