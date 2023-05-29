@@ -26,6 +26,13 @@ services:
     ports:
       - "8000:80"
 
+  playprism-front:
+    container_name: playprism-front
+    ports:
+      - "8080:80"  # Adjust the port mapping as needed
+
+              
+        
   playprism.portainer:
     container_name: playprism-portainer
     restart: always
@@ -49,4 +56,4 @@ services:
 volumes:
   playprism_data:
   portainer_data:  
-  pgadmin_data:  
+  pgadmin_data: 

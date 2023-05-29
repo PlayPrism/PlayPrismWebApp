@@ -6,6 +6,12 @@ services:
     build:
       context: .
       dockerfile: PlayPrism.API/Dockerfile
+
+  playprism-front:
+    container_name: playprism-front
+    build:
+      context: ../playPrism-web  # Specify the path to your Angular project
+      dockerfile: Dockerfile
   
   playprismdb:
     image: postgres
