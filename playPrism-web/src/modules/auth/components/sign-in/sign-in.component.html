@@ -32,7 +32,9 @@
         </li>
         <li class="account-here flex items-center">
           <p class="block text-center">Вже є акаунт PLAYPRISM?</p>
-          <a [routerLink]="'../products'" class="py-2.5">Увійти</a>
+          <a (click)="moveToSignInModal()" class="py-2.5 cursor-pointer"
+            >Увійти</a
+          >
         </li>
       </ul>
     </div>

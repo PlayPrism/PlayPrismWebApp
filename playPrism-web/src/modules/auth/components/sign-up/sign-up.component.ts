@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-
-import { HeaderComponent } from '../../../shared/components';
-
 import { FormBuilder, Validators } from '@angular/forms';
 import { catchError, of, tap } from 'rxjs';
 import { AccountService, tokenStorageKey } from 'src/core/services';
