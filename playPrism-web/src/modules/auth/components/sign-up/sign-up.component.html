@@ -101,47 +101,6 @@
       </div>
     </div>
     <div class="border"></div>
-    <div>
-      <div class="flex items-center">
-        <div class="divided-block">
-          <ul>
-            <li>
-              <div>
-                <a
-                  href="#"
-                  class="steam-sign-in inline-flex w-full py-2.5 sign-in-link"
-                >
-                  <img src="assets/images/steam_logo.svg" alt="steam_logo" />
-                  Увійти за допомогою Steam</a
-                >
-              </div>
-            </li>
-            <li>
-              <div>
-                <a
-                  href="#"
-                  class="google-sign-in inline-flex w-full py-2.5 sign-in-link"
-                >
-                  <img src="assets/images/google_logo.svg" alt="google_logo" />
-                  Увійти за допомогою Google</a
-                >
-              </div>
-            </li>
-            <li>
-              <h1 class="question-label block text-center">
-                Для входу ви можете використовувати свій обліковий запис у
-                Steam, акаунт Google або вашу пошту та пароль
-              </h1>
-            </li>
-            <li class="account-here flex items-center">
-              <p class="block text-center">
-                Вже є акаунт PLAYPRISM?
-              </p>
-              <a [routerLink]="'../products'" class="py-2.5">Увійти</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <app-sign-in></app-sign-in>
   </div>
 </div>
