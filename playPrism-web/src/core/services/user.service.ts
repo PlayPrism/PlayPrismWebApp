@@ -1,12 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Product, UserProfile} from '../models';
-import {BaseService} from './base.service';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, catchError, map, of, tap} from 'rxjs';
-import {Router} from '@angular/router';
-import {Role} from '../enums';
-import {environment} from 'src/environments/environment.development';
-import {HistoryItem} from "../models/history-item";
+import { Injectable } from '@angular/core';
+import { ApiResponse, UserProfile } from '../models';
+import { BaseService } from './base.service';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { HistoryItem } from '../models/history-item';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -16,34 +15,17 @@ export class UserService extends BaseService<UserProfile> {
   private readonly userHistory$ = new BehaviorSubject<HistoryItem | null>(null);
   public user$ = this.userSubject$.asObservable();
 
-  private readonly baseUrl = environment.apiUrl + '/user';
+  private readonly controller = 'user';
 
-  constructor(http: HttpClient, private readonly router: Router) {
-    super(http);
+  constructor(http: HttpClient, jwtHelper: JwtHelperService, router: Router) {
+    super(http, jwtHelper, router);
   }
 
   public getUser(): Observable<UserProfile> {
-    const user: UserProfile = {
-      id: 'sldfjsldfjsldfjlsdjf',
-      nickname: 'user1',
-      firstName: 'David',
-      lastName: 'Dzabakhidze',
-      email: 'test@gmail.com',
-      phone: '+380238402384',
-      image:
-        'https://ih1.redbubble.net/image.4267646666.3242/mo,small,flatlay,product_square,600x600.jpg',
-      role: Role.User,
-      country: 'Ukraine',
-      city: 'Kiev',
-    };
-    this.userSubject$.next(user);
-    return of(user);
-    //TODO: Create get user profile from BE
-    return this.http.get<UserProfile>(this.baseUrl).pipe(
-      //TODO: Create base response entity for BE and recieve them in FE
-      // map((response) => response.data),
+    const userId = this.tokenData.userId;
+    return this.http.get<ApiResponse<UserProfile>>(this.baseUrl).pipe(
+      map((response) => response.data),
       tap((user) => this.userSubject$.next(user)),
-      //  catchError(() => of(null)),
       tap((user) => {
         if (!user) {
           localStorage.clear();
@@ -54,7 +36,6 @@ export class UserService extends BaseService<UserProfile> {
     );
   }
 
-
   // public getUserHistory(): Observable<HistoryItem> {
   //   return this.http.get<HistoryItem>(this.baseUrl + '/history').pipe(
   //     map((response) => response),
@@ -63,9 +44,9 @@ export class UserService extends BaseService<UserProfile> {
   // }
 
   public getUserHistory(): Observable<HistoryItem[]> {
-    return this.http.get<HistoryItem[]>(this.baseUrl + '/history').pipe(
-      map((response: any) => response.data)
-    );
+    return this.http
+      .get<HistoryItem[]>(this.baseUrl + '/history')
+      .pipe(map((response: any) => response.data));
   }
 
   public clearUser(): void {

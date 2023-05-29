@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { catchError, of, tap } from 'rxjs';
-import { AccountService, tokenStorageKey } from 'src/core/services';
+import { AccountService } from 'src/core/services';
 import { Router } from '@angular/router';
+import { tokenStorageKey } from 'src/core/models';
 
 @Component({
   selector: 'app-sign-up',

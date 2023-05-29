@@ -1,9 +1,86 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ApiResponse } from '../models';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import {
+  BehaviorSubject,
+  Observable,
+  take,
+  switchMap,
+  of,
+  filter,
+  catchError,
+  delay,
+  tap,
+} from 'rxjs';
+import { environment } from 'src/environments/environment.development';
+import { Auth, tokenStorageKey, ApiResponse } from '../models';
+import { Router } from '@angular/router';
 
 export class BaseService<T> {
-  constructor(protected http: HttpClient) {}
+  public readonly baseUrl = environment.apiUrl;
+
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
+
+  constructor(
+    protected http: HttpClient,
+    protected jwtHelper: JwtHelperService,
+    protected router: Router
+  ) {}
+
+  public get tokenData(): Auth {
+    const json = localStorage.getItem(tokenStorageKey);
+    return json ? JSON.parse(json) : null;
+  }
+
+  public get token(): string {
+    return this.tokenData?.accessToken;
+  }
+
+  public refreshToken(): Observable<ApiResponse<Auth>> {
+    return this.http.post<ApiResponse<Auth>>(
+      `${environment.apiUrl}auth/refresh`,
+      {}
+    );
+  }
+
+  refresh(): Observable<string> {
+    if (this.token && !this.jwtHelper.isTokenExpired(this.token)) {
+      if (!this.isRefreshing) {
+        this.isRefreshing = true;
+        this.refreshTokenSubject.next(null);
+
+        return this.refreshToken().pipe(
+          take(1),
+          switchMap((response) => {
+            const body = response.data;
+            if (!body.accessToken || !body.userId) {
+              throw new Error('Refresh failed');
+            }
+
+            this.isRefreshing = false;
+            localStorage.setItem(tokenStorageKey, JSON.stringify(body));
+            this.refreshTokenSubject.next(true);
+            return of(body.accessToken);
+          }),
+          catchError((err) => {
+            localStorage.removeItem(tokenStorageKey);
+            this.isRefreshing = false;
+            this.router.navigate(['/sign-in']);
+            throw err;
+          })
+        );
+      } else {
+        return this.refreshTokenSubject.pipe(
+          filter((token) => token),
+          take(1),
+          switchMap(() => of(this.token))
+        );
+      }
+    }
+    return of(this.token);
+  }
 
   public getAll(url: string, queryParam?: any): Observable<T[]> {
     let params = new HttpParams();

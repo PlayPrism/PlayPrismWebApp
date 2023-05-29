@@ -11,3 +11,5 @@ export interface RegistrationRequest {
   email: string;
   password: string;
 }
+
+export const tokenStorageKey: string = 'auth';
