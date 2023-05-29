@@ -1,15 +1,21 @@
-import { NgModule } from '@angular/core';
+import {
+  DialogModule,
+  DEFAULT_DIALOG_CONFIG,
+  DialogConfig,
+} from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { InputComponent } from './components/input/input.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ImagePickerComponent } from './components/image-picker/image-picker.component';
-import { HeaderComponent } from './components/header/header.component';
-import { CarouselComponent } from './components/carousel/carousel.component';
-import { ShellComponent } from './components/app-shell/app-shell.component';
 import { RouterModule } from '@angular/router';
-import { HeaderSearchComponent } from './components/header-search/header-search.component';
-import { HeaderDropdownComponent } from './components/header-dropdown/header-dropdown.component';
+import {
+  InputComponent,
+  ImagePickerComponent,
+  CarouselComponent,
+  HeaderComponent,
+  ShellComponent,
+  HeaderSearchComponent,
+  SignInModalComponent,
+} from './components';
 
 @NgModule({
   declarations: [
@@ -19,9 +25,15 @@ import { HeaderDropdownComponent } from './components/header-dropdown/header-dro
     HeaderComponent,
     ShellComponent,
     HeaderSearchComponent,
-    HeaderDropdownComponent,
+    SignInModalComponent,
   ],
-  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    DialogModule,
+  ],
   exports: [
     InputComponent,
     ImagePickerComponent,
@@ -30,9 +42,16 @@ import { HeaderDropdownComponent } from './components/header-dropdown/header-dro
     HeaderComponent,
     ShellComponent,
     HeaderSearchComponent,
-    HeaderDropdownComponent,
+    SignInModalComponent,
     FormsModule,
     ReactiveFormsModule,
+    DialogModule,
+  ],
+  providers: [
+    {
+      provide: DEFAULT_DIALOG_CONFIG,
+      useValue: { ...new DialogConfig(), panelClass: 'p-2' },
+    },
   ],
 })
 export class SharedModule {}

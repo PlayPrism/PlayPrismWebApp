@@ -1,0 +1,74 @@
+.divided-block {
+  width: 420px;
+}
+
+.account-here {
+  margin-top: 36px;
+}
+
+.account-here p {
+  font-family: "Proxima Nova Semibold", serif;
+  font-size: 16px;
+}
+
+.account-here a {
+  display: inline-block;
+  width: 200px;
+  height: 48px;
+  border-radius: 12px;
+  text-align: center;
+  margin-left: 26px;
+  box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.1);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  padding-top: 13px;
+  color: white;
+  background: linear-gradient(
+    180.93deg,
+    #262c3c 0.8%,
+    rgba(24, 31, 44, 0) 102.78%
+  );
+  backdrop-filter: blur(2px);
+}
+
+.border {
+  height: 370px;
+  margin: auto;
+  border-color: #3a4155;
+  border-width: 2px;
+}
+
+.sign-in-link {
+  font-family: "Proxima Nova Semibold", serif;
+  background: linear-gradient(180.93deg, #262c3c 0.8%, #181f2c00 102.78%);
+  width: 420px;
+  height: 50px;
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.1);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: #caced9;
+  font-size: 18px;
+  border-radius: 12px;
+  padding-left: 65px;
+}
+
+.sign-in-link img {
+  padding-right: 17px;
+}
+
+.google-sign-in {
+  margin-top: 38px;
+}
+
+.steam-sign-in {
+  margin-top: 120px;
+}
+
+.question-label {
+  width: 385px;
+  font-size: 12px;
+  margin-top: 36px;
+}
+
+.error-text {
+  @apply text-xs text-red-500;
+}
