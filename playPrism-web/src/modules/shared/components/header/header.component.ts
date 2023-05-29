@@ -1,4 +1,6 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
+import { SignInModalComponent } from '..';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  public dropdownIsOpened: boolean = false;
+  constructor(private readonly dialog: Dialog) {}
+
+  public openHeaderDropdown() {
+    this.dialog.open(SignInModalComponent, {});
+  }
 }

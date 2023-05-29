@@ -33,19 +33,12 @@
           <li>
             <button
               id="dropdownNavbarLink"
-              data-modal-target="dropdownNavbar"
               class="dropdown-button"
-              data-modal-toggle="dropdownNavbar"
               type="button"
-              (click)="dropdownIsOpened = !dropdownIsOpened"
+              (click)="openHeaderDropdown()"
             >
               Вхід / Реєстрація
             </button>
-            <app-header-dropdown
-              id="dropdownNavbar"
-              tabindex="-1"
-              class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
-            ></app-header-dropdown>
           </li>
         </ul>
       </div>

@@ -60,9 +60,12 @@
           </p>
         </li>
         <li>
-          <a [routerLink]="'../sign-up'" class="w-full py-2.5 dropdown-register"
-            >Зареєструватися</a
+          <a
+            (click)="register()"
+            class="w-full cursor-pointer py-2.5 dropdown-register"
           >
+            Зареєструватися
+          </a>
         </li>
       </ul>
     </div>

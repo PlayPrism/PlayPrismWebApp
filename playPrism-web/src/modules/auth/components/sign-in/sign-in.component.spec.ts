@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderDropdownComponent } from './header-dropdown.component';
+import { SignInComponent } from './sign-in.component';
 
-describe('HeaderDropdownComponent', () => {
-  let component: HeaderDropdownComponent;
-  let fixture: ComponentFixture<HeaderDropdownComponent>;
+describe('SignInComponent', () => {
+  let component: SignInComponent;
+  let fixture: ComponentFixture<SignInComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeaderDropdownComponent ]
+      declarations: [ SignInComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HeaderDropdownComponent);
+    fixture = TestBed.createComponent(SignInComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-
-import {HeaderComponent} from "../../../shared/components";
-
 import { FormBuilder, Validators } from '@angular/forms';
 import { catchError, of, tap } from 'rxjs';
-import { AuthService } from 'src/core/services';
-
+import { AccountService, tokenStorageKey } from 'src/core/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -24,7 +21,8 @@ export class SignUpComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly authService: AuthService
+    private readonly accountService: AccountService,
+    private readonly router: Router
   ) {}
 
   public get emailControl() {
@@ -41,7 +39,7 @@ export class SignUpComponent {
 
   onSubmit(): void {
     this.isLoading = true;
-    this.authService
+    this.accountService
       .register({
         email: this.emailControl.value!,
         password: this.passwordControl.value!,
@@ -54,9 +52,13 @@ export class SignUpComponent {
           }
           return of(null);
         }),
-        tap(() => {
-          this.isLoading = false;
-        })
+        tap((authObject) => {
+          if (authObject?.accessToken) {
+            localStorage.setItem(tokenStorageKey, JSON.stringify(authObject));
+            this.router.navigate(['']);
+          }
+        }),
+        tap(() => (this.isLoading = false))
       )
       .subscribe();
   }

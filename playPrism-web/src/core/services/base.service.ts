@@ -19,8 +19,8 @@ export class BaseService<T> {
     return this.http.get<ApiResponse<T>>(`${url}/Games/${id}`);
   }
 
-  public create(url: string, item: T): Observable<T> {
-    return this.http.post<T>(`${url}`, item);
+  public create(url: string, data: any = null): Observable<ApiResponse<T>> {
+    return this.http.post<ApiResponse<T>>(`${url}`, data);
   }
 
   public update(url: string, id: string, item: T): Observable<T> {
