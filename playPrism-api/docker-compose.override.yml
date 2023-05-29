@@ -23,6 +23,8 @@ services:
       StripeSettings_PublishableKey: ${STRIPESETTINGS_PUBLISHABLEKEY}
       StripeSettings_SecretKey: ${STRIPESETTINGS_SECRETKEY}
       
+      
+      
     ports:
       - "8000:80"
 
